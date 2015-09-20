@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>haproxy简单使用http-翻译自digitalocean | Long</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="原文链接：https://www.digitalocean.com/community/tutorials/how-to-use-haproxy-to-set-up-http-load-balancing-on-an-ubuntu-vps
+准备工作3个节点
+1. node1
+hostname:haproxy
+os：ubuntu
+ip:10.0.0.100
+2.node2
+hostname lamp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="haproxy简单使用http-翻译自digitalocean">
+<meta property="og:url" content="http://yoursite.com/2015/01/16/haproxy-e7-ae-80-e5-8d-95-e4-bd-bf-e7-94-a8http-e7-bf-bb-e8-af-91-e8-87-aadigitalocean/index.html">
+<meta property="og:site_name" content="Long">
+<meta property="og:description" content="原文链接：https://www.digitalocean.com/community/tutorials/how-to-use-haproxy-to-set-up-http-load-balancing-on-an-ubuntu-vps
+准备工作3个节点
+1. node1
+hostname:haproxy
+os：ubuntu
+ip:10.0.0.100
+2.node2
+hostname lamp">
+<meta property="og:updated_time" content="2015-09-20T12:43:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="haproxy简单使用http-翻译自digitalocean">
+<meta name="twitter:description" content="原文链接：https://www.digitalocean.com/community/tutorials/how-to-use-haproxy-to-set-up-http-load-balancing-on-an-ubuntu-vps
+准备工作3个节点
+1. node1
+hostname:haproxy
+os：ubuntu
+ip:10.0.0.100
+2.node2
+hostname lamp">
+  
+    <link rel="alternative" href="/atom.xml" title="Long" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Long</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-haproxy-e7-ae-80-e5-8d-95-e4-bd-bf-e7-94-a8http-e7-bf-bb-e8-af-91-e8-87-aadigitalocean" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/01/16/haproxy-e7-ae-80-e5-8d-95-e4-bd-bf-e7-94-a8http-e7-bf-bb-e8-af-91-e8-87-aadigitalocean/" class="article-date">
+  <time datetime="2015-01-16T14:14:07.000Z" itemprop="datePublished">2015-01-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/杂七杂八/">杂七杂八</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      haproxy简单使用http-翻译自digitalocean
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>原文链接：<a href="https://www.digitalocean.com/community/tutorials/how-to-use-haproxy-to-set-up-http-load-balancing-on-an-ubuntu-vps" target="_blank" rel="external">https://www.digitalocean.com/community/tutorials/how-to-use-haproxy-to-set-up-http-load-balancing-on-an-ubuntu-vps</a></p>
+<h2 id="准备工作">准备工作</h2><p>3个节点</p>
+<p>1. node1</p>
+<p>hostname:haproxy</p>
+<p>os：ubuntu</p>
+<p>ip:10.0.0.100</p>
+<p>2.node2</p>
+<p>hostname lamp1</p>
+<p>ip:10.0.0.1</p>
+<p>3.node3</p>
+<p>hostname lamp2</p>
+<p>ip:10.0.0.2</p>
+<h2 id="安装HAProxy">安装HAProxy</h2><p>1.直接使用apt-get安装</p>
+<blockquote>
+<p>apt-get install haproxy<br>2.安装完成之后，我们打开/etc/default/haproxy把ENABLED设置为1</p>
+</blockquote>
+<h2 id="配置HAProxy">配置HAProxy</h2><p>1.进入到/etc/haproxy里新建haproxy.cfg</p>
+<p>2.打开haproxy.cfg，我们一部分一部分的向里面加入</p>
+<p>2.1 首先加入如下配置</p>
+<blockquote>
+<p>global</p>
+<p>log 127.0.0.1 local0 notice</p>
+<p>maxconn 2000</p>
+<p>user haproxy</p>
+<p>group haproxy</p>
+</blockquote>
+<p>log指令的意思是告诉haproxy把系统日志发送到哪一台的syslog服务器，ubuntu里面的sysslog当然是运行着的，但是它没有绑定任何ip地址，我们将会在后面修改rsyslog的配置文件</p>
+<p>maxconn的意思当然时说明了同一时间最大的连接数了，这个数字可以随便改</p>
+<p>user和group是给正在运行haproxy进程的制定用户和用户组，这个就不要改变他了</p>
+<p>2.2 然后加入defaluts块</p>
+<blockquote>
+<p>defaluts</p>
+<p>log global</p>
+<p>mode http</p>
+<p>option httplog</p>
+<p>option dontlognull</p>
+<p>retries 3</p>
+<p>option redispath</p>
+<p>timeout connect 5000</p>
+<p>timeout client 10000</p>
+<p>timeout server 10000</p>
+</blockquote>
+<p>在这个块里，我们指定了默认的值。</p>
+<p>timeout connect选项指定了最大的连接时间</p>
+<p>timeout client和server设置的值表示如果服务器或者客户端在这段时间没有进行任何tcp处理，那么将会被断开，HAProxy推荐两个使用相同的值</p>
+<p>retries指令用来设置重连的次数</p>
+<p>option redispatch会开启当链接断掉的时候重分发session，所以如果后面的服务挂掉了，session粘滞不会存在。</p>
+<p>2.3 下面配置listen</p>
+<blockquote>
+<p>listen appname 0.0.0.0:80</p>
+<p>mode http</p>
+<p>stats enable</p>
+<p>stats uri /haproxy?stats</p>
+<p>stats realm Strictly\ Private</p>
+<p>stats auth A_Username:YourPassword</p>
+<p>stats auth Another_User:passwd</p>
+<p>balance roundrobin</p>
+<p>option httpclose</p>
+<p>option forwardfor</p>
+<p>server lamp1 10.0.0.1:80 check</p>
+<p>server lamp2 10.0.0.2:80 check</p>
+</blockquote>
+<p>这里包含了前端和后端的配置，我们配置haproxy为appname监听80端口，appname仅仅是个用来区分引用的名字。</p>
+<p>stats指令用来开启连接状态统计页面，这个通过<a href="https://www.digitalocean.com/community/articles/how-to-set-up-http-authentication-with-nginx-on-ubuntu-12-10" target="_blank" rel="external">HTTP Basic authentication</a>保证安全，它时stats auth指定的</p>
+<p>stats uri就是这个统计页面的url地址</p>
+<p>balance指令指定了一个负载均衡算法，可以有的选项有roundrobin/static-rr/leastconn/source/uri/url_param</p>
+<p>server指令时来申明一个后端服务器，语法如下</p>
+<blockquote>
+<p>server &lt;name&gt; &lt;address&gt;[:port] [param*]</p>
+</blockquote>
+<p>name主要是写入日志用，方便我们跟踪日志，<a href="http://cbonte.github.io/haproxy-dconv/configuration-1.4.html#5" target="_blank" rel="external">这里有更多的参数</a>，在这篇文章中我们只使用check和cookie这两个参数</p>
+<p>check参数时开启健康检查，检查服务器是否正常</p>
+<p>2.4 好了，我们现在配置好了可以使用下面的命令开启它</p>
+<blockquote>
+<p>service haproxy start</p>
+</blockquote>
+<h2 id="测试负载均衡">测试负载均衡</h2><p>1.创建php文件打印处服务器ip和客户端ip</p>
+<p>&nbsp;</p>
+<blockquote>
+<p>&lt;?php header(‘Content-Type: text/plain’); `</p>
+<pre><code>&lt;<span class="keyword">pre</span>&gt;`<span class="keyword">echo</span> <span class="string">"Server IP: "</span>.$_SERVER[<span class="string">'SERVER_ADDR'</span>]; `&lt;/<span class="keyword">pre</span>&gt;
+
+&lt;<span class="keyword">pre</span>&gt;`<span class="keyword">echo</span> <span class="string">"\nClient IP: "</span>.$_SERVER[<span class="string">'REMOTE_ADDR'</span>];`&lt;/<span class="keyword">pre</span>&gt;
+
+&lt;<span class="keyword">pre</span>&gt;` <span class="keyword">echo</span> <span class="string">"\nX-Forwarded-for: "</span>.$_SERVER[<span class="string">'HTTP_X_FORWARDED_FOR'</span>]; `&lt;/<span class="keyword">pre</span>&gt;
+
+&lt;<span class="keyword">pre</span>&gt;`?&amp;gt;`&lt;/<span class="keyword">pre</span>&gt;
+&lt;<span class="keyword">pre</span>&gt;`我们访问haproxy所在的ip地址`&lt;/<span class="keyword">pre</span>&gt;
+&lt;<span class="keyword">pre</span>&gt;`第一次访问`&lt;/<span class="keyword">pre</span>&gt;
+</code></pre><p>Server IP: 172.17.0.5</p>
+<pre><code><span class="title">Client</span> IP: <span class="number">172.17.0.3</span>
+
+X-Forwarded-for: <span class="number">172.17.42.1</span>
+第二次访问
+</code></pre><p>Server IP: 172.17.0.4</p>
+<pre><code><span class="title">Client</span> IP: <span class="number">172.17.0.3</span>
+
+X-Forwarded-for: <span class="number">172.17.42.1</span>
+&lt;span style=<span class="string">"color: #ff0000;"</span>&gt;注：我没有多个机器，所以我使用的docker容器来做实验，这个是我自己跑出来的结果&lt;/span&gt;
+</code></pre></blockquote>
+<pre><code>从上面我们看到<span class="tag">haproxy</span>轮番的把我们的请求放到两个后端服务器上，<span class="tag">X-Forwarded-for</span>是你自己客户端
+
+2.模拟服务器挂掉的情况
+
+我们现在模拟服务器挂掉，首先把一个服务关掉，我关掉172<span class="class">.17</span><span class="class">.0</span><span class="class">.4</span>的服务
+&gt; <span class="tag">service</span> <span class="tag">apache2</span> <span class="tag">stop</span>
+继续访问
+
+连续访问两次都是如下结果
+&gt; <span class="tag">Server</span> <span class="rule"><span class="attribute">IP</span>:<span class="value"> <span class="number">172.17</span>.<span class="number">0.5</span></span></span>
+</code></pre><blockquote>
+<pre><code><span class="title">Client</span> IP: <span class="number">172.17.0.3</span>
+
+X-Forwarded-for: <span class="number">172.17.42.1</span>
+我们达到了服务负载和容错的功能
+</code></pre></blockquote>
+<pre><code>## Session Stickness
+
+如果拟的web应用需要用户登陆（就是你的服务使用到了session），这种负载均衡可能就会遇到问题，因为session是和具体的服务器相关的，haproxy会把用户随机搞到不同的服务器上，服务器就带状态了，就不好搞成分布式了，如果是这种需求，那么我们必须保证用户会被分配到他第一次访问的服务器上去，不然就会乱套，haproxy可以通过设置cookie来标记所使用的服务器来达到这种效果。
+
+下面我们增加一个session.php文件来阐述下这个是如何工作的
+&gt; &lt;<span class="keyword">pre</span>&gt;`&amp;<span class="keyword">lt</span>;?php header(<span class="string">'Content-Type: text/plain'</span>); `&lt;/<span class="keyword">pre</span>&gt;
+</code></pre><blockquote>
+<pre><code><span class="variable">&lt;pre&gt;</span>`session_start(); `<span class="variable">&lt;/pre&gt;</span>
+
+<span class="variable">&lt;pre&gt;</span>`if(!isset(<span class="variable">$_SESSION</span>['visit'])) { `<span class="variable">&lt;/pre&gt;</span>
+
+<span class="variable">&lt;pre&gt;</span>`echo <span class="string">"This is the first time you're visiting this server"</span>; `<span class="variable">&lt;/pre&gt;</span>
+
+<span class="variable">&lt;pre&gt;</span>`<span class="variable">$_SESSION</span>['visit'] = <span class="number">0</span>; `<span class="variable">&lt;/pre&gt;</span>
+
+<span class="variable">&lt;pre&gt;</span>`} `<span class="variable">&lt;/pre&gt;</span>
+
+<span class="variable">&lt;pre&gt;</span>`else `<span class="variable">&lt;/pre&gt;</span>
+
+<span class="variable">&lt;pre&gt;</span>`echo <span class="string">"Your number of visits: "</span>.<span class="variable">$_SESSION</span>['visit']; `<span class="variable">&lt;/pre&gt;</span>
+
+<span class="variable">&lt;pre&gt;</span>`<span class="variable">$_SESSION</span>['visit']++; echo <span class="string">"\nServer IP: "</span>.<span class="variable">$_SERVER</span>['SERVER_ADDR']; `<span class="variable">&lt;/pre&gt;</span>
+
+<span class="variable">&lt;pre&gt;</span>`echo <span class="string">"\nClient IP: "</span>.<span class="variable">$_SERVER</span>['REMOTE_ADDR']; echo <span class="string">"\nX-Forwarded-for: "</span>.<span class="variable">$_SERVER</span>['HTTP_X_FORWARDED_FOR'].<span class="string">"\n"</span>; print_r(<span class="variable">$_COOKIE</span>);`<span class="variable">&lt;/pre&gt;</span>
+
+<span class="variable">&lt;pre&gt;</span>` ?&amp;gt;`<span class="variable">&lt;/pre&gt;</span>
+<span class="variable">&lt;pre&gt;</span>`上面的代码就在apache的服务器上对用户增加了session，会记录你使用这个session多少次`<span class="variable">&lt;/pre&gt;</span>
+<span class="variable">&lt;pre&gt;</span>`下面，我们就要使用haproxy在cookie中增加我们的东西了`<span class="variable">&lt;/pre&gt;</span>
+<span class="variable">&lt;pre&gt;</span>`我们默认所有到haproxy的请求在http头里都包含set-cookie的字段，我们在这里面存服务器信息`<span class="variable">&lt;/pre&gt;</span>
+<span class="variable">&lt;pre&gt;</span>第一步就是在配置文件中，在listen块的下面增加cookie指令<span class="variable">&lt;/pre&gt;</span>
+</code></pre><pre>`cookie SRVNAME insert `</pre>
+
+<pre><code>&lt;pre&gt;`server lam<span class="variable">p1</span> 10.0.0.1:80 cookie S1<span class="instruction"> check </span>`&lt;/pre&gt;
+
+&lt;pre&gt;`server lam<span class="variable">p2</span> 10.0.0.2:80 cookie S2 check`&lt;/pre&gt;
+&lt;pre&gt;`我们重启haproxy`&lt;/pre&gt;
+&lt;pre&gt;`下面使用curl访问`&lt;/pre&gt;
+</code></pre><pre>`curl -i http://172.17.0.3/session.php
+<pre><span style="font-family: monospace;">结果如下</span></pre>
+<pre></pre>
+HTTP/1.1 200 OK
+
+Date: Fri, 16 Jan 2015 14:12:00 GMT
+
+Server: Apache/2.4.7 (Ubuntu)
+
+X-Powered-By: PHP/5.5.9-1ubuntu4.5
+
+Set-Cookie: PHPSESSID=q29dmd1eusk0gs1ja9qcq0paj5; path=/
+
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+
+Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+
+Pragma: no-cache
+
+Vary: Accept-Encoding
+
+Content-Length: 134
+
+Connection: close
+
+Content-Type: text/plain
+
+Set-Cookie: SRVNAME=S1; path=/
+
+
+This is the first time you're visiting this server
+
+Server IP: 172.17.0.4
+
+Client IP: 172.17.0.3
+
+X-Forwarded-for: 172.17.42.1
+
+Array
+
+(
+
+)
+<pre><span style="font-family: monospace;">这个时第一次访问，为了看到我们刚刚的SRVNAME=S1，我们把上面的Set-cookies的头作为参数访问加入SRVNAME=S1（当然你要是浏览器，可以F12召唤神兽直接看）</span></pre>
+<pre><span style="font-family: monospace;">curl -i http://172.17.0.3/session.php --cookie "PHPSESSID=0juvu9ir7bvm4agiivfc5pvg11; SRVNAME=S1"</span></pre>
+<pre><span style="font-family: monospace;">结果如下</span></pre>
+<pre></pre>
+HTTP/1.1 200 OK
+
+Date: Fri, 16 Jan 2015 14:12:15 GMT
+
+Server: Apache/2.4.7 (Ubuntu)
+
+X-Powered-By: PHP/5.5.9-1ubuntu4.5
+
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+
+Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+
+Pragma: no-cache
+
+Vary: Accept-Encoding
+
+Content-Length: 174
+
+Connection: close
+
+Content-Type: text/plain
+
+
+Your number of visits: 1
+
+Server IP: 172.17.0.4
+
+Client IP: 172.17.0.3
+
+X-Forwarded-for: 172.17.42.1
+
+Array
+
+(
+
+ [PHPSESSID] =&gt; q29dmd1eusk0gs1ja9qcq0paj5
+
+ [SRVNAME] =&gt; S1
+
+)
+
+
+&nbsp;
+<pre><span style="font-family: monospace;">在执行一下</span></pre>
+<pre></pre>
+HTTP/1.1 200 OK
+
+Date: Fri, 16 Jan 2015 14:12:18 GMT
+
+Server: Apache/2.4.7 (Ubuntu)
+
+X-Powered-By: PHP/5.5.9-1ubuntu4.5
+
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+
+Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+
+Pragma: no-cache
+
+Vary: Accept-Encoding
+
+Content-Length: 174
+
+Connection: close
+
+Content-Type: text/plain
+
+
+Your number of visits: 2
+
+Server IP: 172.17.0.4
+
+Client IP: 172.17.0.3
+
+X-Forwarded-for: 172.17.42.1
+
+Array
+
+(
+
+ [PHPSESSID] =&gt; q29dmd1eusk0gs1ja9qcq0paj5
+
+ [SRVNAME] =&gt; S1
+
+)
+
+
+&nbsp;
+<pre><span style="font-family: monospace;">可以看到我们解决了这个Session strickness</span></pre></pre></blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/01/16/haproxy-e7-ae-80-e5-8d-95-e4-bd-bf-e7-94-a8http-e7-bf-bb-e8-af-91-e8-87-aadigitalocean/" data-id="ciesij9g60016pxalhou4342x" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/01/19/http-e5-8d-8f-e8-ae-ae/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          http协议
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/09/05/ld-e9-93-be-e6-8e-a5-e8-84-9a-e6-9c-ac-e8-bd-ac/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">ld链接脚本(转)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/2015/">2015</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MYSQL/">MYSQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java技术/">java技术</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/图灵奖/">图灵奖</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/未分类/">未分类</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/未分类/杂七杂八/">杂七杂八</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂七杂八/">杂七杂八</a><span class="category-list-count">13</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂七杂八/网摘/">网摘</a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/09/20/plan/">plan</a>
+          </li>
+        
+          <li>
+            <a href="/2015/07/17/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2015/03/30/180/">docker-browser-server</a>
+          </li>
+        
+          <li>
+            <a href="/2015/03/30/ubuntu14-04-e5-8d-b8-e8-bd-bd-e8-be-93-e5-85-a5-e6-b3-95-e5-90-8e-e5-be-aa-e7-8e-af-e7-99-bb-e5-bd-95-e4-b8-80-e7-9b-b4-e8-b7-b3-e5-88-b0-e7-99-bb-e5-bd-95-e7-95-8c-e9-9d-a2/">UBUNTU14.04 卸载输入法后循环登录一直跳到登录界面</a>
+          </li>
+        
+          <li>
+            <a href="/2015/01/19/http-e5-8d-8f-e8-ae-ae/">http协议</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 培龙<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

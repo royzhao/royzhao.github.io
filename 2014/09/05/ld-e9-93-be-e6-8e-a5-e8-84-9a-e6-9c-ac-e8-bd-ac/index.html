@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ld链接脚本(转) | Long</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="转自:http://www.cnblogs.com/Neddy/archive/2011/12/18/2291576.html================================== 我 们对每个c或者汇编文件进行单独编译，但是不去连接，生成很多.o 的文件，这些.o文件首先是分散的，我们首先要考虑的如何组合起来；其次，这些.o文件存在相互调用的关系；再者，我们最后生成的bin文件是要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ld链接脚本(转)">
+<meta property="og:url" content="http://yoursite.com/2014/09/05/ld-e9-93-be-e6-8e-a5-e8-84-9a-e6-9c-ac-e8-bd-ac/index.html">
+<meta property="og:site_name" content="Long">
+<meta property="og:description" content="转自:http://www.cnblogs.com/Neddy/archive/2011/12/18/2291576.html================================== 我 们对每个c或者汇编文件进行单独编译，但是不去连接，生成很多.o 的文件，这些.o文件首先是分散的，我们首先要考虑的如何组合起来；其次，这些.o文件存在相互调用的关系；再者，我们最后生成的bin文件是要">
+<meta property="og:updated_time" content="2015-09-20T12:43:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ld链接脚本(转)">
+<meta name="twitter:description" content="转自:http://www.cnblogs.com/Neddy/archive/2011/12/18/2291576.html================================== 我 们对每个c或者汇编文件进行单独编译，但是不去连接，生成很多.o 的文件，这些.o文件首先是分散的，我们首先要考虑的如何组合起来；其次，这些.o文件存在相互调用的关系；再者，我们最后生成的bin文件是要">
+  
+    <link rel="alternative" href="/atom.xml" title="Long" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Long</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-ld-e9-93-be-e6-8e-a5-e8-84-9a-e6-9c-ac-e8-bd-ac" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/09/05/ld-e9-93-be-e6-8e-a5-e8-84-9a-e6-9c-ac-e8-bd-ac/" class="article-date">
+  <time datetime="2014-09-05T06:23:36.000Z" itemprop="datePublished">2014-09-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/杂七杂八/">杂七杂八</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ld链接脚本(转)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id=""><div id="cnblogs_post_body"></div></h1><p>转自:<a href="http://www.cnblogs.com/Neddy/archive/2011/12/18/2291576.html" target="_blank" rel="external">http://www.cnblogs.com/Neddy/archive/2011/12/18/2291576.html</a><br>================================== <strong>我 们对每个c或者汇编文件进行单独编译，但是不去连接，生成很多.o 的文件，这些.o文件首先是分散的，我们首先要考虑的如何组合起来；其次，这些.o文件存在相互调用的关系；再者，我们最后生成的bin文件是要在硬件中 运行的，每一部分放在什么地址都要有仔细的说明。我觉得在写makefile的时候，最为重要的就是ld的理解，下面说说我的经验：</strong> <strong>首先，要确定我们的程序用没有用到标准的c库，或者一些系统的库文件，这些一般是在操作系统之上开发要注意的问题，这里并不多说，熟悉在Linux编程的人，基本上都会用ld命令；这里，我们从头开始,直接进行汇编语言的连接。</strong> <strong>我们写一个汇编程序，控制GPIO，从而控制外接的LED，代码如下;</strong> <strong> .text</strong> <strong>.global _start</strong> <strong>_start:</strong> <strong> LDR R0,=0x56000010 @GPBCON寄存器<br>MOV R1,# 0x00000400<br>STR R1,[R0]<br>LDR R0,=0x56000014<br>MOV R1,#0x00000000<br>STR R1,[R0]<br>MAIN_LOOP:<br>B MAIN_LOOP</strong> <strong>代码很简单，就是一个对io口 进行设置然后写数据。我们看它是如何编译的，注意我们这里使用的不是arm-linux-gcc而是arm-elf-gcc，二者之间没有什么比较大的区 别，arm-linux-gcc可能包含更多的库文件，在命令行的编译上面是没有区别。我们来看是如何编译的：</strong> <strong> arm-elf-gcc -g -c -o led_On.o led_On.s 首先纯编译不连接</strong> <strong> arm-elf-ld -Ttext 0x00000000 -g led_On.o -o led_on_elf</strong> <strong> 用Ttext指明我们程序存储的地方，这里生成的是elf文件，还不是我们真正的bin，但是可以借助一些工具可以进行调试。然后：</strong> <strong> arm-elf-objcopy -O binary -S led_on_elf led_on.bin </strong> <strong>生成bin文件。</strong> <strong>-T选项是ld命令中比较重要的一个选项，可以用它直接指明代码的代码段、数据段、bss段，对于复杂的连接，可以专门写一个脚本来告诉编译器如何连接。</strong> <strong> -Ttext&nbsp;&nbsp; addr</strong> <strong> -Tdata addr</strong> <strong> -Tbss&nbsp;&nbsp;&nbsp;&nbsp; addr</strong> <strong>arm-elf-ld -Ttext 0x00000000 -g led_On.o -o led_on_elf ，运行地址为0x00000000，由于没有指明数据段和bss，他们会默认的依次放在后面。相同的代码 不同的Ttext，你可以对比一下他们之间会变的差异，ld会自动调整跳转的地址。</strong> <strong>第二个概 念：section，section可以理解成一块，例如像c里面的一个子函数，就是一个section，链接器ld把object文件中的每个 section都作为一个整体，为其分配运行的地址(memory layout)，这个过程就是重定位(relocation)；最后把所有目标文件合并为一个目标文件。</strong> <strong>链接通过一个linker script来控制，这个脚本描述了输入文件的sections到输出文件的映射，以及输出文件的memory layout。</strong> <strong>因此，linker总会使用一个linker script，如果不特别指定，则使用默认的script；可以使用‘-T’命令行选项来指定一个linker script。</strong> <strong>＊映像文件的输入段与输出段</strong> <strong>linker把多个输入文件合并为一个输出文件。输出文件和输入文件都是目标文件(object file)，输出文件通常被称为可执行文件(executable)。</strong> <strong>每个目标文件都有一系列section，输入文件的section称为input section，输出文件的section则称为output section。</strong> <strong>一个section可以是 loadable的，即输出文件运行时需要将这样的section加载到memory(类似于RO&amp;RW段)；也可以是 allocatable的，这样的section没有任何内容，某些时候用0对相应的memory区域进行初始化(类似于ZI段)；如果一个 section既非loadable也非allocatable，则它通常包含的是调试信息。</strong> <strong>每个loadable或 allocatable的output section都有两个地址，一是VMA(virtual memory address)，是该section的运行时域地址；二是LMA(load memory address)，是该section的加载时域地址。</strong> <strong>可以通过objdump工具附加’-h’选项来查看目标文件中的sections。</strong> <strong>＊简单的Linker script</strong> <strong>(1) SECTIONS命令：</strong> <strong>The SECTIONS command tells the linker how to map input sections into output sections, and how to place the output sections in memory.</strong> <strong>命令格式如下：</strong> <strong>SECTIONS</strong> <strong>{</strong> <strong>sections-command</strong> <strong>sections-command</strong> <strong>……</strong> <strong>}</strong> <strong>其中sections-command可以是ENTRY命令，符号赋值，输出段描述，也可以是overlay描述。</strong> <strong>(2) 地址计数器‘.’(location counter)：</strong> <strong>该符号只能用于SECTIONS命令内部，初始值为‘0’，可以对该符号进行赋值，也可以使用该符号进行计算或赋值给其他符号。它会自动根据SECTIONS命令内部所描述的输出段的大小来计算当前的地址。</strong> <strong>(3) 输出段描述(output section description)：</strong> <strong>前面提到在SECTIONS命令中可以作输出段描述，描述的格式如下：</strong> <strong>section [address] [(type)] : [AT(lma)]</strong> <strong>{</strong> <strong>output-section-command</strong> <strong>output-section-command</strong> <strong>…</strong> <strong>} [&gt;region] [AT&gt;lma_region] [:phdr :phdr …] [=fillexp]</strong> <strong>很多附加选项是用不到的。其中的output-section-command又可以是符号赋值，输入段描述，要直接包含的数据值，或者某一特定的输出段关键字。</strong> <strong>＊linker script 实例</strong> <strong>＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝</strong> <strong>OUTPUT_ARCH(arm)</strong> <strong>ENTRY(_start)</strong> <strong>SECTIONS {</strong> <strong> . = 0xa3f00000;</strong> <strong> __boot_start = .;</strong> <strong> .start ALIGN(4) : {</strong> <strong> *(.text.start)</strong> <strong> }</strong> <strong> .setup ALIGN(4) : {</strong> <strong> setup_block = .;</strong> <strong> *(.setup)</strong> <strong> setup_block_end = .;</strong> <strong> }</strong> <strong> .text ALIGN(4) : {</strong> <strong> *(.text)</strong> <strong> }</strong> <strong> .rodata ALIGN(4) : {</strong> <strong> *(.rodata)</strong> <strong> }</strong> <strong> .data ALIGN(4) : {</strong> <strong> *(.data)</strong> <strong> }</strong> <strong> .got ALIGN(4) : {</strong> <strong> *(.got)</strong> <strong> }</strong> <strong> __boot_end = .;</strong> <strong> .bss ALIGN(16) : {</strong> <strong> bss_start = .;</strong> <strong> *(.bss)</strong> <strong> *(COMMON)</strong> <strong> bss_end = .;</strong> <strong> }</strong> <strong> .comment ALIGN(16) : {</strong> <strong> *(.comment)</strong> <strong> }</strong> <strong> stack_point = __boot_start + 0x00100000;</strong> <strong> loader_size = <strong>boot_end - </strong>boot_start;</strong> <strong> setup_size = setup_block_end - setup_block;</strong> <strong>}</strong> <strong>＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ </strong> <strong>在SECTIONS命令中的类似于下面的描述结构就是输出段描述：</strong> <strong>.start ALIGN(4) : {</strong> <strong> *(.text.start)</strong> <strong>}</strong> <strong>.start 为output section name，ALIGN(4)返回一个基于location counter(.)的4字节对齐的地址值。<em>(.text.start)是输入段描述，</em>为通配符，意思是把所有被链接的object文件中 的.text.start段都链接进这个名为.start的输出段。</strong> <strong>源文件中所标识的section及其属性实际上就是对输入段的描述，例如.text.start输入段在源文件start.S中的代码如下：</strong> <strong>.section .text.start</strong> <strong>.global _start</strong> <strong>_start :</strong> <strong> b start</strong> <strong>arm-elf-ld -Ttimer.lds -o timer_elf header .o</strong> <strong>这里就必须存在一个timer.lds的文件。</strong> <strong>对于.lds文件，它定义了整个程序编译之后的连接过程，决定了一个可执行程序的各个段的存储位置。虽然现在我还没怎么用它，但感觉还是挺重要的，有必要了解一下。</strong> <strong>先看一下GNU官方网站上对.lds文件形式的完整描述：</strong> <strong>SECTIONS {<br>…<br>secname start BLOCK(align) (NOLOAD) : AT ( ldadr )<br>{ contents } &gt;region :phdr =fill<br>…<br>}</strong> <strong> </strong> <strong>secname和contents是必须的，其他的都是可选的。下面挑几个常用的看看：</strong> <strong>1、secname：段名</strong> <strong>2、contents：决定哪些内容放在本段，可以是整个目标文件，也可以是目标文件中的某段（代码段、数据段等）</strong> <strong>3、start：本段连接（运行）的地址，如果没有使用AT（ldadr），本段存储的地址也是start。GNU网站上说start可以用任意一种描述地址的符号来描述。</strong> <strong>4、AT（ldadr）：定义本段存储（加载）的地址。</strong> <strong>/<em> nand.lds </em>/<br>SECTIONS {<br>firtst 0x00000000 : { head.o init.o }<br>second 0x30000000 : AT(4096) { main.o }<br>}</strong> <strong> 以上，head.o放在0x00000000地址开始处，init.o放在head.o后面，他们的运行地址也是0x00000000，即连接和存储地址 相同（没有AT指定）；main.o放在4096（0x1000，是AT指定的，存储地址）开始处，但是它的运行地址在0x30000000，运行之前需 要从0x1000（加载处）复制到0x30000000（运行处），此过程也就用到了读取Nand flash。</strong> <strong>这就是存储地址和连接（运行）地址的不同，称为加载时域和运行时域，可以在.lds连接脚本文件中分别指定。</strong> <strong>编写好的.lds文件，在用arm-linux-ld连接命令时带-Tfilename来调用执行，如<br>arm-linux-ld –Tnand.lds x.o y.o –o xy.o。也用-Ttext参数直接指定连接地址，如<br>arm-linux-ld –Ttext 0x30000000 x.o y.o –o xy.o。</strong> <strong>既然程序有了两种地址，就涉及到一些跳转指令的区别，这里正好写下来，以后万一忘记了也可查看，以前不少东西没记下来现在忘得差不多了。</strong> <strong>ARM汇编中，常有两种跳转方法：b跳转指令、ldr指令向PC赋值。</strong> <strong>我自己经过归纳如下：</strong> <strong>b step1 ：b跳转指令是相对跳转，依赖当前PC的值，偏移量是通过该指令本身的bit[23:0]算出来的，这使得使用b指令的程序不依赖于要跳到的代码的位置，只看指令本身。</strong> <strong>ldr pc, =step1 ：该指令是从内存中的某个位置（step1）读出数据并赋给PC，同样依赖当前PC的值，但是偏移量是那个位置（step1）的连接地址（运行时的地址），所以可以用它实现从Flash到RAM的程序跳转。</strong> <strong>此外，有必要回味一下adr伪指令，U-boot中那段relocate代码就是通过adr实现当前程序是在RAM中还是flash中。仍然用我当时的注释</strong> <strong>adr r0, _start /<em> r0是代码的当前位置 </em>/<br>/<em> adr伪指令，汇编器自动通过当前PC的值算出 如果执行到_start时PC的值，放到r0中：<br>当 此段在flash中执行时r0 = _start = 0；当此段在RAM中执行时_start = _TEXT_BASE(在board/smdk2410/config.mk中指定的值为0x33F80000，即u-boot在把代码拷贝到RAM中去 执行的代码段的开始) </em>/</strong> <strong>ldr r1, _TEXT_BASE /<em> 测试判断是从Flash启动，还是RAM </em>/<br>/<em> 此句执行的结果r1始终是0x33FF80000，因为此值是又编译器指定的(ads中设置，或-D设置编译器参数) </em>/<br>cmp r0, r1 /<em> 比较r0和r1，调试的时候不要执行重定位 </em>/</strong> <strong> 下面，结合u-boot.lds看看一个正式的连接脚本文件。这个文件的基本功能还能看明白，虽然上面分析了好多，但其中那些GNU风格的符号还是着实让我感到迷惑。</strong> <strong>OUTPUT_FORMAT(“elf32&amp;shy;littlearm”, “elf32&amp;shy;littlearm”, “elf32&amp;shy;littlearm”)<br>;指定输出可执行文件是elf格式,32位ARM指令,小端<br>OUTPUT_ARCH(arm)<br>;指定输出可执行文件的平台为ARM<br>ENTRY(_start)<br>;指定输出可执行文件的起始代码段为_start.<br>SECTIONS<br>{<br>. = 0x00000000 ; 从0x0位置开始<br>. = ALIGN(4) ; 代码以4字节对齐<br>.text : ;指定代码段<br>{<br>cpu/arm920t/start.o (.text) ; 代码的第一个代码部分<br><em>(.text) ;其它代码部分<br>}<br>. = ALIGN(4)<br>.rodata : { </em>(.rodata) } ;指定只读数据段<br>. = ALIGN(4);<br>.data : { <em>(.data) } ;指定读/写数据段<br>. = ALIGN(4);<br>.got : { </em>(.got) } ;指定got段, got段式是uboot自定义的一个段, 非标准段<br><strong>u_boot_cmd_start = . ;把</strong>u_boot_cmd_start赋值为当前位置, 即起始位置<br>.u_boot_cmd : { <em>(.u_boot_cmd) } ;指定u_boot_cmd段, uboot把所有的uboot命令放在该段.<br><strong>u_boot_cmd_end = .;把</strong>u_boot_cmd_end赋值为当前位置,即结束位置<br>. = ALIGN(4);<br><strong>bss_start = .; 把</strong>bss_start赋值为当前位置,即bss段的开始位置<br>.bss : { </em>(.bss) }; 指定bss段<br>_end = .; 把_end赋值为当前位置,即bss段的结束位置<br>}</strong><br></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/09/05/ld-e9-93-be-e6-8e-a5-e8-84-9a-e6-9c-ac-e8-bd-ac/" data-id="ciesij9ft000wpxallvpgq2nq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/01/16/haproxy-e7-ae-80-e5-8d-95-e4-bd-bf-e7-94-a8http-e7-bf-bb-e8-af-91-e8-87-aadigitalocean/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          haproxy简单使用http-翻译自digitalocean
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/08/25/e7-90-86-e8-a7-a3-android-build-e7-b3-bb-e7-bb-9f-e8-bd-ac/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">理解 Android Build 系统(转)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/2015/">2015</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MYSQL/">MYSQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java技术/">java技术</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/图灵奖/">图灵奖</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/未分类/">未分类</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/未分类/杂七杂八/">杂七杂八</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂七杂八/">杂七杂八</a><span class="category-list-count">13</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂七杂八/网摘/">网摘</a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/09/20/plan/">plan</a>
+          </li>
+        
+          <li>
+            <a href="/2015/07/17/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2015/03/30/180/">docker-browser-server</a>
+          </li>
+        
+          <li>
+            <a href="/2015/03/30/ubuntu14-04-e5-8d-b8-e8-bd-bd-e8-be-93-e5-85-a5-e6-b3-95-e5-90-8e-e5-be-aa-e7-8e-af-e7-99-bb-e5-bd-95-e4-b8-80-e7-9b-b4-e8-b7-b3-e5-88-b0-e7-99-bb-e5-bd-95-e7-95-8c-e9-9d-a2/">UBUNTU14.04 卸载输入法后循环登录一直跳到登录界面</a>
+          </li>
+        
+          <li>
+            <a href="/2015/01/19/http-e5-8d-8f-e8-ae-ae/">http协议</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 培龙<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

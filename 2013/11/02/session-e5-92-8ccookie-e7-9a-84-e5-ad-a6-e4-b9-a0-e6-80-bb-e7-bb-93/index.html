@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>session和cookie的学习总结 | Long</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="## seesion和cookie的使用和学习总结#### 问题的提出：如何让用户登陆了系统之后，在以后的一段的时间内不再需要登陆认证了呢？首先要需要知道为什么会有这个问题，我们先来了解一下web服务器和浏览器之间的交互方式。
+
+众所周知，web服务器和浏览器之间都是使用http协议来进行交互的，那么我们就先来简单了解一下http协议吧http协议是建立在tcp上的一个应用层协议，而且它的消息体都">
+<meta property="og:type" content="article">
+<meta property="og:title" content="session和cookie的学习总结">
+<meta property="og:url" content="http://yoursite.com/2013/11/02/session-e5-92-8ccookie-e7-9a-84-e5-ad-a6-e4-b9-a0-e6-80-bb-e7-bb-93/index.html">
+<meta property="og:site_name" content="Long">
+<meta property="og:description" content="## seesion和cookie的使用和学习总结#### 问题的提出：如何让用户登陆了系统之后，在以后的一段的时间内不再需要登陆认证了呢？首先要需要知道为什么会有这个问题，我们先来了解一下web服务器和浏览器之间的交互方式。
+
+众所周知，web服务器和浏览器之间都是使用http协议来进行交互的，那么我们就先来简单了解一下http协议吧http协议是建立在tcp上的一个应用层协议，而且它的消息体都">
+<meta property="og:updated_time" content="2015-09-20T12:43:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="session和cookie的学习总结">
+<meta name="twitter:description" content="## seesion和cookie的使用和学习总结#### 问题的提出：如何让用户登陆了系统之后，在以后的一段的时间内不再需要登陆认证了呢？首先要需要知道为什么会有这个问题，我们先来了解一下web服务器和浏览器之间的交互方式。
+
+众所周知，web服务器和浏览器之间都是使用http协议来进行交互的，那么我们就先来简单了解一下http协议吧http协议是建立在tcp上的一个应用层协议，而且它的消息体都">
+  
+    <link rel="alternative" href="/atom.xml" title="Long" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Long</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-session-e5-92-8ccookie-e7-9a-84-e5-ad-a6-e4-b9-a0-e6-80-bb-e7-bb-93" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013/11/02/session-e5-92-8ccookie-e7-9a-84-e5-ad-a6-e4-b9-a0-e6-80-bb-e7-bb-93/" class="article-date">
+  <time datetime="2013-11-02T14:21:31.000Z" itemprop="datePublished">2013-11-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/杂七杂八/">杂七杂八</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      session和cookie的学习总结
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <div class="title"><br><br>## seesion和cookie的使用和学习总结<br><br></div><br><div class="qustion"><br><br>#### 问题的提出：如何让用户登陆了系统之后，在以后的一段的时间内不再需要登陆认证了呢？<br><br>首先要需要知道为什么会有这个问题，我们先来了解一下web服务器和浏览器之间的交互方式。<br></div>
+
+<div class="content"><br>众所周知，web服务器和浏览器之间都是使用http协议来进行交互的，那么我们就先来简单了解一下http协议吧<br><br>http协议是建立在tcp上的一个应用层协议，而且它的消息体都是可见的asc字符，<br><br>浏览器向web服务器发出<span style="color:red">“GET”“PUT”</span>的http消息报。<br><br>web服务器依据浏览器的请求回复一系列的内容。<br><br>http有个最重要的特点是无状态的，什么是无状态的呢？<br><br>无状态就是表示浏览器向服务器发起一次tcp连接，服务器向浏览器回复了之后，tcp的连接就断开了，当浏览器再次访问的时候，服务器就不记得你了，就像失忆了一样，<br>这就是说，服务器不管你是谁，你来了我就根据你的请求回复你就行了，这就叫做无状态。<br>由于http的无状态性，服务器会把每一次的连接都当做未知的请求，所以一般的情况下，你就不能一次登录，多次免登陆。<br></div>
+
+<div class="content"><br><br>好了，这下我们知道了问题的由来，那么要怎么才能解决我们提出的问题呢？<br>我第二次访问服务器的时候，服务器他妹儿的就不认识我了，那我怎么才能不需要登录就可以进行活动呢？<br><br></div>
+
+<div class="content"><br><br>我们来转换一下想法：<br><br>比如说你去网吧上网，每一次都需要叫网管，给网管钱，然后让网管开机。<br><br></div><br><div class="content"><br>我们的问题和上面那个例子做对比，<br>我们把网管那部分比喻成登陆系统，把你上网的部分比喻成服务器提供的服务，<br>我们现在不想每次都叫网管了，怎么办？<br></div>
+
+<div class="content"><br>有了生活中的例子做比较就方便解决我们在文章头提出的问题了，我们怎么样才能一次登录，多次享用呢？<br><br>我们都知道网吧有个东西叫做会员卡，你只需要办理一张会员卡，冲一些钱进去，你从此就不需要叫网管了<br>进去直接找台电脑上网就行了。<br>所以同理，我们需要服务器给我们一个会员卡，这样子每次上网只需要亮一下会员卡就行了。<br><br>会员卡是网吧提供的，所以我们要解决上面的问题，就要求服务器必须有能力提供“会员卡”的功能，<br><br>会员卡是放在我们身上的，所以我们要解决上面的问题，也要求客户端有存放“会员卡”的功能。<br><br>这下子我们就明了。我们要实现这样的功能就要求服务器和客户端分别满足上面的要求就是了。<br></div>
+
+<div class="content"><br>所以，我们的主角登场了，<span style="red"><strong>cookie&amp;seesion</strong></span><br>cookie就是服务器放在客户端的一小块文本，cookie就是我们的会员卡！<br></div><br><div class="content"><br>cookie在客户端是如何存放的呢？<br>在客户端里面会将用户访问过的所有的cookie存放在一起，有点像“卡包”的感觉，每当客户端访问服务器的时候，客户端就直接把“卡包”给服务器，服务器需要在卡包里面<br>找自己的那张“会员卡”。<br><br>session也是依靠cookie实现的，<br></div>
+
+<div class="content"><br>从上面关于cookie的介绍知道了，cookie确实不怎安全，因为它把所以的会员卡信息都保存在客户那里，客户还会把“卡包”一次性的给别人？！！<br><br>这怎么能忍？！<br><br>所以session就是为了解决这个问题出生的。<br></div>
+
+<div class="content"><br>session就是直接给客户端一个连客户端都看不懂的一大串的字符串，相当于全球唯一的id，这id号就别人都仿造不出来的，只有本服务器拥有。<br>这是为了防止别人假冒。<br>有了个全世界人民除了本服务看得懂的id，服务器就可以有一个map，对应的id可以存在客户无数多特有的信息。<br><br>这其实本质和cookie一样，只是说原先有客户端放具体内容，变成了客户端放一个指针，<br><span><strong>以上内容是本人是这么理解的，如果有错误请不吝指出</strong></span><br></div>
+
+<div class="content"><br>现在可以解决问题了，<br><br>首先，用户访问我们的系统的时候，我们先查看他卡包中有没有我们的会员卡，如果有，就让他直接通过了，如果没有，那么就需要验证用户，<br>用户验证通过之后马上给他办张会员卡，那么他在第二次访问的时候我们就知道他可以直接通过了，我们就不需要验证了。<br><strong>蛤蛤 问题解决了，是不是感觉too young too simple~</strong><br></div>
+
+<style type="text/css">
+.title {
+    width:900px;
+    height:auto;
+    padding:20px;
+    border:5px solid #f7f7f7;
+    border-bottom-width:0;
+    color:#000000;
+    background-color:#f7f7f7;
+    margin-bottom:10px;
+    text-align:center;
+}
+.content {
+    width:900px;
+    height:auto;
+    padding:20px;
+    border:5px solid #f7f7f7;
+    border-bottom-width:0;
+    color:#000000;
+    background-color:#f7f7f7;
+    margin-bottom:10px;
+    line-height:27px;
+}
+
+.qustion {
+    width:900px;
+    height:auto;
+    padding:20px;
+    border:5px solid #f7f7f7;
+    border-bottom-width:0;
+    color:#000000;
+    background-color:#f7f7f7;
+    margin-bottom:10px;
+}
+</style>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/11/02/session-e5-92-8ccookie-e7-9a-84-e5-ad-a6-e4-b9-a0-e6-80-bb-e7-bb-93/" data-id="ciesij9es000apxal7z7wmjun" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/11/08/p2p-e5-af-b9-e7-ad-89-e7-bd-91-e7-bb-9c-e8-af-bb-e5-90-8e-e7-ac-94-e8-ae-b0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          P2P对等网络读后笔记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/10/31/mybatis-e5-92-8cspring-e6-95-b4-e5-90-88-e7-9a-84-e4-b8-80-e4-b8-aa-e4-be-8b-e5-ad-90-e4-bb-a5-e5-8f-8a-e5-85-b6-e4-b8-ad-e5-87-ba-e7-8e-b0-e7-9a-84-e9-97-ae-e9-a2-98/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">myBatis和spring整合的一个例子以及其中出现的问题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/2015/">2015</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MYSQL/">MYSQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java技术/">java技术</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/图灵奖/">图灵奖</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/未分类/">未分类</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/未分类/杂七杂八/">杂七杂八</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂七杂八/">杂七杂八</a><span class="category-list-count">13</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂七杂八/网摘/">网摘</a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/09/20/plan/">plan</a>
+          </li>
+        
+          <li>
+            <a href="/2015/07/17/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2015/03/30/180/">docker-browser-server</a>
+          </li>
+        
+          <li>
+            <a href="/2015/03/30/ubuntu14-04-e5-8d-b8-e8-bd-bd-e8-be-93-e5-85-a5-e6-b3-95-e5-90-8e-e5-be-aa-e7-8e-af-e7-99-bb-e5-bd-95-e4-b8-80-e7-9b-b4-e8-b7-b3-e5-88-b0-e7-99-bb-e5-bd-95-e7-95-8c-e9-9d-a2/">UBUNTU14.04 卸载输入法后循环登录一直跳到登录界面</a>
+          </li>
+        
+          <li>
+            <a href="/2015/01/19/http-e5-8d-8f-e8-ae-ae/">http协议</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 培龙<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

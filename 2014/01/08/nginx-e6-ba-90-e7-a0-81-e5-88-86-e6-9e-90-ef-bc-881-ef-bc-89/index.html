@@ -3,18 +3,34 @@
 <head>
   <meta charset="utf-8">
   
-  <title>plan | Long</title>
+  <title>Nginx源码分析（1）——学习使用nginx | Long</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Todo List2015.9.20~2015.9.27123servlet相关Tcp/Ip协议白板编程训练">
+  <meta name="description" content="一直以来感觉技术水平偏弱，于是乎，挑了nginx作为练手，希望能通过这个的锻炼，真正切切的提高自己的水平，现在nginx网上的资料已经非常多了，今天就开始做分析nginx的准备工作。
+我的nginx版本：1.2.9
+源码阅读工具：source Insight
+nginx目录源码目录
+1. core　　　　// 是Nginx服务器的主干部分，包含基本数据结构，main()函数，写log等等
+2. e">
 <meta property="og:type" content="article">
-<meta property="og:title" content="plan">
-<meta property="og:url" content="http://yoursite.com/2015/09/20/plan/index.html">
+<meta property="og:title" content="Nginx源码分析（1）——学习使用nginx">
+<meta property="og:url" content="http://yoursite.com/2014/01/08/nginx-e6-ba-90-e7-a0-81-e5-88-86-e6-9e-90-ef-bc-881-ef-bc-89/index.html">
 <meta property="og:site_name" content="Long">
-<meta property="og:description" content="Todo List2015.9.20~2015.9.27123servlet相关Tcp/Ip协议白板编程训练">
-<meta property="og:updated_time" content="2015-09-20T13:01:18.000Z">
+<meta property="og:description" content="一直以来感觉技术水平偏弱，于是乎，挑了nginx作为练手，希望能通过这个的锻炼，真正切切的提高自己的水平，现在nginx网上的资料已经非常多了，今天就开始做分析nginx的准备工作。
+我的nginx版本：1.2.9
+源码阅读工具：source Insight
+nginx目录源码目录
+1. core　　　　// 是Nginx服务器的主干部分，包含基本数据结构，main()函数，写log等等
+2. e">
+<meta property="og:image" content="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/nginx.jpg">
+<meta property="og:updated_time" content="2015-09-20T12:43:01.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="plan">
-<meta name="twitter:description" content="Todo List2015.9.20~2015.9.27123servlet相关Tcp/Ip协议白板编程训练">
+<meta name="twitter:title" content="Nginx源码分析（1）——学习使用nginx">
+<meta name="twitter:description" content="一直以来感觉技术水平偏弱，于是乎，挑了nginx作为练手，希望能通过这个的锻炼，真正切切的提高自己的水平，现在nginx网上的资料已经非常多了，今天就开始做分析nginx的准备工作。
+我的nginx版本：1.2.9
+源码阅读工具：source Insight
+nginx目录源码目录
+1. core　　　　// 是Nginx服务器的主干部分，包含基本数据结构，main()函数，写log等等
+2. e">
   
     <link rel="alternative" href="/atom.xml" title="Long" type="application/atom+xml">
   
@@ -60,14 +76,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-plan" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-nginx-e6-ba-90-e7-a0-81-e5-88-86-e6-9e-90-ef-bc-881-ef-bc-89" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/09/20/plan/" class="article-date">
-  <time datetime="2015-09-20T11:52:45.000Z" itemprop="datePublished">2015-09-20</time>
+    <a href="/2014/01/08/nginx-e6-ba-90-e7-a0-81-e5-88-86-e6-9e-90-ef-bc-881-ef-bc-89/" class="article-date">
+  <time datetime="2014-01-08T05:31:39.000Z" itemprop="datePublished">2014-01-08</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/2015/">2015</a>
+    <a class="article-category-link" href="/categories/nginx/">nginx</a>
   </div>
 
   </div>
@@ -78,7 +94,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      plan
+      Nginx源码分析（1）——学习使用nginx
     </h1>
   
 
@@ -86,11 +102,97 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Todo_List">Todo List</h1><h3 id="2015-9-20~2015-9-27">2015.9.20~2015.9.27</h3><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">servlet</span>相关</span><br><span class="line"><span class="label">Tcp</span>/<span class="literal">Ip</span>协议</span><br><span class="line">白板编程训练</span><br></pre></td></tr></table></figure>
+        <p>一直以来感觉技术水平偏弱，于是乎，挑了nginx作为练手，希望能通过这个的锻炼，真正切切的提高自己的水平，现在nginx网上的资料已经非常多了，今天就开始做分析nginx的准备工作。</p>
+<p>我的nginx版本：1.2.9</p>
+<p>源码阅读工具：source Insight</p>
+<h1 id="nginx目录">nginx目录</h1><p>源码目录</p>
+<p>1. core　　　　// 是Nginx服务器的主干部分，包含基本数据结构，main()函数，写log等等</p>
+<p>2. event　　　 // 事件驱动模型以及相关代码</p>
+<p>3. http　　　　// 不用多解释了，肯定与http的实现相关了</p>
+<p>4. mail　　　　// 邮件代理相关了</p>
+<p>5. misc　　　　//C＋＋兼容性测试和google perftools模块的源码</p>
+<p>6. os　　　　　 // 包装（是包装）了系统的函数调用，Unix网络编程里面把这个方式叫做“包裹函数”</p>
+<p>此外，auto这个文件夹下，都是自动化配置脚本<br>现在我们先来看nginx是如何使用的</p>
+<p><h>nginx配置文件全解</h><br><a href="http://wiki.nginx.org/NginxFullExample" target="_blank" rel="external">官方配置详解</a><br>nginx.conf该文件是启动nginx的主要配置文件</p>
+<pre lang="xml">
+user       www www;  ## Default: nobody
+worker_processes  5;  ## Default: 1
+error_log  logs/error.log;
+pid        logs/nginx.pid;
+worker_rlimit_nofile 8192;
+
+events {
+  worker_connections  4096;  ## Default: 1024
+}
+
+http {
+  include    conf/mime.types;
+  include    /etc/nginx/proxy.conf;
+  include    /etc/nginx/fastcgi.conf;
+  index    index.html index.htm index.php;
+
+  default_type application/octet-stream;
+  log_format   main '$remote_addr - $remote_user [$time_local]  $status '
+    '"$request" $body_bytes_sent "$http_referer" '
+    '"$http_user_agent" "$http_x_forwarded_for"';
+  access_log   logs/access.log  main;
+  sendfile     on;
+  tcp_nopush   on;
+  server_names_hash_bucket_size 128; # this seems to be required for some vhosts
+
+  server { # php/fastcgi
+    listen       80;
+    server_name  domain1.com www.domain1.com;
+    access_log   logs/domain1.access.log  main;
+    root         html;
+
+    location ~ \.php$ {
+      fastcgi_pass   127.0.0.1:1025;
+    }
+  }
+
+  server { # simple reverse-proxy
+    listen       80;
+    server_name  domain2.com www.domain2.com;
+    access_log   logs/domain2.access.log  main;
+
+    # serve static files
+    location ~ ^/(images|javascript|js|css|flash|media|static)/  {
+      root    /var/www/virtual/big.server.com/htdocs;
+      expires 30d;
+    }
+
+    # pass requests for dynamic content to rails/turbogears/zope, et al
+    location / {
+      proxy_pass      http://127.0.0.1:8080;
+    }
+  }
+
+  upstream big_server_com {
+    server 127.0.0.3:8000 weight=5;
+    server 127.0.0.3:8001 weight=5;
+    server 192.168.0.1:8000;
+    server 192.168.0.1:8001;
+  }
+
+  server { # simple load balancing
+    listen          80;
+    server_name     big.server.com;
+    access_log      logs/big.server.access.log main;
+
+    location / {
+      proxy_pass      http://big_server_com;
+    }
+  }
+}
+</pre>
+
+<h1 id="nginx官方教程">nginx官方教程</h1><p><a href="http://nginx.org/en/docs/beginners_guide.html" target="_blank" rel="external">官方教程地址</a><br><a href="http://zt2peilong.sinaapp.com/?p=80" target="_blank" rel="external">nginx如何处理一个请求</a><br>最后附一张nginx大图<br><a href="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/nginx.jpg" target="_blank" rel="external"><img src="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/nginx.jpg" alt="" title="nginx"></a></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/09/20/plan/" data-id="cieshohlw0001e8altzalvnyr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/01/08/nginx-e6-ba-90-e7-a0-81-e5-88-86-e6-9e-90-ef-bc-881-ef-bc-89/" data-id="ciesij9ez000epxalbacxw1ur" class="article-share-link">Share</a>
       
       
     </footer>
@@ -99,10 +201,19 @@
     
 <nav id="article-nav">
   
+    <a href="/2014/01/10/nginx-e5-a6-82-e4-bd-95-e5-a4-84-e7-90-86-e4-b8-80-e4-b8-aa-e8-af-b7-e6-b1-82/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Nginx如何处理一个请求
+        
+      </div>
+    </a>
   
-    <a href="/2015/07/17/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+  
+    <a href="/2013/12/25/e5-a6-82-e4-bd-95-e6-9b-b4-e5-a5-bd-e7-9a-84-e8-af-bb-e6-87-82-e5-88-ab-e4-ba-ba-e7-9a-84c-e4-bb-a3-e7-a0-81/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
+      <div class="article-nav-title">如何更好的读懂别人的C代码</div>
     </a>
   
 </nav>
