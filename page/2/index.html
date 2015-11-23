@@ -112,7 +112,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						
+						<a href="/tags/storage/" style="font-size: 10px;">-storage</a>
 					</div>
 				</section>
 				
@@ -191,6 +191,73 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-e4-b8-80-e8-b5-b7-e6-9d-a5-e7-8e-a9hadoop" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/04/29/e4-b8-80-e8-b5-b7-e6-9d-a5-e7-8e-a9hadoop/" class="article-date">
+  	<time datetime="2014-04-29T15:16:24.000Z" itemprop="datePublished">2014-04-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/04/29/e4-b8-80-e8-b5-b7-e6-9d-a5-e7-8e-a9hadoop/">一起来玩hadoop</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id=""> </h1><pre><code>1 使用百度开放研究社区
+</code></pre><div><br>    <span style="font-size:14px"><br><br>    </span><br></div><br><div><br>    <span style="font-size:14px">百度提供了开放研究社区，这里我们可以用一个百度的hadoop资源，就不需要你自己搭建hadoop了，这多爽啊！下面我们来使用使用这个东西。</span><br></div>
+
+<h2 id="-1"> </h2><h2 id="-2"> </h2><pre><code>1<span class="class">.2</span> 打开百度开放研究社区的<span class="tag">web</span> <span class="tag">Shell</span>
+</code></pre><div><br>    <span style="font-size:14px"><br><br>    </span><br></div><br><div><br>    <span style="font-size:14px">百度提供了一种类似shell的方式来提供交互。</span><br></div><br><div><br>    <span style="font-size:14px">我们在申请账号之后，进入到这个网页去看说明&nbsp;<a href="http://openresearch.baidu.com/activity/platform.jspx" target="_blank" rel="external">http://openresearch.baidu.com/activity/platform.jspx&nbsp;</a></span><br></div>
+
+<h1 id="-3"> </h1><h1 id="-4"> </h1><pre><code>2 使用百度云平台
+</code></pre><div><br>    <span style="font-size:14px"><br><br>    </span><br></div><br><div><br>    <span style="font-size:14px">百度的这个云平台网址是<span style="font-family:times; orphans:0; text-indent:32px; widows:0"><a href="http://cc-ws.baidu.com" target="_blank" rel="external">http://cc-ws.baidu.com</a>，进入web shell之后如下图</span></span><br></div><br><div><br>    <span style="font-family:times; font-size:14px; orphans:0; text-indent:32px; widows:0"><img src="http://img.blog.csdn.net/20140429223342312?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvenBsODkxMDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></span><br></div><br><div><br>    <span style="font-family:times; orphans:0; text-indent:32px; widows:0"><span style="font-size:14px; white-space:pre"></span><span style="font-size:12px">图1 web shell</span></span><br></div><br><div><br>    <span style="font-family:times; orphans:0; text-indent:32px; widows:0"><span style="font-size:14px">这个可以认为是一个类unix的操作界面吧，不过这里只支持这些命令，下面主要讲讲用这个来进行一些hadoop的经典入门——wordCount</span></span><br></div>
+
+<h2 id="-5"> </h2><pre><code><span class="tag">&lt;<span class="title">span</span> <span class="attribute">style</span>=<span class="value">"font-family:times; orphans:0; text-indent:32px; widows:0"</span>&gt;</span><span class="tag">&lt;<span class="title">span</span> <span class="attribute">style</span>=<span class="value">"font-size:14px"</span>&gt;</span>
+
+<span class="tag">&lt;/<span class="title">span</span>&gt;</span><span class="tag">&lt;/<span class="title">span</span>&gt;</span>
+</code></pre><h2 id="-6"> </h2><pre><code><span class="tag">&lt;<span class="title">span</span> <span class="attribute">style</span>=<span class="value">"font-family:times; orphans:0; text-indent:32px; widows:0"</span>&gt;</span><span class="tag">&lt;<span class="title">span</span> <span class="attribute">style</span>=<span class="value">"font-size:14px"</span>&gt;</span>2.1 生成count所需的文件并且上传到百度的hadoop环境<span class="tag">&lt;/<span class="title">span</span>&gt;</span><span class="tag">&lt;/<span class="title">span</span>&gt;</span>
+</code></pre><div><br>    <span style="font-size:14px"><br><br>    </span><br></div><br><div><br>    <span style="font-size:14px">由于这个百度自带的upload和download命令有点不好用，所以我用从自己的百度网盘里面搞数据过来，我在我的网盘里面上传了两个文件f1.txt,f2.txt</span><br></div><br><div><br>    <span style="font-size:14px"></span><br>    <pre lang="shell">hello world<span style="white-space:pre">    </span>#f1.txt</pre><br>    <div><br>        <span style="font-size:14px"><br><br>        </span><br>    </div><br>    <pre lang="shell">hello programmer<span style="white-space:pre">    </span>#f2.txt</pre><br><br>    然后通过命令把文件同步到hdfs上<br></div><br><div><br>    <span style="font-size:14px"></span><br>    &lt;pre lang=”shell””&gt;pan -put ./f*.txt ./input<br>    把网盘的两个文件都同步到hdfs目录下的input目录里面<br></div><br><div><br>    <span style="font-size:14px">然后使用</span><br></div><br><div><br>    <span style="font-size:14px"></span><br>    <pre lang="shell">hadoop fs -ls ./input</pre><br>    查看，结果如下<br></div><br><div><br>    <span style="font-size:14px"><img src="http://img.blog.csdn.net/20140429224934312?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvenBsODkxMDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br><br>    图2 结果已同步到hdfs上（涂掉的部分是我的用户名）<br><br>    </span><br><br>##<br>        <span style="font-size:14px"><br><br>        </span><br><br>##<br>        <span style="font-size:14px">2.2 使用自带的wordcount例子来运行wordcount</span><br><br>    <div><br>        <span style="font-size:14px"><br><br>        </span><br>    </div><br>    <div><br>        <span style="font-size:14px">百度的云平台有三个全局变量，hadoop命令如下介绍</span><br>    </div><br>    <div><br>        <span style="font-size:14px"></span><br>        <pre lang="shell">Hadoop命令<br>■ hadoop: 用于访问Hadoop的功能，其使用方式与命令行使用hadoop的方式一致。对于普通用户权限，其能够使用的hadoop命令包括hadoop fs，hadoop jar，hadoop job等。相对于hadoop命令的本地文件系统的当前路径即为用户的工作目录。为了访问hadoop系统的某些模块，平台也提供了三个变量可以直接使用，包括：$hadoop_home（hadoop系统的根目录）；$hadoop_examples（hadoop-examples-1.0.0.jar的路径），$hadoop_streaming（hadoop-streaming-1.0.0.jar的路径）</pre><br><br>        我们只需要执行下面的命令就可以统计了<br>    </div><br>    <div><br>        <span style="font-size:14px"></span><br>        <pre lang="shell">hadoop jar $hadoop_examples wordcount input output</pre><br>        运行结果如下<br>    </div><br>    <div><br>        <span style="font-size:14px"><img src="http://img.blog.csdn.net/20140429225722859?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvenBsODkxMDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br><br>        图三 这个是wordcount运行结果</span><br>    </div><br>    <div><br>        <span style="font-size:14px">我们进入output文件夹查看结果</span><br>    </div><br>    <div><br>        <span style="font-size:14px"><img src="http://img.blog.csdn.net/20140429230101078?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvenBsODkxMDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br><br>        </span><br>    </div><br>    <div><br>        <span style="font-size:14px">图四 这个是计算出来的结果，结果放在part-r-00000</span><br>    </div><br>    <div><br>        <span style="font-size:14px"><img src="http://img.blog.csdn.net/20140429230337937?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvenBsODkxMDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br><br>        </span><br>    </div><br>    <span style="font-size:14px">这下把这些单词统计过来了。</span><br></div><br><div><br>    <span style="font-size:14px">下次准备在本地写一个本地版本的wordcount，然后上传上来玩玩</span><br></div>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/杂七杂八/">杂七杂八</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
   
     <article id="post-e9-ab-98-e5-8f-af-e7-94-a8mysql-e5-ad-a6-e4-b9-a0-e4-b9-8b-e8-b7-af-ef-bc-88-e4-b8-80-ef-bc-89-e7-8e-af-e5-a2-83-e6-90-ad-e5-bb-bamysql-e5-a4-8d-e5-88-b6" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -1523,197 +1590,6 @@ main()
 </em>   LocalBlockFixer：在RaidNode本地重新计算损坏的块；<br><em>   DistBlockFixer：分配MapReduce任务来重新计算块。<br><br>### RaidShell<br><br>RaidShell是一个允许管理维护和检查DRFS的工具，支持手动触发重新计算坏数据块的命令，允许管理查看不可修复文件列表。<br><br>运行以下命令可以检验文件系统的完整性：<br><pre>$HADOOP_HOME/bin/hadoop org.apache.hadoop.raid.RaidShell -fsck [path]</pre><br>这会打印已损坏文件列表。<br><br>### ErasureCode<br><br>ErasureCode是被BlockFixer和RaiNode用来生成parity块和修改parity/source块的一组件，ErasureCode实现编码和解码。当在编码时，ErasureCode取几个source字节并生成一些parity字节。当在解码时，ErasureCode通过剩余的souce字节和parity字节来生成丢失的字节。<br><br>能被恢复的丢失的字节的个数等于被创建的parity字节的个数。比如，我们把10个source字节编码成3个parity字节，我们能通过剩下的10个字节来恢复任意3个丢失的字节。<br><br>ErasureCode有两种实现：
 
 </em>   XOR：只允许创建一个parity字节；<br>*   Reed-Solomon：允许创建任意给定数目的parity字节。<br>使用Reed-Solomon，source文件的副本数能减少到1而不造成数据丢失。1个块只有1个副本的不足是只能通过1个固定的机器来读取1个块，减少了并行性。因此，Reed-Solomon应该用在不会被频繁使用的数据。<br><br>## 参考资料<br><br>1.  <a href="http://hadoopblog.blogspot.com/2009/08/hdfs-and-erasure-codes-hdfs-raid.html" target="_blank" rel="external">HDFS and Erasure Codes (HDFS-RAID)</a><br>2.  <a href="http://wiki.apache.org/hadoop/HDFS-RAID" target="_blank" rel="external">HDFS-RAID</a><br>3.  <a href="http://www.doc88.com/p-307249898331.html" target="_blank" rel="external">http://www.doc88.com/p-307249898331.html</a><br><br>## 后记<br><br>文中若有错误或疏漏之处，烦请批评指正。<br><br></div>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/杂七杂八/">杂七杂八</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-p2p-e5-af-b9-e7-ad-89-e7-bd-91-e7-bb-9c-e8-af-bb-e5-90-8e-e7-ac-94-e8-ae-b0" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2013/11/08/p2p-e5-af-b9-e7-ad-89-e7-bd-91-e7-bb-9c-e8-af-bb-e5-90-8e-e7-ac-94-e8-ae-b0/" class="article-date">
-  	<time datetime="2013-11-08T02:42:24.000Z" itemprop="datePublished">2013-11-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/11/08/p2p-e5-af-b9-e7-ad-89-e7-bd-91-e7-bb-9c-e8-af-bb-e5-90-8e-e7-ac-94-e8-ae-b0/">P2P对等网络读后笔记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <div class="title"><br>        作者：赵培龙&nbsp;日期：2013/11/8<br>    </div><br>    <div class="title"><br><br>### p2p的研究对象<br><br>    </div><br>    <div class="content"><br><br>        p2p的研究有人说在三个方面:<br><br>1.  实现技术<br>2.  通信模式<br>3.  网络拓扑<br>        我认为这三方面主要就是解决2个问题：<br><br>1.  如何在p2p网络中找到相应的资源<br>2.  如何从找到的资源里得到资源<br>        就是如何找和如何得到的问题的研究。<br><br>        之所以分为上面的三个方面，我个人觉得，网络拓扑就主要是为寻找资源做支撑，通信模式主要是为寻找资源和得到资源做支撑，<br>        实现技术就是讲从网络拓扑、通信模式上如何实现。<br><br>    </div><br>    <div class="content"><br><br>        我们先从p2p的网络拓扑模式说起。<br><br>    </div><br>    <div class="title"><br><br>### P2P网络拓扑的分类和发展<br><br>    </div>
-
-<pre><code>&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"title"</span>&gt;
-</code></pre><h4 id="第一代P2P网络：中央集权">第一代P2P网络：中央集权</h4><pre><code>&lt;/<span class="keyword">div</span>&gt;
-&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"content"</span>&gt;
-
-    第一代P2P网络的代表就是大名鼎鼎的Napster了，这个牛叉的音乐共享软件，掀起了一个共享的时代，让版权商无比头疼的时代。
-
-    第一代P2P网络的特点就是“中央集权”，这种网络有一个中央服务器，这中央服务器是在整个P2P网络中知道全网所有的资源所处的位置，
-    任何一个用户想要得到某个资源只需要向中央服务器问就好了。
-
-    这相当于我们在现实生活中使用搜索引擎达到我们查找网站的目的类似，我们向搜索引擎寻找目标网站的关键字，搜索引擎返回网站的网址，我们然后在直接访问网站。
-
-    这是一种非常朴素的思想，也是一种非常管用而且好实现的思想。
-
-    <span class="keyword">but</span> 这种P2P的网络有个明显的缺点：
-
-    那就是单点瓶颈，很明显，第一代的P2P网络是围绕中央服务器形成的一种星状网络图，只要中央服务器挂了，那么维系这个网络
-    的枢纽节点就没有了，那么这个网络就失效了。
-
-    而且在那个年代，最致命的是这种模式很容易让版权商抓到小辫子，以侵权的借口就可以用法律的手段让这个网络立马陷入瘫痪。
-
-    由于第一代网络的这种巨大软肋，于是出现了和第一代P2P网络完全不同，完全极端的方式的第二代P2P网络。
-
-&lt;/<span class="keyword">div</span>&gt;
-&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"title"</span>&gt;
-</code></pre><h4 id="第二代P2P网络：人民战争">第二代P2P网络：人民战争</h4><pre><code>&lt;/<span class="keyword">div</span>&gt;
-&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"content"</span>&gt;
-
-    由于第一代网络的致命弱点，推动产生了第二代的P2P网络：
-
-    即纯分布式的P2P网络，形象的说就是“人民战争”。
-    这个网络的特点是，完全没有一个中央服务器，甚至连类似中央服务器功能的节点都没有！
-
-    每个参与这个网络的节点功能都完全一模一样。
-
-    每个节点都是随机的加入这个网络，
-    所以可以想象，这样子的网络会是什么样的拓扑结构？完全没有拓扑，完全的随机，网络拓扑是无比的复杂。
-
-    &lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"qustion"</span>&gt;
-        &lt;p&gt;那这样子的网络，他们是如何查找资源呢？
-
-    &lt;/<span class="keyword">div</span>&gt;
-    我们可以联想一下，你面前有<span class="number">100</span>万个人，你现在需要一块钱的硬币，你怎么才能最快的从人群中借到一块钱的硬币？（假设，每个人都是乐于助人的且，不是每个人都有一块钱硬币）
-    最佳的方式应该只有你去问离你最近的人，你最近的人要是没有的话，你周边的人又去问他周边的人，这样子很快这<span class="number">100</span>万人都会知道你需要一块钱的硬币，
-    其中有一块钱的硬币的人就会借给你。（有一个很有意思的模型，叫做小世界模型，大概的意思就是说世界很小，每个不相识的人只需要通过他认识的几个人连续介绍几次就认识了）
-
-    从上面的那个实例里，我们可以抽象成我们的P2P网络，比如我们的P2P网络中有<span class="number">100</span>万个节点，某个节点需要查找某个资源，那么这个节点只有向他周围的节点去问！
-    这就是一种泛洪的思想。只要是网络是连通的，那么总会通知到有这个资源的节点。这样就解决了内容查找的问题了
-
-    <span class="keyword">but</span>，这也有很大的缺点。
-    当这个P2P网络足够大的时候，由于每一个节点都在产生或者转发请求消息，很有可能产生网络风暴，让网络的可用性变差。
-    而且还有一个问题，就是响应风暴，比如我们刚刚举得那个借一块钱的硬币的例子，若是这个<span class="number">100</span>万人之中有<span class="number">50</span>万人有一块钱的硬币，他们直接把硬币向你抛过来，
-    那么可以想象的结果是，你被钱给砸死了！哈哈。
-
-    同理!请求资源的节点也极有可能被热情的群众们给弄死。
-
-    这种纯P2P网络的代表主要有Gnutella
-&lt;/p&gt;
-&lt;/<span class="keyword">div</span>&gt;
-&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"title"</span>&gt;
-</code></pre><h4 id="混合式P2P网络：古人云，中庸之道">混合式P2P网络：古人云，中庸之道</h4><pre><code>&lt;/<span class="keyword">div</span>&gt;
-&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"content"</span>&gt;
-
-        前面的P2P网络都是太过于极端了，要么中央集权，要么就是纯人民路线，人民其实也是需要领导的，在这种要求下，出现了混合式的P2P网络
-
-        即局部是集中式的，整体上还是纯分布式的。
-        这样子就可以大大降低纯分布式的P2P网络的规模，原先是每个节点都为P2P的节点，如今在纯分布式P2P的网络层面上，参与者不在是单个节点了
-        而是有局部的中央节点和围绕中央节点组成的大一撮节点，有点像抱团。
-
-&lt;/<span class="keyword">div</span>&gt;
-&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"title"</span>&gt;
-</code></pre><h4 id="结构化的P2P网络">结构化的P2P网络</h4><pre><code>&lt;/div&gt;
-&lt;<span class="tag">div</span> class=<span class="string">"content"</span>&gt;
-
-    从上面的介绍我们可以看出，P2P网络的一个核心就在于如何定位到资源所在何处，由于这个问题的存在，所以才有中央服务器，或者泛洪查询
-    这些机制，但是这些机制都有着或多或少的缺点，我们从问题的根本上出发，发现有一种数据结构能解决类似的这种问题。
-    那就是哈希表。
-
-    哈希表的特点是：我们计算出哈希值之后就能快速的定位到哈希表了，只要是原始数据一样，那么计算出来的哈希值就是一致的，就能快速定位到
-    哈希表中的相关位置，这样子查询几乎是<span class="function"><span class="title">O</span><span class="params">(<span class="number">1</span>)</span></span>.
-
-    在P2P网络中，我们需要的资源的内容一致，那么我们就可以计算这资源的哈希值，我们希望通过哈希值能够快速定位到拥有资源的节点上。
-    于是产生了DHT（Distribution Hash Table）分布式哈希表。
-
-    从结构上看，DHT主要分为了三个部分
-</code></pre><ol>
-<li><p>key值空间</p>
-<pre><code>    这就是一个哈希值的集合，包含了所有会出现的哈希值。<span class="number">2.</span>  <span class="built_in">key</span>值空间分割
-
-    这个的主要目的是将哈希值分割成若干部分，这是由于P2P网络中的分布式特性决定的，由每一个节点管理一部分哈希值空间，在整体上只要能覆盖全整个哈希值空间就行了<span class="number">3.</span>  延展网路
-我们从DHT发布一个文件名为filename且内容为<span class="built_in">value</span>的文件举个栗子
-</code></pre></li>
-<li><p>计算出文件名filename的哈希值key</p>
-</li>
-<li>使用put(key,value)的方法把这个随机送到参与分布式哈希表中的任意节点上</li>
-<li>信息在网络中传递，一直传到key被管理的节点上</li>
-<li><p>然后最终的节点存储<key,value></key,value></p>
-<pre><code>具体的实现可以详细看看Chord、Pastry、CAN算法
-最后附上一个连接关于一致性哈希[<span class="link_label">一致性哈希</span>](<span class="link_url">http://blog.csdn.net/sparkliang/article/details/5279393</span>)
-</code></pre><p></p>
-<div class="content">
-
-</div></li>
-</ol>
-<p>这里文章我主要是参考了<a href="http://book.douban.com/subject/6559494/" target="_blank" rel="external">P2P对等网络原理与应用/蔡康 … [等] 编著</a> </p>
-<pre><code><span class="tag">&lt;/div&gt;</span>
-</code></pre><style type="text/css">
-.title {
-    width:900px;
-    height:auto;
-    padding:10px;
-    border:5px solid #f7f7f7;
-    border-bottom-width:0;
-    color:#20202F;
-    background-color:#C9FF26;
-    text-align:center;
-}
-.content {
-    width:900px;
-    height:auto;
-    padding:10px;
-    border:5px solid #f7f7f7;
-    border-bottom-width:0;
-    color:#000000;
-    background-color:#f7f7f7;
-    line-height:27px;
-}
-
-.qustion{
-    width:900px;
-    height:auto;
-    border:5px solid #f7f7f7;
-    border-bottom-width:0;
-    color:#000000;
-    background-color:#4C4CFF;
-}
-</style>
       
     </div>
     
