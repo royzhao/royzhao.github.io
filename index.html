@@ -8,7 +8,7 @@
   <meta name="description" content="IF(I_FINISH_MY_WORK) { GOTO NEW_WORK; } ELSE { GOTO WORK_DAY_AND_NIGHT; }">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Long">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://royzhao.github.io/index.html">
 <meta property="og:site_name" content="Long">
 <meta property="og:description" content="IF(I_FINISH_MY_WORK) { GOTO NEW_WORK; } ELSE { GOTO WORK_DAY_AND_NIGHT; }">
 <meta name="twitter:card" content="summary">
@@ -191,6 +191,75 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-存储发展" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/11/25/存储发展/" class="article-date">
+  	<time datetime="2015-11-25T01:41:13.000Z" itemprop="datePublished">2015-11-25</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/11/25/存储发展/">存储发展</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/assets/evolution of storage.png" alt=""></p>
+<h2 id="存储发展">存储发展</h2><h3 id="最初阶段">最初阶段</h3><p>存储设备是放在服务器里面的，随着组织的服务器数目增加，这种方式导致了对数据的不可保护，不可管理，信息孤岛以及增加了操作花销，针对这样的问题，存储技术从非智能的内部存储向智能化的网络存储发展。</p>
+<h3 id="主要包括">主要包括</h3><ul>
+<li>RAID（Redundant Array of Independent Disks）  </li>
+</ul>
+<p>这种技术主要解决数据的性能，花销以及可用性等需求，如今这个技术已经用在了所有的存储架构中</p>
+<ul>
+<li>Direct-attached storage(DAS)  </li>
+</ul>
+<p>这种存储技术是直连服务器，他可以放在服务器的内部也可以放在外部，放在外部的DAS可以减少服务器内部空间</p>
+<ul>
+<li>Storage area network（SAN）<br>这种技术是解决服务器与存储设备的块级别的通信，主要给予Fibre Channel网络（这个是一个高效的传输网络），SAN从服务器中分离出来，SAN了高效的，可扩展的，高可用</li>
+<li>Network-attached storage（NAS）<br>这技术主要解决的是文件服务，不同于SAN，这个是可以通过任意的LAN进行访问，兼容了异构的客户端</li>
+<li>Internet Protocol SAN（IP-SAN）<br>这个是SAN和NAS的融合，他是提供块级别的数据传输，不过可以使用LAN或者WAN来访问</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/storage/">-storage</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
   
     <article id="post-存储入门" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -1256,62 +1325,6 @@ Array
       
 	<div class="article-category tagcloud">
 	<a class="article-category-link" href="/categories/杂七杂八/">杂七杂八</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-linux-e5-a6-82-e4-bd-95-e6-9d-80-e6-ad-bb-e5-83-b5-e5-b0-b8-e8-bf-9b-e7-a8-8b" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/08/07/linux-e5-a6-82-e4-bd-95-e6-9d-80-e6-ad-bb-e5-83-b5-e5-b0-b8-e8-bf-9b-e7-a8-8b/" class="article-date">
-  	<time datetime="2014-08-07T08:26:52.000Z" itemprop="datePublished">2014-08-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/08/07/linux-e5-a6-82-e4-bd-95-e6-9d-80-e6-ad-bb-e5-83-b5-e5-b0-b8-e8-bf-9b-e7-a8-8b/">linux 如何杀死僵尸进程</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>转自blog.51osos.com/linux/linux-how-to-kill-zombie-process/<br>In UNIX System terminology, a process that has terminated,but whose parent has not yet waited for it, is called a zombie.<br>在UNIX 系统中,一个进程结束了,但是他的父进程没有等待(调用wait / waitpid)他, 那么他将变成一个僵尸进程. 在fork()/execve()过程中，假设子进程结束时父进程仍存在，而父进程fork()之前既没安装SIGCHLD信号处理函数调用 waitpid()等待子进程结束，又没有显式忽略该信号，则子进程成为僵尸进程。<br>如何查看linux系统上的僵尸进程，如何统计有多少僵尸进程？</p>
-<h1 id="ps_-ef_|_grep_defunct">ps -ef | grep defunct</h1><p>或者查找状态为Z的进程，Z就是代表zombie process,僵尸进程的意思。<br>另外使用top命令查看时有一栏为S,如果状态为Z说明它就是僵尸进程。<br>Tasks: 95 total, 1 running, 94 sleeping, 0 stopped, 0 zombie<br>top命令中也统计了僵尸进程。或者使用下面的命令：<br>ps -ef | grep defunct | grep -v grep | wc -l<br>如何杀死僵尸进程呢？<br>一般僵尸进程很难直接kill掉，不过您可以kill僵尸爸爸。父进程死后，僵尸进程成为”孤儿进程”，过继给1号进程init，init始终会负责清理僵尸进程．它产生的所有僵尸进程也跟着消失。<br>ps -e -o ppid,stat | grep Z | cut -d” ” -f2 | xargs kill -9<br>或<br>kill -HUP <code>ps -A -ostat,ppid | grep -e ’^[Zz]‘ | awk ’{print $2}’</code><br>当然您可以自己编写更好的shell脚本，欢迎与大家分享。<br>另外子进程死后，会发送SIGCHLD信号给父进程，父进程收到此信号后，执行waitpid()函数为子进程收尸。就是基于这样的原理：就算父进程没有调用wait，内核也会向它发送SIGCHLD消息，而此时，尽管对它的默认处理是忽略，如果想响应这个消息，可以设置一个处理函数。<br>如何避免僵尸进程呢？<br>处理SIGCHLD信号并不是必须的。但对于某些进程，特别是服务器进程往往在请求到来时生成子进程处理请求。如果父进程不等待子进程结 束，子进程将成为僵尸进程（zombie）从而占用系统资源。如果父进程等待子进程结束，将增加父进程的负担，影响服务器进程的并发性能。在Linux下 可以简单地将 SIGCHLD信号的操作设为SIG_IGN。<br>signal(SIGCHLD,SIG_IGN);<br>这样，内核在子进程结束时不会产生僵尸进程。这一点与BSD4不同，BSD4下必须显式等待子进程结束才能释放僵尸进程<br>或者<br>用两次fork()，而且使紧跟的子进程直接退出，是的孙子进程成为孤儿进程，从而init进程将负责清除这个孤儿进程。<br>本文水平有限，关于zombie更深层次的理解欢迎在评论中与大家分享。<br>Tags: zombie<br>wmflw on 2013 年 9 月 25 日 at 下午 4:21 said:<br>ps -ef | grep defunct | grep -v grep | awk ‘{print “kill -9 “ $2,$3}’<br>一条自动命令，试了下还不错的</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/杂七杂八/">杂七杂八</a><a class="article-category-link" href="/categories/杂七杂八/网摘/">网摘</a>
 	</div>
 
 
