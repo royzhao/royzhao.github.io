@@ -52,11 +52,6 @@
 							<div class="ribbon"></div>
 						</div>
 						
-						<div class="icon-wrap icon-link hide" data-idx="2">
-							<div class="loopback_l"></div>
-							<div class="loopback_r"></div>
-						</div>
-						
 						
 						<div class="icon-wrap icon-me hide" data-idx="3">
 							<div class="user"></div>
@@ -71,8 +66,6 @@
 					<ul class="tips-inner">
 						<li>菜单</li>
 						<li>标签</li>
-						
-						<li>友情链接</li>
 						
 						
 						<li>关于我</li>
@@ -116,30 +109,12 @@
 				
 				
 				
-				<section class="switch-part switch-part3">
-					<div id="js-friends">
-					
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
-			        
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
-			        
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
-			        
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
-			        
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
-			        
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
-			        
-			        </div>
-				</section>
-				
 
 				
 				
-				<section class="switch-part switch-part4">
+				<section class="switch-part switch-part3">
 				
-					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…</div>
+					<div id="js-aboutme">骚年，你好</div>
 				</section>
 				
 			</div>
@@ -187,6 +162,230 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-nginx-e6-ba-90-e7-a0-81-e5-88-86-e6-9e-90-ef-bc-881-ef-bc-89" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/01/08/nginx-e6-ba-90-e7-a0-81-e5-88-86-e6-9e-90-ef-bc-881-ef-bc-89/" class="article-date">
+  	<time datetime="2014-01-08T05:31:39.000Z" itemprop="datePublished">2014-01-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/01/08/nginx-e6-ba-90-e7-a0-81-e5-88-86-e6-9e-90-ef-bc-881-ef-bc-89/">Nginx源码分析（1）——学习使用nginx</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一直以来感觉技术水平偏弱，于是乎，挑了nginx作为练手，希望能通过这个的锻炼，真正切切的提高自己的水平，现在nginx网上的资料已经非常多了，今天就开始做分析nginx的准备工作。</p>
+<p>我的nginx版本：1.2.9</p>
+<p>源码阅读工具：source Insight</p>
+<h1 id="nginx目录">nginx目录</h1><p>源码目录</p>
+<p>1. core　　　　// 是Nginx服务器的主干部分，包含基本数据结构，main()函数，写log等等</p>
+<p>2. event　　　 // 事件驱动模型以及相关代码</p>
+<p>3. http　　　　// 不用多解释了，肯定与http的实现相关了</p>
+<p>4. mail　　　　// 邮件代理相关了</p>
+<p>5. misc　　　　//C＋＋兼容性测试和google perftools模块的源码</p>
+<p>6. os　　　　　 // 包装（是包装）了系统的函数调用，Unix网络编程里面把这个方式叫做“包裹函数”</p>
+<p>此外，auto这个文件夹下，都是自动化配置脚本<br>现在我们先来看nginx是如何使用的</p>
+<p><h>nginx配置文件全解</h><br><a href="http://wiki.nginx.org/NginxFullExample" target="_blank" rel="external">官方配置详解</a><br>nginx.conf该文件是启动nginx的主要配置文件</p>
+<pre lang="xml">
+user       www www;  ## Default: nobody
+worker_processes  5;  ## Default: 1
+error_log  logs/error.log;
+pid        logs/nginx.pid;
+worker_rlimit_nofile 8192;
+
+events {
+  worker_connections  4096;  ## Default: 1024
+}
+
+http {
+  include    conf/mime.types;
+  include    /etc/nginx/proxy.conf;
+  include    /etc/nginx/fastcgi.conf;
+  index    index.html index.htm index.php;
+
+  default_type application/octet-stream;
+  log_format   main '$remote_addr - $remote_user [$time_local]  $status '
+    '"$request" $body_bytes_sent "$http_referer" '
+    '"$http_user_agent" "$http_x_forwarded_for"';
+  access_log   logs/access.log  main;
+  sendfile     on;
+  tcp_nopush   on;
+  server_names_hash_bucket_size 128; # this seems to be required for some vhosts
+
+  server { # php/fastcgi
+    listen       80;
+    server_name  domain1.com www.domain1.com;
+    access_log   logs/domain1.access.log  main;
+    root         html;
+
+    location ~ \.php$ {
+      fastcgi_pass   127.0.0.1:1025;
+    }
+  }
+
+  server { # simple reverse-proxy
+    listen       80;
+    server_name  domain2.com www.domain2.com;
+    access_log   logs/domain2.access.log  main;
+
+    # serve static files
+    location ~ ^/(images|javascript|js|css|flash|media|static)/  {
+      root    /var/www/virtual/big.server.com/htdocs;
+      expires 30d;
+    }
+
+    # pass requests for dynamic content to rails/turbogears/zope, et al
+    location / {
+      proxy_pass      http://127.0.0.1:8080;
+    }
+  }
+
+  upstream big_server_com {
+    server 127.0.0.3:8000 weight=5;
+    server 127.0.0.3:8001 weight=5;
+    server 192.168.0.1:8000;
+    server 192.168.0.1:8001;
+  }
+
+  server { # simple load balancing
+    listen          80;
+    server_name     big.server.com;
+    access_log      logs/big.server.access.log main;
+
+    location / {
+      proxy_pass      http://big_server_com;
+    }
+  }
+}
+</pre>
+
+<h1 id="nginx官方教程">nginx官方教程</h1><p><a href="http://nginx.org/en/docs/beginners_guide.html" target="_blank" rel="external">官方教程地址</a><br><a href="http://zt2peilong.sinaapp.com/?p=80" target="_blank" rel="external">nginx如何处理一个请求</a><br>最后附一张nginx大图<br><a href="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/nginx.jpg" target="_blank" rel="external"><img src="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/nginx.jpg" alt="" title="nginx"></a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/nginx/">nginx</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-e5-a6-82-e4-bd-95-e6-9b-b4-e5-a5-bd-e7-9a-84-e8-af-bb-e6-87-82-e5-88-ab-e4-ba-ba-e7-9a-84c-e4-bb-a3-e7-a0-81" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/12/25/e5-a6-82-e4-bd-95-e6-9b-b4-e5-a5-bd-e7-9a-84-e8-af-bb-e6-87-82-e5-88-ab-e4-ba-ba-e7-9a-84c-e4-bb-a3-e7-a0-81/" class="article-date">
+  	<time datetime="2013-12-25T14:06:11.000Z" itemprop="datePublished">2013-12-25</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/12/25/e5-a6-82-e4-bd-95-e6-9b-b4-e5-a5-bd-e7-9a-84-e8-af-bb-e6-87-82-e5-88-ab-e4-ba-ba-e7-9a-84c-e4-bb-a3-e7-a0-81/">如何更好的读懂别人的C代码</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在我们向程序猿进军的过程中阅读别人的代码总是难以避免的，我们常常都喜欢阅读自己的代码而不喜欢阅读别人的代码，归根结底都是由于人与人之间的思维不太可能完全一样，这种思维之间的差异造成了阅读别人代码的障碍。</p>
+<p>在我阅读别人的代码过程中，最让我痛苦的事儿就是每一个语法我都认识，但是我就不知道他想干什么！但是，如果代码的作者把他的思路告诉了你，给你画了流程图什么的，你就会较为容易的阅读源代码了，这个就是文档的重要性。因为文档给了你大致的方向，你可以从宏观的角度去审视代码，而不是陷于代码细节之中，让自己一阵阵头大。</p>
+<p>我今天写这篇博文的原因只有一个，我发现了一种可以分析代码之间相互调用的工具，而且这种工具还是DIY的，让我震惊了一小把</p>
+<p>虽然是别人05年写的这篇文章<a href="http://www.ibm.com/developerworks/cn/linux/l-graphvis/">《用Graphviz可视化函数调用》</a>，但是不得不说，这个东西真的很有用，今天晚上实验了一下，效果很不错，下面是我自动生成的调用关系图：</p>
+<pre><code>[<span class="link_label">![</span>](<span class="link_url">http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2013/12/graph.jpg "graph"</span>)](<span class="link_url">http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2013/12/graph.jpg</span>)
+</code></pre><p>代码如下：</p>
+<pre lang="c">
+#include<stdio.h>
+
+void level2()
+{
+    printf("f1\n");
+}
+
+void level1()
+{
+    printf("f2\n");
+    level2();
+}
+
+main()
+{
+    level2();
+    level1();
+}
+
+</pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/杂七杂八/">杂七杂八</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2013/12/25/e5-a6-82-e4-bd-95-e6-9b-b4-e5-a5-bd-e7-9a-84-e8-af-bb-e6-87-82-e5-88-ab-e4-ba-ba-e7-9a-84c-e4-bb-a3-e7-a0-81/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
   
     <article id="post-hdfs-raid" class="article article-type-post" itemscope itemprop="blogPost">
   
