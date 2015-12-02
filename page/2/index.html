@@ -163,6 +163,483 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-ubuntu14-04-e5-8d-b8-e8-bd-bd-e8-be-93-e5-85-a5-e6-b3-95-e5-90-8e-e5-be-aa-e7-8e-af-e7-99-bb-e5-bd-95-e4-b8-80-e7-9b-b4-e8-b7-b3-e5-88-b0-e7-99-bb-e5-bd-95-e7-95-8c-e9-9d-a2" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/03/30/ubuntu14-04-e5-8d-b8-e8-bd-bd-e8-be-93-e5-85-a5-e6-b3-95-e5-90-8e-e5-be-aa-e7-8e-af-e7-99-bb-e5-bd-95-e4-b8-80-e7-9b-b4-e8-b7-b3-e5-88-b0-e7-99-bb-e5-bd-95-e7-95-8c-e9-9d-a2/" class="article-date">
+  	<time datetime="2015-03-30T00:04:23.000Z" itemprop="datePublished">2015-03-30</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/30/ubuntu14-04-e5-8d-b8-e8-bd-bd-e8-be-93-e5-85-a5-e6-b3-95-e5-90-8e-e5-be-aa-e7-8e-af-e7-99-bb-e5-bd-95-e4-b8-80-e7-9b-b4-e8-b7-b3-e5-88-b0-e7-99-bb-e5-bd-95-e7-95-8c-e9-9d-a2/">UBUNTU14.04 卸载输入法后循环登录一直跳到登录界面</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>转自<a href="http://ijuer.cn/blog/313.html" target="_blank" rel="external">http://ijuer.cn/blog/313.html</a></p>
+<pre><code>今天看到 <span class="tag">Ubuntu</span> 下期待已久的搜狗拼音输入法更新到了 1<span class="class">.2</span> 版本，就激动的下载安装了，谁知安装后还是各种的不爽，接着就卸载了，一并卸载了&amp;<span class="tag">nbsp</span>;<span class="tag">fcitx</span> ，重启完机器后。。。。。。。。问题来了。
+
+在登录界面输入正确的用户名和密码，显示器黑屏一下，然后重新跳转回登录界面。重启无效。一直循环在登录界面。
+
+通过在网上查找。发现这个问题有不少人遇到，但是都没有真正的解决问题，大家说的最多的造成该情况的原因是 主目录下的<span class="class">.Xauthority</span>文件拥有者变成了<span class="tag">root</span>，从而以用户登陆的时候无法都取<span class="class">.Xauthority</span>文件。
+
+解决方法是将<span class="class">.Xauthority</span>的拥有者改为登陆用户（或者干脆将<span class="class">.Xauthority</span>删除）
+
+步骤：
+</code></pre><p>开机后在登陆界面按下shift + ctrl + F1进入tty命令行终端登陆后输入：</p>
+<pre>$ cd ~</pre>
+<pre>$ sudo chown user:user .Xauthority (注：user为要登录的用户名)</pre>
+<pre>ls .Xauthority -l</pre>
+<pre>-rw------- 1 user user 80 &nbsp;1月 27 10:41 .Xauthority</pre>
+
+<pre><code>此时拥有者已经变为用户。按下shift + ctrl + <span class="literal">F7</span>切换回图形登陆界面登陆即可。
+
+在本人满怀欣喜的按照步骤操作之后，发现，问题果然没有解决。看来不是 Xauthority 的原因！
+
+由于是卸载完搜狗拼音和 fcitx 后出现的问题，感觉一定和 fcitx 有一定的关系，应该是没卸载干净，或者在卸载 fcitx 的时候误删了 ibus 的配置，然后决定按照推测试一下，执行命令：
+</code></pre><pre>dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P</pre>
+
+<pre><code>该命令为清除所有已删除包的残馀配置文件，发现果然有 fcitx 的残馀配置文件被清除，然后重启系统，输入密码，问题果然解决！！！
+
+最后提醒大家：输入法有风险，安装需谨慎！！！
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/杂七杂八/">杂七杂八</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-http-e5-8d-8f-e8-ae-ae" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/01/19/http-e5-8d-8f-e8-ae-ae/" class="article-date">
+  	<time datetime="2015-01-19T04:00:45.000Z" itemprop="datePublished">2015-01-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/19/http-e5-8d-8f-e8-ae-ae/">http协议</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Quick_reminder_about_HTTP">Quick reminder about HTTP</h1><div><br><pre>When haproxy is running in HTTP mode, both the request and the response are<br>fully analyzed and indexed, thus it becomes possible to build matching criteria<br>on almost anything found in the contents.</pre><br><pre>当haproxy运行在HTTP mode的时候，它会把所有的响应以及请求都会分析和建索引，这样才能够让匹配内容中的关键信息成为可能</pre><br><pre>However, it is important to understand how HTTP requests and responses are<br>formed, and how HAProxy decomposes them. It will then become easier to write<br>correct rules and to debug existing configurations.</pre><br><pre>然后，我们需要要理解http的请求和响应的格式记忆haproxy是如何解析他们的，这样我们才能更加正确和简便的写出正确的规则以及调试现有的配置文件</pre><br></div><br><a id="1.1" name="1.1"></a><br><br>## <small><a href="http://cbonte.github.io/haproxy-dconv/configuration-1.6.html#1.1" target="_blank" rel="external">1.1.</a></small> The HTTP transaction model<br><br><div><br><pre>The HTTP protocol is transaction-driven. This means that each request will lead<br>to one and only one response. Traditionally, a TCP connection is established<br>from the client to the server, a request is sent by the client on the<br>connection, the server responds and the connection is closed. A new request<br>will involve a new connection :<br><br>  [CON1] [REQ1] … [RESP1] [CLO1] [CON2] [REQ2] … [RESP2] [CLO2] …<br><br>In this mode, called the “HTTP close” mode, there are as many connection<br>establishments as there are HTTP transactions. Since the connection is closed<br>by the server after the response, the client does not need to know the content<br>length.</pre><br><pre>http协议时事物驱动的，这意味这每一个请求都会导致有且仅有一个响应。一般来说，一个TCP链接是客户端和服务器之间建立的双向链接，一个客户端的请求在这个链路上被发送，服务器会返回一个响应，然后关闭这个链接，一个请求就会有一个新的链接，就如下一样</pre><br><pre>  [CON1] [REQ1] … [RESP1] [CLO1] [CON2] [REQ2] … [RESP2] [CLO2] …</pre><br><pre>这种模式叫做“HTTP close”模式，当HTTP事物开始的时候会建立很多次的链接。当服务器返回请求后链接被其关闭客户端并不需要知道内容的长度。</pre><br><pre>Due to the transactional nature of the protocol, it was possible to improve it<br>to avoid closing a connection between two subsequent transactions. In this mode<br>however, it is mandatory that the server indicates the content length for each<br>response so that the client does not wait indefinitely. For this, a special<br>header is used: “Content-length”. This mode is called the “keep-alive” mode :<br><br>  [CON] [REQ1] … [RESP1] [REQ2] … [RESP2] [CLO] …</pre><br><pre>根据这种协议的特性，我们可以在两次连续的事物之间避免关闭tcp链接来提升性能。在这种模式下，必须让服务器强制性的设定每个响应的内容长度，这样才能让客户端无限制的等待。为了达到这个目标，一个特殊的头将会被用到“Content-length”。这个模式叫做“keep-alive”模式</pre><br><pre>  [CON] [REQ1] … [RESP1] [REQ2] … [RESP2] [CLO] …</pre><br><pre>Its advantages are a reduced latency between transactions, and less processing<br>power required on the server side. It is generally better than the close mode,<br>but not always because the clients often limit their concurrent connections to<br>a smaller value.</pre><br><pre>keep-alive模式效的减少了两个事物之间的延迟，且可以让服务器提升性能，一般情况下这种模式比close模式好很多，但也不是总是，因为客户端经常会限制并发连接数在一个很小的值上。<br><br>A last improvement in the communications is the pipelining mode. It still uses<br>keep-alive, but the client does not wait for the first response to send the<br>second request. This is useful for fetching large number of images composing a<br>page :<br><br>  [CON] [REQ1] [REQ2] … [RESP1] [RESP2] [CLO] …</pre><br><pre>为了解决这个问题，我们可以使用一种叫做pipelining的模式，它使用了keep-alive，客户端在发送第二个请求的时候就不需要等待第一个请求的响应了。这个在其请求页面上有大量的图片的时候很有用。</pre><br><pre>This can obviously have a tremendous benefit on performance because the network<br>latency is eliminated between subsequent requests. Many HTTP agents do not<br>correctly support pipelining since there is no way to associate a response with<br>the corresponding request in HTTP. For this reason, it is mandatory for the<br>server to reply in the exact same order as the requests were received.<br>这明显在性能上有明显的提升，因为连个请求之间的网络延迟被消灭了。许多http代理不能正确的支持pipelining，因为他们没有办法把响应和正确的请求联系起来。因为这个原因，服务器必须按照请求的顺序进行响应。</pre><br><pre>By default HAProxy operates in keep-alive mode with regards to persistent<br>connections: for each connection it processes each request and response, and<br>leaves the connection idle on both sides between the end of a response and the<br>start of a new request.</pre><br><pre>haproxy默认使用的时keep-alive的模式：对于每一个链接，它接受一个请求就处理一个请求，链接会在结束响应之后和新开始一个请求之间的时间内处于空闲。</pre><br><pre>HAProxy supports 5 connection modes :<br>  - keep alive    : all requests and responses are processed (default)<br>  - tunnel        : only the first request and response are processed,<br>                    everything else is forwarded with no analysis.<br>  - passive close : tunnel with “Connection: close” added in both directions.<br>  - server close  : the server-facing connection is closed after the response.<br>  - forced close  : the connection is actively closed after end of response.</pre><br><pre>haproxy支持5种链接模式</pre><br><pre>-keep alive:所已有的请求和响应都会被处理</pre><br><pre>-tunnel     :只有第一个请求和响应会被处理，其余的直接转发，不会被分析</pre><br><pre>-passive close：tunnel with “connection：close” added in both directions</pre><br><pre>-server close：the server-facing connection is closed after the response.</pre><br><pre>-forced close：在响应结束后链接会被关闭</pre><br></div><br><a id="1.2" name="1.2"></a><br><br>## <small><a href="http://cbonte.github.io/haproxy-dconv/configuration-1.6.html#1.2" target="_blank" rel="external">1.2.</a></small> HTTP request<br><br><div><br><pre>First, let’s consider this HTTP request :<br><br>  Line     Contents<br>  number<br>     1     GET /serv/login.php?lang=en&amp;profile=2 HTTP/1.1<br>     2     Host: www.mydomain.com<br>     3     User-agent: my small browser<br>     4     Accept: image/jpeg, image/gif<br>     5     Accept: image/png</pre><br><pre>首先，我们来考虑下HTTP请求：</pre><br><pre>  Line     Contents<br>  number<br>     1     GET /serv/login.php?lang=en&amp;profile=2 HTTP/1.1<br>     2     Host: www.mydomain.com<br>     3     User-agent: my small browser<br>     4     Accept: image/jpeg, image/gif<br>     5     Accept: image/png</pre><br></div><br><a id="1.2.1" name="1.2.1"></a><br><br>### <small><a href="http://cbonte.github.io/haproxy-dconv/configuration-1.6.html#1.2.1" target="_blank" rel="external">1.2.1.</a></small> The Request line<br><br><div><br><pre>Line 1 is the “request line”. It is always composed of 3 fields :<br>第一行时请求行，一般由三个部分组成<br>  - a METHOD      : GET<br>  - a URI         : /serv/login.php?lang=en&amp;profile=2<br>  - a version tag : HTTP/1.1<br><br>All of them are delimited by what the standard calls LWS (linear white spaces),<br>which are commonly spaces, but can also be tabs or line feeds/carriage returns<br>followed by spaces/tabs. The method itself cannot contain any colon (‘:’) and<br>is limited to alphabetic letters. All those various combinations make it<br>desirable that HAProxy performs the splitting itself rather than leaving it to<br>the user to write a complex or inaccurate regular expression.<br>这些都被叫做LWS（Linear white spaces，其实一般就是空格）的标准分割开。</pre><br><pre>方法：不能有任何的冒号，它被限制在字母表中的字符。</pre><br><pre>所有的这些不同组合在一起，可以让haproxy分析它，而不是让用户写复杂的正则表达式。</pre><br><pre>The URI itself can have several forms :<br><br>  - A “relative URI” :<br><br>      /serv/login.php?lang=en&amp;profile=2<br><br>    It is a complete URL without the host part. This is generally what is<br>    received by servers, reverse proxies and transparent proxies.<br><br>  - An “absolute URI”, also called a “URL” :<br><br>      <a href="http://192.168.0.12:8080/serv/login.php?lang=en&amp;profile=2" target="_blank" rel="external">http://192.168.0.12:8080/serv/login.php?lang=en&amp;profile=2</a><br><br>    It is composed of a “scheme” (the protocol name followed by ‘://‘), a host<br>    name or address, optionally a colon (‘:’) followed by a port number, then<br>    a relative URI beginning at the first slash (‘/‘) after the address part.<br>    This is generally what proxies receive, but a server supporting HTTP/1.1<br>    must accept this form too.<br>URI：有两种格式</pre><br><pre>第一种时相对路径的URI，如下</pre><br><pre>/serv/login.php?lang=en&amp;profile=2</pre><br><pre>这种是不需要域名部分的，这一般都是服务器/反向代理/透明代理接受到的样子</pre><br><pre>还有一种时绝对路径叫做URL，如下</pre><br><pre><a href="http://xxx.com/serv/login.php?lang=en&amp;profile=2" target="_blank" rel="external">http://xxx.com/serv/login.php?lang=en&amp;profile=2</a></pre><br><pre>这被一个scheme压缩（协议名字在://前面）</pre><br><pre>  - a star (‘*’) : this form is only accepted in association with the OPTIONS<br>    method and is not relayable. It is used to inquiry a next hop’s<br>    capabilities.<br><br>  - an address:port combination : 192.168.0.12:80<br>    This is used with the CONNECT method, which is used to establish TCP<br>    tunnels through HTTP proxies, generally for HTTPS, but sometimes for<br>    other protocols too.<br><br>In a relative URI, two sub-parts are identified. The part before the question<br>mark is called the “<a href="http://cbonte.github.io/haproxy-dconv/configuration-1.6.html#path" target="_blank" rel="external">path</a>“. It is typically the relative path to static objects<br>on the server. The part after the question mark is called the “query string”.<br>It is mostly used with GET requests sent to dynamic scripts and is very<br>specific to the language, framework or application in use.</pre><br></div><br><a id="1.2.2" name="1.2.2"></a><br><br>### <small><a href="http://cbonte.github.io/haproxy-dconv/configuration-1.6.html#1.2.2" target="_blank" rel="external">1.2.2.</a></small> The request headers<br><br><div><br><pre>The headers start at the second line. They are composed of a name at the<br>beginning of the line, immediately followed by a colon (‘:’). Traditionally,<br>an LWS is added after the colon but that’s not required. Then come the values.<br>Multiple identical headers may be folded into one single line, delimiting the<br>values with commas, provided that their order is respected. This is commonly<br>encountered in the “Cookie:” field. A header may span over multiple lines if<br>the subsequent lines begin with an LWS. In the example in 1.2, lines 4 and 5<br>define a total of 3 values for the “Accept:” header.</pre><br><pre>请求头从第二行开始，都是由一个语法时name: value1,value2<br><br>Contrary to a common mis-conception, header names are not case-sensitive, and<br>their values are not either if they refer to other header names (such as the<br>“Connection:” header).</pre><br><pre>http头的名字都不是大小写敏感的，当它的值引用其他的头的名字时，也不大小写敏感</pre><br><pre>The end of the headers is indicated by the first empty line. People often say<br>that it’s a double line feed, which is not exact, even if a double line feed<br>is one valid form of empty line.<br>头的结束时有一个空的行来表示</pre><br><pre>Fortunately, HAProxy takes care of all these complex combinations when indexing<br>headers, checking values and counting them, so there is no reason to worry<br>about the way they could be written, but it is important not to accuse an<br>application of being buggy if it does unusual, valid things.<br>幸运的时，haprxy对这些复杂的组合都会认证的建索引，检查值和对他们进行计数。<br>Important note:<br>   As suggested by RFC2616, HAProxy normalizes headers by replacing line breaks<br>   in the middle of headers by LWS in order to join multi-line headers. This<br>   is necessary for proper analysis and helps less capable HTTP parsers to work<br>   correctly and not to be fooled by such complex constructs.</pre><br></div><br><a id="1.3" name="1.3"></a><br><br>## <small><a href="http://cbonte.github.io/haproxy-dconv/configuration-1.6.html#1.3" target="_blank" rel="external">1.3.</a></small> HTTP response<br><br><div><br><pre>An HTTP response looks very much like an HTTP request. Both are called HTTP<br>messages. Let’s consider this HTTP response :<br>一个http响应比较像http的请求，都叫做http消息<br>  Line     Contents<br>  number<br>     1     HTTP/1.1 200 OK<br>     2     Content-length: 350<br>     3     Content-Type: text/html<br><br>As a special case, HTTP supports so called “Informational responses” as status<br>codes 1xx. These messages are special in that they don’t convey any part of the<br>response, they’re just used as sort of a signaling message to ask a client to<br>continue to post its request for instance. In the case of a status 100 response<br>the requested information will be carried by the next non-100 response message<br>following the informational one. This implies that multiple responses may be<br>sent to a single request, and that this only works when keep-alive is enabled<br>(1xx messages are HTTP/1.1 only). HAProxy handles these messages and is able to<br>correctly forward and skip them, and only process the next non-100 response. As<br>such, these messages are neither logged nor transformed, unless explicitly<br>state otherwise. Status 101 messages indicate that the protocol is changing<br>over the same connection and that haproxy must switch to tunnel mode, just as<br>if a CONNECT had occurred. Then the Upgrade header would contain additional<br>information about the type of protocol the connection is switching to.</pre><br></div><br><a id="1.3.1" name="1.3.1"></a><br><br>### <small><a href="http://cbonte.github.io/haproxy-dconv/configuration-1.6.html#1.3.1" target="_blank" rel="external">1.3.1.</a></small> The Response line<br><br><div><br><pre>Line 1 is the “response line”. It is always composed of 3 fields :<br><br>  - a version tag : HTTP/1.1<br>  - a status code : 200<br>  - a reason      : OK<br><br>The status code is always 3-digit. The first digit indicates a general status :<br> - 1xx = informational message to be skipped (eg: 100, 101)<br> - 2xx = OK, content is following   (eg: 200, 206)<br> - 3xx = OK, no content following   (eg: 302, 304)<br> - 4xx = error caused by the client (eg: 401, 403, 404)<br> - 5xx = error caused by the server (eg: 500, 502, 503)<br><br>Please refer to RFC2616 for the detailed meaning of all such codes. The<br>“reason” field is just a hint, but is not parsed by clients. Anything can be<br>found there, but it’s a common practice to respect the well-established<br>messages. It can be composed of one or multiple words, such as “OK”, “Found”,<br>or “Authentication Required”.<br><br>Haproxy may emit the following status codes by itself :<br><br>  Code  When / reason<br>   200  access to stats page, and when replying to monitoring requests<br>   301  when performing a redirection, depending on the configured code<br>   302  when performing a redirection, depending on the configured code<br>   303  when performing a redirection, depending on the configured code<br>   307  when performing a redirection, depending on the configured code<br>   308  when performing a redirection, depending on the configured code<br>   400  for an invalid or too large request<br>   401  when an authentication is required to perform the action (when<br>        accessing the stats page)<br>   403  when a request is forbidden by a “<a href="http://cbonte.github.io/haproxy-dconv/configuration-1.6.html#block" target="_blank" rel="external">block</a>“ ACL or “<a href="http://cbonte.github.io/haproxy-dconv/configuration-1.6.html#reqdeny" target="_blank" rel="external">reqdeny</a>“ filter<br>   408  when the request timeout strikes before the request is complete<br>   500  when haproxy encounters an unrecoverable internal error, such as a<br>        memory allocation failure, which should never happen<br>   502  when the server returns an empty, invalid or incomplete response, or<br>        when an “<a href="http://cbonte.github.io/haproxy-dconv/configuration-1.6.html#rspdeny" target="_blank" rel="external">rspdeny</a>“ filter blocks the response.<br>   503  when no server was available to handle the request, or in response to<br>        monitoring requests which match the “<a href="http://cbonte.github.io/haproxy-dconv/configuration-1.6.html#monitor%20fail" target="_blank" rel="external">monitor fail</a>“ condition<br>   504  when the response timeout strikes before the server responds<br><br>The error 4xx and 5xx codes above may be customized (see “<a href="http://cbonte.github.io/haproxy-dconv/configuration-1.6.html#errorloc" target="_blank" rel="external">errorloc</a>“ in section<br>4.2).</pre><br></div><br><a id="1.3.2" name="1.3.2"></a><br><br>### <small><a href="http://cbonte.github.io/haproxy-dconv/configuration-1.6.html#1.3.2" target="_blank" rel="external">1.3.2.</a></small> The response headers<br><br><div><br><pre>Response headers work exactly like request headers, and as such, HAProxy uses<br>the same parsing function for both. Please refer to paragraph 1.2.2 for more<br>details.</pre><br></div>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/未分类/">未分类</a><a class="article-category-link" href="/categories/未分类/杂七杂八/">杂七杂八</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-haproxy-e7-ae-80-e5-8d-95-e4-bd-bf-e7-94-a8http-e7-bf-bb-e8-af-91-e8-87-aadigitalocean" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/01/16/haproxy-e7-ae-80-e5-8d-95-e4-bd-bf-e7-94-a8http-e7-bf-bb-e8-af-91-e8-87-aadigitalocean/" class="article-date">
+  	<time datetime="2015-01-16T14:14:07.000Z" itemprop="datePublished">2015-01-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/16/haproxy-e7-ae-80-e5-8d-95-e4-bd-bf-e7-94-a8http-e7-bf-bb-e8-af-91-e8-87-aadigitalocean/">haproxy简单使用http-翻译自digitalocean</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>原文链接：<a href="https://www.digitalocean.com/community/tutorials/how-to-use-haproxy-to-set-up-http-load-balancing-on-an-ubuntu-vps" target="_blank" rel="external">https://www.digitalocean.com/community/tutorials/how-to-use-haproxy-to-set-up-http-load-balancing-on-an-ubuntu-vps</a></p>
+<h2 id="准备工作">准备工作</h2><p>3个节点</p>
+<p>1. node1</p>
+<p>hostname:haproxy</p>
+<p>os：ubuntu</p>
+<p>ip:10.0.0.100</p>
+<p>2.node2</p>
+<p>hostname lamp1</p>
+<p>ip:10.0.0.1</p>
+<p>3.node3</p>
+<p>hostname lamp2</p>
+<p>ip:10.0.0.2</p>
+<h2 id="安装HAProxy">安装HAProxy</h2><p>1.直接使用apt-get安装</p>
+<blockquote>
+<p>apt-get install haproxy<br>2.安装完成之后，我们打开/etc/default/haproxy把ENABLED设置为1</p>
+</blockquote>
+<h2 id="配置HAProxy">配置HAProxy</h2><p>1.进入到/etc/haproxy里新建haproxy.cfg</p>
+<p>2.打开haproxy.cfg，我们一部分一部分的向里面加入</p>
+<p>2.1 首先加入如下配置</p>
+<blockquote>
+<p>global</p>
+<p>log 127.0.0.1 local0 notice</p>
+<p>maxconn 2000</p>
+<p>user haproxy</p>
+<p>group haproxy</p>
+</blockquote>
+<p>log指令的意思是告诉haproxy把系统日志发送到哪一台的syslog服务器，ubuntu里面的sysslog当然是运行着的，但是它没有绑定任何ip地址，我们将会在后面修改rsyslog的配置文件</p>
+<p>maxconn的意思当然时说明了同一时间最大的连接数了，这个数字可以随便改</p>
+<p>user和group是给正在运行haproxy进程的制定用户和用户组，这个就不要改变他了</p>
+<p>2.2 然后加入defaluts块</p>
+<blockquote>
+<p>defaluts</p>
+<p>log global</p>
+<p>mode http</p>
+<p>option httplog</p>
+<p>option dontlognull</p>
+<p>retries 3</p>
+<p>option redispath</p>
+<p>timeout connect 5000</p>
+<p>timeout client 10000</p>
+<p>timeout server 10000</p>
+</blockquote>
+<p>在这个块里，我们指定了默认的值。</p>
+<p>timeout connect选项指定了最大的连接时间</p>
+<p>timeout client和server设置的值表示如果服务器或者客户端在这段时间没有进行任何tcp处理，那么将会被断开，HAProxy推荐两个使用相同的值</p>
+<p>retries指令用来设置重连的次数</p>
+<p>option redispatch会开启当链接断掉的时候重分发session，所以如果后面的服务挂掉了，session粘滞不会存在。</p>
+<p>2.3 下面配置listen</p>
+<blockquote>
+<p>listen appname 0.0.0.0:80</p>
+<p>mode http</p>
+<p>stats enable</p>
+<p>stats uri /haproxy?stats</p>
+<p>stats realm Strictly\ Private</p>
+<p>stats auth A_Username:YourPassword</p>
+<p>stats auth Another_User:passwd</p>
+<p>balance roundrobin</p>
+<p>option httpclose</p>
+<p>option forwardfor</p>
+<p>server lamp1 10.0.0.1:80 check</p>
+<p>server lamp2 10.0.0.2:80 check</p>
+</blockquote>
+<p>这里包含了前端和后端的配置，我们配置haproxy为appname监听80端口，appname仅仅是个用来区分引用的名字。</p>
+<p>stats指令用来开启连接状态统计页面，这个通过<a href="https://www.digitalocean.com/community/articles/how-to-set-up-http-authentication-with-nginx-on-ubuntu-12-10" target="_blank" rel="external">HTTP Basic authentication</a>保证安全，它时stats auth指定的</p>
+<p>stats uri就是这个统计页面的url地址</p>
+<p>balance指令指定了一个负载均衡算法，可以有的选项有roundrobin/static-rr/leastconn/source/uri/url_param</p>
+<p>server指令时来申明一个后端服务器，语法如下</p>
+<blockquote>
+<p>server &lt;name&gt; &lt;address&gt;[:port] [param*]</p>
+</blockquote>
+<p>name主要是写入日志用，方便我们跟踪日志，<a href="http://cbonte.github.io/haproxy-dconv/configuration-1.4.html#5" target="_blank" rel="external">这里有更多的参数</a>，在这篇文章中我们只使用check和cookie这两个参数</p>
+<p>check参数时开启健康检查，检查服务器是否正常</p>
+<p>2.4 好了，我们现在配置好了可以使用下面的命令开启它</p>
+<blockquote>
+<p>service haproxy start</p>
+</blockquote>
+<h2 id="测试负载均衡">测试负载均衡</h2><p>1.创建php文件打印处服务器ip和客户端ip</p>
+<p>&nbsp;</p>
+<blockquote>
+<p>&lt;?php header(‘Content-Type: text/plain’); `</p>
+<pre><code>&lt;<span class="keyword">pre</span>&gt;`<span class="keyword">echo</span> <span class="string">"Server IP: "</span>.$_SERVER[<span class="string">'SERVER_ADDR'</span>]; `&lt;/<span class="keyword">pre</span>&gt;
+
+&lt;<span class="keyword">pre</span>&gt;`<span class="keyword">echo</span> <span class="string">"\nClient IP: "</span>.$_SERVER[<span class="string">'REMOTE_ADDR'</span>];`&lt;/<span class="keyword">pre</span>&gt;
+
+&lt;<span class="keyword">pre</span>&gt;` <span class="keyword">echo</span> <span class="string">"\nX-Forwarded-for: "</span>.$_SERVER[<span class="string">'HTTP_X_FORWARDED_FOR'</span>]; `&lt;/<span class="keyword">pre</span>&gt;
+
+&lt;<span class="keyword">pre</span>&gt;`?&amp;gt;`&lt;/<span class="keyword">pre</span>&gt;
+&lt;<span class="keyword">pre</span>&gt;`我们访问haproxy所在的ip地址`&lt;/<span class="keyword">pre</span>&gt;
+&lt;<span class="keyword">pre</span>&gt;`第一次访问`&lt;/<span class="keyword">pre</span>&gt;
+</code></pre><p>Server IP: 172.17.0.5</p>
+<pre><code><span class="title">Client</span> IP: <span class="number">172.17.0.3</span>
+
+X-Forwarded-for: <span class="number">172.17.42.1</span>
+第二次访问
+</code></pre><p>Server IP: 172.17.0.4</p>
+<pre><code><span class="title">Client</span> IP: <span class="number">172.17.0.3</span>
+
+X-Forwarded-for: <span class="number">172.17.42.1</span>
+&lt;span style=<span class="string">"color: #ff0000;"</span>&gt;注：我没有多个机器，所以我使用的docker容器来做实验，这个是我自己跑出来的结果&lt;/span&gt;
+</code></pre></blockquote>
+<pre><code>从上面我们看到<span class="tag">haproxy</span>轮番的把我们的请求放到两个后端服务器上，<span class="tag">X-Forwarded-for</span>是你自己客户端
+
+2.模拟服务器挂掉的情况
+
+我们现在模拟服务器挂掉，首先把一个服务关掉，我关掉172<span class="class">.17</span><span class="class">.0</span><span class="class">.4</span>的服务
+&gt; <span class="tag">service</span> <span class="tag">apache2</span> <span class="tag">stop</span>
+继续访问
+
+连续访问两次都是如下结果
+&gt; <span class="tag">Server</span> <span class="rule"><span class="attribute">IP</span>:<span class="value"> <span class="number">172.17</span>.<span class="number">0.5</span></span></span>
+</code></pre><blockquote>
+<pre><code><span class="title">Client</span> IP: <span class="number">172.17.0.3</span>
+
+X-Forwarded-for: <span class="number">172.17.42.1</span>
+我们达到了服务负载和容错的功能
+</code></pre></blockquote>
+<pre><code>## Session Stickness
+
+如果拟的web应用需要用户登陆（就是你的服务使用到了session），这种负载均衡可能就会遇到问题，因为session是和具体的服务器相关的，haproxy会把用户随机搞到不同的服务器上，服务器就带状态了，就不好搞成分布式了，如果是这种需求，那么我们必须保证用户会被分配到他第一次访问的服务器上去，不然就会乱套，haproxy可以通过设置cookie来标记所使用的服务器来达到这种效果。
+
+下面我们增加一个session.php文件来阐述下这个是如何工作的
+&gt; &lt;<span class="keyword">pre</span>&gt;`&amp;<span class="keyword">lt</span>;?php header(<span class="string">'Content-Type: text/plain'</span>); `&lt;/<span class="keyword">pre</span>&gt;
+</code></pre><blockquote>
+<pre><code><span class="variable">&lt;pre&gt;</span>`session_start(); `<span class="variable">&lt;/pre&gt;</span>
+
+<span class="variable">&lt;pre&gt;</span>`if(!isset(<span class="variable">$_SESSION</span>['visit'])) { `<span class="variable">&lt;/pre&gt;</span>
+
+<span class="variable">&lt;pre&gt;</span>`echo <span class="string">"This is the first time you're visiting this server"</span>; `<span class="variable">&lt;/pre&gt;</span>
+
+<span class="variable">&lt;pre&gt;</span>`<span class="variable">$_SESSION</span>['visit'] = <span class="number">0</span>; `<span class="variable">&lt;/pre&gt;</span>
+
+<span class="variable">&lt;pre&gt;</span>`} `<span class="variable">&lt;/pre&gt;</span>
+
+<span class="variable">&lt;pre&gt;</span>`else `<span class="variable">&lt;/pre&gt;</span>
+
+<span class="variable">&lt;pre&gt;</span>`echo <span class="string">"Your number of visits: "</span>.<span class="variable">$_SESSION</span>['visit']; `<span class="variable">&lt;/pre&gt;</span>
+
+<span class="variable">&lt;pre&gt;</span>`<span class="variable">$_SESSION</span>['visit']++; echo <span class="string">"\nServer IP: "</span>.<span class="variable">$_SERVER</span>['SERVER_ADDR']; `<span class="variable">&lt;/pre&gt;</span>
+
+<span class="variable">&lt;pre&gt;</span>`echo <span class="string">"\nClient IP: "</span>.<span class="variable">$_SERVER</span>['REMOTE_ADDR']; echo <span class="string">"\nX-Forwarded-for: "</span>.<span class="variable">$_SERVER</span>['HTTP_X_FORWARDED_FOR'].<span class="string">"\n"</span>; print_r(<span class="variable">$_COOKIE</span>);`<span class="variable">&lt;/pre&gt;</span>
+
+<span class="variable">&lt;pre&gt;</span>` ?&amp;gt;`<span class="variable">&lt;/pre&gt;</span>
+<span class="variable">&lt;pre&gt;</span>`上面的代码就在apache的服务器上对用户增加了session，会记录你使用这个session多少次`<span class="variable">&lt;/pre&gt;</span>
+<span class="variable">&lt;pre&gt;</span>`下面，我们就要使用haproxy在cookie中增加我们的东西了`<span class="variable">&lt;/pre&gt;</span>
+<span class="variable">&lt;pre&gt;</span>`我们默认所有到haproxy的请求在http头里都包含set-cookie的字段，我们在这里面存服务器信息`<span class="variable">&lt;/pre&gt;</span>
+<span class="variable">&lt;pre&gt;</span>第一步就是在配置文件中，在listen块的下面增加cookie指令<span class="variable">&lt;/pre&gt;</span>
+</code></pre><pre>`cookie SRVNAME insert `</pre>
+
+<pre><code>&lt;pre&gt;`server lam<span class="variable">p1</span> 10.0.0.1:80 cookie S1<span class="instruction"> check </span>`&lt;/pre&gt;
+
+&lt;pre&gt;`server lam<span class="variable">p2</span> 10.0.0.2:80 cookie S2 check`&lt;/pre&gt;
+&lt;pre&gt;`我们重启haproxy`&lt;/pre&gt;
+&lt;pre&gt;`下面使用curl访问`&lt;/pre&gt;
+</code></pre><pre>`curl -i http://172.17.0.3/session.php
+<pre><span style="font-family: monospace;">结果如下</span></pre>
+<pre></pre>
+HTTP/1.1 200 OK
+
+Date: Fri, 16 Jan 2015 14:12:00 GMT
+
+Server: Apache/2.4.7 (Ubuntu)
+
+X-Powered-By: PHP/5.5.9-1ubuntu4.5
+
+Set-Cookie: PHPSESSID=q29dmd1eusk0gs1ja9qcq0paj5; path=/
+
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+
+Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+
+Pragma: no-cache
+
+Vary: Accept-Encoding
+
+Content-Length: 134
+
+Connection: close
+
+Content-Type: text/plain
+
+Set-Cookie: SRVNAME=S1; path=/
+
+
+This is the first time you're visiting this server
+
+Server IP: 172.17.0.4
+
+Client IP: 172.17.0.3
+
+X-Forwarded-for: 172.17.42.1
+
+Array
+
+(
+
+)
+<pre><span style="font-family: monospace;">这个时第一次访问，为了看到我们刚刚的SRVNAME=S1，我们把上面的Set-cookies的头作为参数访问加入SRVNAME=S1（当然你要是浏览器，可以F12召唤神兽直接看）</span></pre>
+<pre><span style="font-family: monospace;">curl -i http://172.17.0.3/session.php --cookie "PHPSESSID=0juvu9ir7bvm4agiivfc5pvg11; SRVNAME=S1"</span></pre>
+<pre><span style="font-family: monospace;">结果如下</span></pre>
+<pre></pre>
+HTTP/1.1 200 OK
+
+Date: Fri, 16 Jan 2015 14:12:15 GMT
+
+Server: Apache/2.4.7 (Ubuntu)
+
+X-Powered-By: PHP/5.5.9-1ubuntu4.5
+
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+
+Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+
+Pragma: no-cache
+
+Vary: Accept-Encoding
+
+Content-Length: 174
+
+Connection: close
+
+Content-Type: text/plain
+
+
+Your number of visits: 1
+
+Server IP: 172.17.0.4
+
+Client IP: 172.17.0.3
+
+X-Forwarded-for: 172.17.42.1
+
+Array
+
+(
+
+ [PHPSESSID] =&gt; q29dmd1eusk0gs1ja9qcq0paj5
+
+ [SRVNAME] =&gt; S1
+
+)
+
+
+&nbsp;
+<pre><span style="font-family: monospace;">在执行一下</span></pre>
+<pre></pre>
+HTTP/1.1 200 OK
+
+Date: Fri, 16 Jan 2015 14:12:18 GMT
+
+Server: Apache/2.4.7 (Ubuntu)
+
+X-Powered-By: PHP/5.5.9-1ubuntu4.5
+
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+
+Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+
+Pragma: no-cache
+
+Vary: Accept-Encoding
+
+Content-Length: 174
+
+Connection: close
+
+Content-Type: text/plain
+
+
+Your number of visits: 2
+
+Server IP: 172.17.0.4
+
+Client IP: 172.17.0.3
+
+X-Forwarded-for: 172.17.42.1
+
+Array
+
+(
+
+ [PHPSESSID] =&gt; q29dmd1eusk0gs1ja9qcq0paj5
+
+ [SRVNAME] =&gt; S1
+
+)
+
+
+&nbsp;
+<pre><span style="font-family: monospace;">可以看到我们解决了这个Session strickness</span></pre></pre></blockquote>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/杂七杂八/">杂七杂八</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-ld-e9-93-be-e6-8e-a5-e8-84-9a-e6-9c-ac-e8-bd-ac" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -890,693 +1367,9 @@ The epigrams <span class="keyword">that</span> follow attempt <span class="keywo
 
 
   
-    <article id="post-linux-e6-9f-a5-e6-89-be-e5-b9-b6-e6-9b-bf-e6-8d-a2-e6-96-87-e4-bb-b6-e4-b8-ad-e7-9a-84-e6-8c-87-e5-ae-9a-e5-86-85-e5-ae-b9" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/01/20/linux-e6-9f-a5-e6-89-be-e5-b9-b6-e6-9b-bf-e6-8d-a2-e6-96-87-e4-bb-b6-e4-b8-ad-e7-9a-84-e6-8c-87-e5-ae-9a-e5-86-85-e5-ae-b9/" class="article-date">
-  	<time datetime="2014-01-20T08:35:57.000Z" itemprop="datePublished">2014-01-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/01/20/linux-e6-9f-a5-e6-89-be-e5-b9-b6-e6-9b-bf-e6-8d-a2-e6-96-87-e4-bb-b6-e4-b8-ad-e7-9a-84-e6-8c-87-e5-ae-9a-e5-86-85-e5-ae-b9/">linux 查找并替换文件中的指定内容</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="起因">起因</h3><p>在我刚刚把nginx搬到QTCreator的时候，由于nginx源码都是使用#include &lt;xx.h&gt;的形式，原先我并没有把nginx的头文件放在系统库头文件的变量中，于是乎，我脑抽般的想起，我把&lt;&gt;替换成“”的形式，这样就可以方便的运行了，当然，这个我想的太理想了，略2，但是还是让我学习到了如何查找并替换文件中的特定内容。</p>
-<h3 id="相关命令">相关命令</h3><p>我使用了这样的命令</p>
-<p>&lt;pre  lang=”shell”&gt;</p>
-<p>find -name “<em>.c” | xargs sed -i ‘s/&lt;([a-z|A-Z|_|0-9]</em>.h)&gt;/“\1”/g’</p>
-<p>&lt;/pre&gt;</p>
-<p>现在来详细解释一下，find命令是用来查找文件的</p>
-<p>详细可参见<a href="http://www.cnblogs.com/wanqieddy/archive/2011/06/09/2076785.html" target="_blank" rel="external">find 用法实例</a></p>
-<p>xargs这个是给命令传递参数的一个过滤器，是传递内容的，</p>
-<p>详细可参见<a href="http://www.cnblogs.com/wdpp/archive/2012/02/28/2386683.html" target="_blank" rel="external">xargs命令</a></p>
-<p>sed这个命令可以参见<a href="http://www.iteye.com/topic/587673" target="_blank" rel="external">sed命令</a></p>
-<p>我解释一下我的用法，因为我是要替换“#include &lt;xx.h&gt;”中的&lt;&gt;成为””，所以使用</p>
-<p>&lt;pre lang=”shell”&gt;</p>
-<p>sed -i ‘s/&lt;([a-z|A-Z|_|0-9]*.h)&gt;/“\1”/g’</p>
-<p>&lt;/pre&gt;</p>
-<p>-i的意思是把改变了的内容要回写进文件</p>
-<p>至于后面一句是sed用来匹配替换文本，</p>
-<p>s表示替换的意思</p>
-<p>&lt;([a-z|A-Z|<em>|0-9]*.h)&gt;是我们的&lt;xx.h&gt;因为xx.h是变化的，所以我们使用正则表达式([a-z|A-Z|</em>|0-9]*.h)来准确的获取，但是我们要对（）进行转义</p>
-<p>“\1”:这里\1的意思就是正则表达式([a-z|A-Z|_|0-9]*.h)匹配上的第一个的字符串的值，同理\2就是匹配上的第二个字符串的值，它是一个变量。这样子我们就实现了这种替换。</p>
-<p>&nbsp;</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/杂七杂八/">杂七杂八</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-e4-bd-bf-e7-94-a8qt-creator-e6-9f-a5-e7-9c-8b-e5-b9-b6-e8-b0-83-e8-af-95nginx-e6-ba-90-e7-a0-81" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/01/20/e4-bd-bf-e7-94-a8qt-creator-e6-9f-a5-e7-9c-8b-e5-b9-b6-e8-b0-83-e8-af-95nginx-e6-ba-90-e7-a0-81/" class="article-date">
-  	<time datetime="2014-01-20T07:33:43.000Z" itemprop="datePublished">2014-01-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/01/20/e4-bd-bf-e7-94-a8qt-creator-e6-9f-a5-e7-9c-8b-e5-b9-b6-e8-b0-83-e8-af-95nginx-e6-ba-90-e7-a0-81/">使用QT Creator查看并调试nginx源码</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="1-前言">1.前言</h2><p>由于原先以前被vs2008以及eclipse宠坏了，vi使用又不熟悉，本来想好好学习nginx源码的我很是拙计，我亟需一个IDE来阅读以及调试源代码，于是我看上了QtCreator，，于是本博文就是介绍如何把nginx源码搞成qt creator工程。</p>
-<h2 id="2-建立-pro文件">2.建立.pro文件</h2><p></p><p>我们要先学习一下QT Creator的工程文件.pro，因为QTCreator的qmake按照.pro文件生成Makefile的。</p>
-<p>现在我们先来看看我们需要用到的.pro配置项</p>
-<p>配置项的格式是：key = value</p>
-<p>我们需要的key如下</p>
-<p>我把我的.pro文件贴出来</p>
-<pre lang="xml">
-TARGET = nginx
-DESTDIR = ./objs
-LIBS = -lpthread -lcrypt -lpcre -lcrypto -lcrypto -lz
-INCLUDEPATH += \
-        src/core \
-        src/event \
-        src/event/modules \
-        src/os/unix \
-        src/http/modules \
-        src/http \
-        objs
-HEADERS = src/core/nginx.h \
-        src/core/ngx_config.h \
-        src/core/ngx_core.h \
-        src/core/ngx_log.h \
-        src/core/ngx_palloc.h \
-        src/core/ngx_array.h \
-        src/core/ngx_list.h \
-        src/core/ngx_hash.h \
-        src/core/ngx_buf.h \
-        src/core/ngx_queue.h \
-        src/core/ngx_string.h \
-        src/core/ngx_parse.h \
-        src/core/ngx_inet.h \
-        src/core/ngx_file.h \
-        src/core/ngx_crc.h \
-        src/core/ngx_crc32.h \
-        src/core/ngx_murmurhash.h \
-        src/core/ngx_md5.h \
-        src/core/ngx_sha1.h \
-        src/core/ngx_rbtree.h \
-        src/core/ngx_radix_tree.h \
-        src/core/ngx_slab.h \
-        src/core/ngx_times.h \
-        src/core/ngx_shmtx.h \
-        src/core/ngx_connection.h \
-        src/core/ngx_cycle.h \
-        src/core/ngx_conf_file.h \
-        src/core/ngx_resolver.h \
-        src/core/ngx_open_file_cache.h \
-        src/core/ngx_crypt.h \
-        src/event/ngx_event.h \
-        src/event/ngx_event_timer.h \
-        src/event/ngx_event_posted.h \
-        src/event/ngx_event_busy_lock.h \
-        src/event/ngx_event_connect.h \
-        src/event/ngx_event_pipe.h \
-        src/os/unix/ngx_time.h \
-        src/os/unix/ngx_errno.h \
-        src/os/unix/ngx_alloc.h \
-        src/os/unix/ngx_files.h \
-        src/os/unix/ngx_channel.h \
-        src/os/unix/ngx_shmem.h \
-        src/os/unix/ngx_process.h \
-        src/os/unix/ngx_setaffinity.h \
-        src/os/unix/ngx_setproctitle.h \
-        src/os/unix/ngx_atomic.h \
-        src/os/unix/ngx_gcc_atomic_x86.h \
-        src/os/unix/ngx_thread.h \
-        src/os/unix/ngx_socket.h \
-        src/os/unix/ngx_os.h \
-        src/os/unix/ngx_user.h \
-        src/os/unix/ngx_process_cycle.h \
-        src/os/unix/ngx_linux_config.h \
-        src/os/unix/ngx_linux.h \
-        src/core/ngx_regex.h \
-        objs/ngx_auto_config.h \
-        src/http/ngx_http.h \
-        src/http/ngx_http_request.h \
-        src/http/ngx_http_config.h \
-        src/http/ngx_http_core_module.h \
-        src/http/ngx_http_cache.h \
-        src/http/ngx_http_variables.h \
-        src/http/ngx_http_script.h \
-        src/http/ngx_http_upstream.h \
-        src/http/ngx_http_upstream_round_robin.h \
-        src/http/ngx_http_busy_lock.h \
-        src/http/modules/ngx_http_ssi_filter_module.h
-SOURCES = src/core/nginx.c \
-        src/core/ngx_log.c \
-        src/core/ngx_palloc.c \
-        src/core/ngx_array.c \
-        src/core/ngx_list.c \
-        src/core/ngx_hash.c \
-        src/core/ngx_buf.c \
-        src/core/ngx_queue.c \
-        src/core/ngx_output_chain.c \
-        src/core/ngx_string.c \
-        src/core/ngx_parse.c \
-        src/core/ngx_inet.c \
-        src/core/ngx_file.c \
-        src/core/ngx_crc32.c \
-        src/core/ngx_murmurhash.c \
-        src/core/ngx_md5.c \
-        src/core/ngx_rbtree.c \
-        src/core/ngx_radix_tree.c \
-        src/core/ngx_slab.c \
-        src/core/ngx_times.c \
-        src/core/ngx_shmtx.c \
-        src/core/ngx_connection.c \
-        src/core/ngx_cycle.c \
-        src/core/ngx_spinlock.c \
-        src/core/ngx_cpuinfo.c \
-        src/core/ngx_conf_file.c \
-        src/core/ngx_resolver.c \
-        src/core/ngx_open_file_cache.c \
-        src/core/ngx_crypt.c \
-        src/event/ngx_event.c \
-        src/event/ngx_event_timer.c \
-        src/event/ngx_event_posted.c \
-        src/event/ngx_event_busy_lock.c \
-        src/event/ngx_event_accept.c \
-        src/event/ngx_event_connect.c \
-        src/event/ngx_event_pipe.c \
-        src/os/unix/ngx_time.c \
-        src/os/unix/ngx_errno.c \
-        src/os/unix/ngx_alloc.c \
-        src/os/unix/ngx_files.c \
-        src/os/unix/ngx_socket.c \
-        src/os/unix/ngx_recv.c \
-        src/os/unix/ngx_readv_chain.c \
-        src/os/unix/ngx_udp_recv.c \
-        src/os/unix/ngx_send.c \
-        src/os/unix/ngx_writev_chain.c \
-        src/os/unix/ngx_channel.c \
-        src/os/unix/ngx_shmem.c \
-        src/os/unix/ngx_process.c \
-        src/os/unix/ngx_daemon.c \
-        src/os/unix/ngx_setaffinity.c \
-        src/os/unix/ngx_setproctitle.c \
-        src/os/unix/ngx_posix_init.c \
-        src/os/unix/ngx_user.c \
-        src/os/unix/ngx_process_cycle.c \
-        src/os/unix/ngx_linux_init.c \
-        src/event/modules/ngx_epoll_module.c \
-        src/os/unix/ngx_linux_sendfile_chain.c \
-        src/core/ngx_regex.c \
-        src/http/ngx_http.c \
-        src/http/ngx_http_core_module.c \
-        src/http/ngx_http_special_response.c \
-        src/http/ngx_http_request.c \
-        src/http/ngx_http_parse.c \
-        src/http/ngx_http_header_filter_module.c \
-        src/http/ngx_http_write_filter_module.c \
-        src/http/ngx_http_copy_filter_module.c \
-        src/http/modules/ngx_http_log_module.c \
-        src/http/ngx_http_request_body.c \
-        src/http/ngx_http_variables.c \
-        src/http/ngx_http_script.c \
-        src/http/ngx_http_upstream.c \
-        src/http/ngx_http_upstream_round_robin.c \
-        src/http/ngx_http_parse_time.c \
-        src/http/modules/ngx_http_static_module.c \
-        src/http/modules/ngx_http_index_module.c \
-        src/http/modules/ngx_http_chunked_filter_module.c \
-        src/http/modules/ngx_http_range_filter_module.c \
-        src/http/modules/ngx_http_headers_filter_module.c \
-        src/http/modules/ngx_http_not_modified_filter_module.c \
-        src/http/ngx_http_busy_lock.c \
-        src/http/ngx_http_file_cache.c \
-        src/http/modules/ngx_http_gzip_filter_module.c \
-        src/http/ngx_http_postpone_filter_module.c \
-        src/http/modules/ngx_http_ssi_filter_module.c \
-        src/http/modules/ngx_http_charset_filter_module.c \
-        src/http/modules/ngx_http_userid_filter_module.c \
-        src/http/modules/ngx_http_autoindex_module.c \
-        src/http/modules/ngx_http_auth_basic_module.c \
-        src/http/modules/ngx_http_access_module.c \
-        src/http/modules/ngx_http_limit_conn_module.c \
-        src/http/modules/ngx_http_limit_req_module.c \
-        src/http/modules/ngx_http_geo_module.c \
-        src/http/modules/ngx_http_map_module.c \
-        src/http/modules/ngx_http_split_clients_module.c \
-        src/http/modules/ngx_http_referer_module.c \
-        src/http/modules/ngx_http_rewrite_module.c \
-        src/http/modules/ngx_http_proxy_module.c \
-        src/http/modules/ngx_http_fastcgi_module.c \
-        src/http/modules/ngx_http_uwsgi_module.c \
-        src/http/modules/ngx_http_scgi_module.c \
-        src/http/modules/ngx_http_memcached_module.c \
-        src/http/modules/ngx_http_empty_gif_module.c \
-        src/http/modules/ngx_http_browser_module.c \
-        src/http/modules/ngx_http_upstream_ip_hash_module.c \
-        src/http/modules/ngx_http_upstream_least_conn_module.c \
-        src/http/modules/ngx_http_upstream_keepalive_module.c \
-        objs/ngx_modules.c
-</pre>
-
-<h2 id="3-nginx的编译配置生成">3.nginx的编译配置生成</h2><p></p><p>由于nginx有很多的模块，在编译的过程中，nginx会根据系统环境的设置，生成ngx_modules.c、ngx_auto_config.h、ngx_auto_headers.h、Makefile等，然后，源代码中根据这些配置头文件，使用宏定义进行差异化编译。所以我们最重要的一步就是根据系统环境生成ngx_modules.c、ngx_auto_config.h、ngx_auto_headers.h、Makefile这几个文件。</p>
-<p>步骤就是非常简单的，使用./configure就好了，以上文件都生成在nginx目录下的objs文件夹内。</p>
-<h2 id="生成QTCreator版本的nginx">生成QTCreator版本的nginx</h2><p>打开QTCreator创建一个空的QTCreator项目,如下</p>
-<p><a href="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/creat.jpg" target="_blank" rel="external"><img src="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/creat.jpg" alt="" title="creat"></a></p>
-<p><a href="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/create2.jpg" target="_blank" rel="external"><img src="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/create2.jpg" alt="" title="create2"></a></p>
-<p><a href="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/create3.jpg" target="_blank" rel="external"><img src="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/create3.jpg" alt="" title="create3"></a></p>
-<p><a href="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/create4.jpg" target="_blank" rel="external"><img src="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/create4.jpg" alt="" title="create4"></a></p>
-<p>现在把nginx文件夹下的src、objs文件夹拷贝到nginx目录下</p>
-<p><a href="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/pro.jpg" target="_blank" rel="external"><img src="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/pro.jpg" alt="" title="pro"></a></p>
-<p>修改.pro文件</p>
-<pre lang="xml">
-TARGET = nginx
-DESTDIR = ./objs
-LIBS = -lpthread -lcrypt -lpcre -lcrypto -lcrypto -lz
-INCLUDEPATH += \
-        src/core \
-        src/event \
-        src/event/modules \
-        src/os/unix \
-        src/http/modules \
-        src/http \
-        objs
-HEADERS = src/core/nginx.h \
-        src/core/ngx_config.h \
-        src/core/ngx_core.h \
-        src/core/ngx_log.h \
-        src/core/ngx_palloc.h \
-        src/core/ngx_array.h \
-        src/core/ngx_list.h \
-        src/core/ngx_hash.h \
-        src/core/ngx_buf.h \
-        src/core/ngx_queue.h \
-        src/core/ngx_string.h \
-        src/core/ngx_parse.h \
-        src/core/ngx_inet.h \
-        src/core/ngx_file.h \
-        src/core/ngx_crc.h \
-        src/core/ngx_crc32.h \
-        src/core/ngx_murmurhash.h \
-        src/core/ngx_md5.h \
-        src/core/ngx_sha1.h \
-        src/core/ngx_rbtree.h \
-        src/core/ngx_radix_tree.h \
-        src/core/ngx_slab.h \
-        src/core/ngx_times.h \
-        src/core/ngx_shmtx.h \
-        src/core/ngx_connection.h \
-        src/core/ngx_cycle.h \
-        src/core/ngx_conf_file.h \
-        src/core/ngx_resolver.h \
-        src/core/ngx_open_file_cache.h \
-        src/core/ngx_crypt.h \
-        src/event/ngx_event.h \
-        src/event/ngx_event_timer.h \
-        src/event/ngx_event_posted.h \
-        src/event/ngx_event_busy_lock.h \
-        src/event/ngx_event_connect.h \
-        src/event/ngx_event_pipe.h \
-        src/os/unix/ngx_time.h \
-        src/os/unix/ngx_errno.h \
-        src/os/unix/ngx_alloc.h \
-        src/os/unix/ngx_files.h \
-        src/os/unix/ngx_channel.h \
-        src/os/unix/ngx_shmem.h \
-        src/os/unix/ngx_process.h \
-        src/os/unix/ngx_setaffinity.h \
-        src/os/unix/ngx_setproctitle.h \
-        src/os/unix/ngx_atomic.h \
-        src/os/unix/ngx_gcc_atomic_x86.h \
-        src/os/unix/ngx_thread.h \
-        src/os/unix/ngx_socket.h \
-        src/os/unix/ngx_os.h \
-        src/os/unix/ngx_user.h \
-        src/os/unix/ngx_process_cycle.h \
-        src/os/unix/ngx_linux_config.h \
-        src/os/unix/ngx_linux.h \
-        src/core/ngx_regex.h \
-        objs/ngx_auto_config.h \
-        src/http/ngx_http.h \
-        src/http/ngx_http_request.h \
-        src/http/ngx_http_config.h \
-        src/http/ngx_http_core_module.h \
-        src/http/ngx_http_cache.h \
-        src/http/ngx_http_variables.h \
-        src/http/ngx_http_script.h \
-        src/http/ngx_http_upstream.h \
-        src/http/ngx_http_upstream_round_robin.h \
-        src/http/ngx_http_busy_lock.h \
-        src/http/modules/ngx_http_ssi_filter_module.h
-SOURCES = src/core/nginx.c \
-        src/core/ngx_log.c \
-        src/core/ngx_palloc.c \
-        src/core/ngx_array.c \
-        src/core/ngx_list.c \
-        src/core/ngx_hash.c \
-        src/core/ngx_buf.c \
-        src/core/ngx_queue.c \
-        src/core/ngx_output_chain.c \
-        src/core/ngx_string.c \
-        src/core/ngx_parse.c \
-        src/core/ngx_inet.c \
-        src/core/ngx_file.c \
-        src/core/ngx_crc32.c \
-        src/core/ngx_murmurhash.c \
-        src/core/ngx_md5.c \
-        src/core/ngx_rbtree.c \
-        src/core/ngx_radix_tree.c \
-        src/core/ngx_slab.c \
-        src/core/ngx_times.c \
-        src/core/ngx_shmtx.c \
-        src/core/ngx_connection.c \
-        src/core/ngx_cycle.c \
-        src/core/ngx_spinlock.c \
-        src/core/ngx_cpuinfo.c \
-        src/core/ngx_conf_file.c \
-        src/core/ngx_resolver.c \
-        src/core/ngx_open_file_cache.c \
-        src/core/ngx_crypt.c \
-        src/event/ngx_event.c \
-        src/event/ngx_event_timer.c \
-        src/event/ngx_event_posted.c \
-        src/event/ngx_event_busy_lock.c \
-        src/event/ngx_event_accept.c \
-        src/event/ngx_event_connect.c \
-        src/event/ngx_event_pipe.c \
-        src/os/unix/ngx_time.c \
-        src/os/unix/ngx_errno.c \
-        src/os/unix/ngx_alloc.c \
-        src/os/unix/ngx_files.c \
-        src/os/unix/ngx_socket.c \
-        src/os/unix/ngx_recv.c \
-        src/os/unix/ngx_readv_chain.c \
-        src/os/unix/ngx_udp_recv.c \
-        src/os/unix/ngx_send.c \
-        src/os/unix/ngx_writev_chain.c \
-        src/os/unix/ngx_channel.c \
-        src/os/unix/ngx_shmem.c \
-        src/os/unix/ngx_process.c \
-        src/os/unix/ngx_daemon.c \
-        src/os/unix/ngx_setaffinity.c \
-        src/os/unix/ngx_setproctitle.c \
-        src/os/unix/ngx_posix_init.c \
-        src/os/unix/ngx_user.c \
-        src/os/unix/ngx_process_cycle.c \
-        src/os/unix/ngx_linux_init.c \
-        src/event/modules/ngx_epoll_module.c \
-        src/os/unix/ngx_linux_sendfile_chain.c \
-        src/core/ngx_regex.c \
-        src/http/ngx_http.c \
-        src/http/ngx_http_core_module.c \
-        src/http/ngx_http_special_response.c \
-        src/http/ngx_http_request.c \
-        src/http/ngx_http_parse.c \
-        src/http/ngx_http_header_filter_module.c \
-        src/http/ngx_http_write_filter_module.c \
-        src/http/ngx_http_copy_filter_module.c \
-        src/http/modules/ngx_http_log_module.c \
-        src/http/ngx_http_request_body.c \
-        src/http/ngx_http_variables.c \
-        src/http/ngx_http_script.c \
-        src/http/ngx_http_upstream.c \
-        src/http/ngx_http_upstream_round_robin.c \
-        src/http/ngx_http_parse_time.c \
-        src/http/modules/ngx_http_static_module.c \
-        src/http/modules/ngx_http_index_module.c \
-        src/http/modules/ngx_http_chunked_filter_module.c \
-        src/http/modules/ngx_http_range_filter_module.c \
-        src/http/modules/ngx_http_headers_filter_module.c \
-        src/http/modules/ngx_http_not_modified_filter_module.c \
-        src/http/ngx_http_busy_lock.c \
-        src/http/ngx_http_file_cache.c \
-        src/http/modules/ngx_http_gzip_filter_module.c \
-        src/http/ngx_http_postpone_filter_module.c \
-        src/http/modules/ngx_http_ssi_filter_module.c \
-        src/http/modules/ngx_http_charset_filter_module.c \
-        src/http/modules/ngx_http_userid_filter_module.c \
-        src/http/modules/ngx_http_autoindex_module.c \
-        src/http/modules/ngx_http_auth_basic_module.c \
-        src/http/modules/ngx_http_access_module.c \
-        src/http/modules/ngx_http_limit_conn_module.c \
-        src/http/modules/ngx_http_limit_req_module.c \
-        src/http/modules/ngx_http_geo_module.c \
-        src/http/modules/ngx_http_map_module.c \
-        src/http/modules/ngx_http_split_clients_module.c \
-        src/http/modules/ngx_http_referer_module.c \
-        src/http/modules/ngx_http_rewrite_module.c \
-        src/http/modules/ngx_http_proxy_module.c \
-        src/http/modules/ngx_http_fastcgi_module.c \
-        src/http/modules/ngx_http_uwsgi_module.c \
-        src/http/modules/ngx_http_scgi_module.c \
-        src/http/modules/ngx_http_memcached_module.c \
-        src/http/modules/ngx_http_empty_gif_module.c \
-        src/http/modules/ngx_http_browser_module.c \
-        src/http/modules/ngx_http_upstream_ip_hash_module.c \
-        src/http/modules/ngx_http_upstream_least_conn_module.c \
-        src/http/modules/ngx_http_upstream_keepalive_module.c \
-        objs/ngx_modules.c
-</pre>
-
-<p>现在来解释一下为什么这么用</p>
-<p>主要解释一下INCLUDEPATH、LIBS，因为我在这上面吃过亏</p>
-<p>好了，现在就可以编译了</p>
-<p><a href="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/result.jpg" target="_blank" rel="external"><img src="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/result.jpg" alt="" title="result"></a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/nginx/">nginx</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-nginx-e5-a6-82-e4-bd-95-e5-a4-84-e7-90-86-e4-b8-80-e4-b8-aa-e8-af-b7-e6-b1-82" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/01/10/nginx-e5-a6-82-e4-bd-95-e5-a4-84-e7-90-86-e4-b8-80-e4-b8-aa-e8-af-b7-e6-b1-82/" class="article-date">
-  	<time datetime="2014-01-10T02:58:52.000Z" itemprop="datePublished">2014-01-10</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/01/10/nginx-e5-a6-82-e4-bd-95-e5-a4-84-e7-90-86-e4-b8-80-e4-b8-aa-e8-af-b7-e6-b1-82/">Nginx如何处理一个请求</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>author: Igor Sysoev</strong><br><strong>翻译：赵培龙</strong><br><a href="http://nginx.org/en/docs/http/request_processing.html" target="_blank" rel="external"><strong>原文地址</strong></a></p>
-<h1 id="1-基于名字的虚拟服务器">1.基于名字的虚拟服务器</h1><p>nginx第一步就是要决定让哪一个服务器来处理相应的请求。我们使用一个简单的例子来说明：<br>   我们现在配置3个虚拟服务器，都监听80端口，配置文件如下</p>
-<pre lang="xml">
-server {
-    listen      80;
-    server_name example.org www.example.org;
-    ...
-}
-
-server {
-    listen      80;
-    server_name example.net www.example.net;
-    ...
-}
-
-server {
-    listen      80;
-    server_name example.com www.example.com;
-    ...
-}
-</pre>
-
-<p>在这个配置下的nginx，nginx会主动去检查http请求中的host字段，根据host字段的值来判断该把这个请求交给哪一个虚拟服务器来处理。如果没有找到匹配的虚拟服务器名，那么nginx会把这个请求交给默认的虚拟服务器，在上面的配置中，默认的服务器是第一个。当然我们也可以显示的指出(使用default_server)哪一个服务器是默认服务器，</p>
-<pre lang="xml">
-server {
-    listen      80 default_server;
-    server_name example.net www.example.net;
-    ...
-}
-</pre>
-
-<div style="backgournd-color:#e7e7e7"><br>在0.8.21的版本之后使用<strong>default_server</strong>,之前的版本都是使用的<strong>defalut</strong><br></div>
-
-<h1 id="2-如何处理一个没有带host值的http请求">2.如何处理一个没有带host值的http请求</h1><p>如果请求头里没有host的值，那么我们在配置中可以这样子定义：</p>
-<pre lang="xml">
-server {
-    listen      80;
-    server_name "";
-    return      444;
-}
-</pre>
-直接返回444
-
-<div style="backgournd-color:#e7e7e7">
-在0.8.48的版本之后，配置中默认的有这种处理方式,但之前的版本都是匹配上的默认服务器
-</div>
-
-# 基于IP和主机名的混合虚拟服务器
-
-配置如下
-<pre lang="xml">
-server {
-    listen      192.168.1.1:80;
-    server_name example.org www.example.org;
-    ...
-}
-
-server {
-    listen      192.168.1.1:80;
-    server_name example.net www.example.net;
-    ...
-}
-
-server {
-    listen      192.168.1.2:80;
-    server_name example.com www.example.com;
-    ...
-}
-</pre>
-
-<p>在这种配置下，nginx首先是匹配请求里面的ip和端口，然后才是匹配头里面的host字段，都没有匹配到的情况下就会送给默认的服务器。</p>
-<h1 id="配置一个简单的php站点">配置一个简单的php站点</h1><p>配置如下：</p>
-<pre lang="xml">
-server {
-    listen      80;
-    server_name example.org www.example.org;
-    root        /data/www;
-
-    location / {
-        index   index.html index.php;
-    }
-
-    location ~* \.(gif|jpg|png)$ {
-        expires 30d;
-    }
-
-    location ~ \.php$ {
-        fastcgi_pass  localhost:9000;
-        fastcgi_param SCRIPT_FILENAME
-                      $document_root$fastcgi_script_name;
-        include       fastcgi_params;
-    }
-}
-</pre>
-
-<p>location后面的那些字符串是一个正则表达式，用来匹配URI的，比如location后面的”/“就是来匹配任何请求的，nginx是最长匹配原则来匹配的。</p>
-<p>注意到所有的location都没有包含URI的参数，这个是由于URI的参数的写法太多了，举个例子</p>
-<pre lang="xml">
-/index.php?user=john&page=1
-/index.php?page=1&user=john
-</pre>
-
-<p>现在我们来看看具体的例子</p>
-<p><ol><br>    <li>一个带有”/logo.gif”首先被 location “/“匹配，然后被”.(gif|jpg|png)$”匹配，但是这个是被后面的那个处理，由于root的值是/data/www所以访问的文件的地址是/data/www/logo.gif,nginx会把这个文件发给客户端<br>    </li><li>一个带有”/index.php”依然首先被”/“匹配到，然后被”.(php)$”匹配，这个还是被后面那个location处理。这个请求会传递给fastCGI服务器localhost:9000，fastcgi_param这个配置项是设置FastCGI参数”SCRPT_FILENAME”为”data/www/index.php”,FastCGI服务器会执行这个php脚本，变量$document_root就是root配置项的值，变量$fastcgi_script_name的值就等于请求的URI，这里是”/index.php”<br>   </li><li>一个带有”/about.html”依然会最先被”/“匹配，但是由于没有其他的匹配他，所以就直接被”/“处理了，由于root的值是/data/www，所以nginx会找到/data/www/about.html发给客户端。<br>   </li><li>处理一个请求”/“更加复杂，这个请求首先被location “/“匹配上，然后又被其处理<br>，这个location里面有一个配置项叫做index，这个配置项测试在/data/www（root配置项的值）文件夹下是否有inde.html文件，如果有，则发给客户端，如果没有，若是存在/data/www/index.phph,则重定向到”/index.php”,这个请求又会重新被定向到处理php的location中进行处理，流程和普通的带有”/*.php”一样。</li></ol></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/nginx/">nginx</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 </div>

@@ -3,49 +3,29 @@
 <head>
   <meta charset="utf-8">
   
-  <title>存储系统环境 | Long</title>
+  <title>硬盘 | Long</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="什么是存储系统环境（Storage System Environment）数据流从应用到存储经过的所有的不同的组建集合叫做存储系统环境三个主要有组建有：
-
-host
-connectivity
-storage
-
-这章主要讲：1) 硬件部分
-
-硬盘，disk geometry（寻址，包括磁头，柱面，扇区），管理方式  
-总线技术及协议接口（关于存储设备与host的连接）2) 逻辑部分
-主机（文件系统：">
+  <meta name="description" content="硬盘使用快速移动的机械手臂来读/写取磁片上面的数据硬盘的组建有    platter（磁片），spindle，r/w head，actuator arm assembly，contorller
+Platter一个硬盘一般存在一个或者多个圆形碟片（platters）这么多的platters封装在一个盒子里面，叫做Head Disk Assembly（HDA）  
+SpindleSpindle把所有的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="存储系统环境">
-<meta property="og:url" content="http://royzhao.github.io/2015/11/26/存储系统环境/index.html">
+<meta property="og:title" content="硬盘">
+<meta property="og:url" content="http://royzhao.github.io/2015/11/26/硬盘/index.html">
 <meta property="og:site_name" content="Long">
-<meta property="og:description" content="什么是存储系统环境（Storage System Environment）数据流从应用到存储经过的所有的不同的组建集合叫做存储系统环境三个主要有组建有：
-
-host
-connectivity
-storage
-
-这章主要讲：1) 硬件部分
-
-硬盘，disk geometry（寻址，包括磁头，柱面，扇区），管理方式  
-总线技术及协议接口（关于存储设备与host的连接）2) 逻辑部分
-主机（文件系统：">
-<meta property="og:image" content="http://royzhao.github.io/assets/physical-connectivity.png">
-<meta property="og:updated_time" content="2015-11-26T03:30:20.000Z">
+<meta property="og:description" content="硬盘使用快速移动的机械手臂来读/写取磁片上面的数据硬盘的组建有    platter（磁片），spindle，r/w head，actuator arm assembly，contorller
+Platter一个硬盘一般存在一个或者多个圆形碟片（platters）这么多的platters封装在一个盒子里面，叫做Head Disk Assembly（HDA）  
+SpindleSpindle把所有的">
+<meta property="og:image" content="http://royzhao.github.io/assets/disk.png">
+<meta property="og:image" content="http://royzhao.github.io/assets/platter.png">
+<meta property="og:image" content="http://royzhao.github.io/assets/RW.png">
+<meta property="og:image" content="http://royzhao.github.io/assets/disk-structure.png">
+<meta property="og:image" content="http://royzhao.github.io/assets/address.png">
+<meta property="og:updated_time" content="2015-11-26T04:19:26.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="存储系统环境">
-<meta name="twitter:description" content="什么是存储系统环境（Storage System Environment）数据流从应用到存储经过的所有的不同的组建集合叫做存储系统环境三个主要有组建有：
-
-host
-connectivity
-storage
-
-这章主要讲：1) 硬件部分
-
-硬盘，disk geometry（寻址，包括磁头，柱面，扇区），管理方式  
-总线技术及协议接口（关于存储设备与host的连接）2) 逻辑部分
-主机（文件系统：">
+<meta name="twitter:title" content="硬盘">
+<meta name="twitter:description" content="硬盘使用快速移动的机械手臂来读/写取磁片上面的数据硬盘的组建有    platter（磁片），spindle，r/w head，actuator arm assembly，contorller
+Platter一个硬盘一般存在一个或者多个圆形碟片（platters）这么多的platters封装在一个盒子里面，叫做Head Disk Assembly（HDA）  
+SpindleSpindle把所有的">
   
     <link rel="alternative" href="/atom.xml" title="Long" type="application/atom+xml">
   
@@ -193,11 +173,11 @@ storage
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-存储系统环境" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-硬盘" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/11/26/存储系统环境/" class="article-date">
-  	<time datetime="2015-11-26T03:26:25.000Z" itemprop="datePublished">2015-11-26</time>
+      <a href="/2015/11/26/硬盘/" class="article-date">
+  	<time datetime="2015-11-26T03:33:19.000Z" itemprop="datePublished">2015-11-26</time>
 </a>
     </div>
   
@@ -210,7 +190,7 @@ storage
         
   
     <h1 class="article-title" itemprop="name">
-      存储系统环境
+      硬盘
     </h1>
   
 
@@ -230,24 +210,14 @@ storage
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="什么是存储系统环境（Storage_System_Environment）">什么是存储系统环境（Storage System Environment）</h3><p>数据流从应用到存储经过的所有的不同的组建集合叫做存储系统环境<br>三个主要有组建有：</p>
-<ul>
-<li>host</li>
-<li>connectivity</li>
-<li>storage</li>
-</ul>
-<p>这章主要讲：<br>1) 硬件部分</p>
-<ul>
-<li>硬盘，disk geometry（寻址，包括磁头，柱面，扇区），管理方式  </li>
-<li>总线技术及协议接口（关于存储设备与host的连接）<br>2) 逻辑部分</li>
-<li>主机（文件系统：file system，卷管理volume managers，操作系统：operating systems以及他们在存储系统环境中所处的位置）</li>
-</ul>
-<h3 id="Host">Host</h3><p>负责运行用户处理数据的应用程序的机器叫做Host<br>Host范围很广，可以从笔记本电脑到复杂的服务集群。<br>Host可以简单分为物理组件和逻辑组件</p>
-<h4 id="物理组件">物理组件</h4><ul>
-<li>CPU</li>
-<li>Storage（硬盘或者内存）</li>
-<li>I/O设备<br>物理组件一般总共总线（BUS）通信。<br>下面记录一下I/O设备类型<br>1) 主机/用户通信，比如键盘，鼠标，显示器等<br>2) 主机/主机通信，比如网卡，modem<br>3) 主机/存储设备通信，主要是使用Host Bus Adaptor（HBA），HBA是一个电路板，他主要是解决CPU和存储设备的IO速率不匹配的问题   <h3 id="Connectivity（host和storage的连接）">Connectivity（host和storage的连接）</h3>在存储系统环境中的host和storage连接也可以分为物理和逻辑，物理就是具体连接host到storage的硬件，逻辑就是host到storage的通信协议。<h4 id="硬件组成">硬件组成</h4>Bus，Port，Cable<br><img src="/assets/physical-connectivity.png" alt=""><br>其中bus主要可以分为：<br>1)系统总线<br>  主要是cpu与内存的交互<br>2)Local or I/O总线<br>  主要是处理器和外部设备的交互<h4 id="逻辑组成">逻辑组成</h4>local bus上最流行的协议就是PCI（peripheral component interconnect）<br>和硬盘连接的一般是IDE（Intgrated Device Electronics）/ATA(Advanced Technology Attachment)以及SCSI（Small Computer System Interface）。  </li>
-</ul>
+        <p>硬盘使用快速移动的机械手臂来读/写取磁片上面的数据<br>硬盘的组建有<br>    platter（磁片），spindle，r/w head，actuator arm assembly，contorller<br><img src="/assets/disk.png" alt="硬盘结构"></p>
+<h3 id="Platter">Platter</h3><p>一个硬盘一般存在一个或者多个圆形碟片（platters）<br><img src="/assets/platter.png" alt="Spindle and Platter"><br>这么多的platters封装在一个盒子里面，叫做Head Disk Assembly（HDA）  </p>
+<h3 id="Spindle">Spindle</h3><p>Spindle把所有的Platters连接起来，并且它和motor（马达）相连接，这样就可以愉快的转起来了。<br>一般都可以转数千个Revolutions per minute（RPM）</p>
+<h3 id="R/W_Head">R/W Head</h3><p><img src="/assets/RW.png" alt="R/W Head"><br>每一面都有读写头，读写头可以改变磁片的磁极，读写头并没有直接碰着磁片，他们有一个距离叫做head flying height，只要磁片转起来，带动的空气会让磁头飞起来。</p>
+<h3 id="Actuator_Arm_Assembly">Actuator Arm Assembly</h3><p>读写头就被绑在这个东西上面</p>
+<h3 id="Controller">Controller</h3><p>Contoller是被印刷在电路板上，由微处理器以及内存，电路和固件组成，固件控制这Spindle马达的电源和速度。它可以和主机通信，也可以控制机械手臂，来优化数据访问。  </p>
+<h3 id="硬盘物理结构">硬盘物理结构</h3><p>数据被记录在磁道（tracks）上，磁道从0开始编号，从里到外依次增加，每一个磁道都被划分为若干个小块，每个小块叫做扇区（sectors），扇区是最小的存储单元，下图是硬盘结构<br><img src="/assets/disk-structure.png" alt="disk structutr"><br>一般来说一个扇区可以保存512B的数据，综上，数据的存储位置可以有三个坐标来确定：<br>扇面号，磁道号，扇区号。当然存储这些信息也是需要空间的,所以一般我们都不可能把磁盘空间占满。<br>cylinder就是用来定位盘面上面有多少个磁道</p>
+<h3 id="数据定位">数据定位</h3><p>早期的硬盘使用CHS号定位（Cylinder，head，sector）如下图(a)<br><img src="/assets/address.png" alt="address"><br>LBA(Logical Block Addressing)直接屏蔽了CHS繁琐的问题，把硬盘直接当成一个线性的地址，硬盘控制器会把LBA转换为CHS，然后在访问，上层应用不用关心CHS了</p>
 
       
     </div>
@@ -257,18 +227,18 @@ storage
     
 <nav id="article-nav">
   
-    <a href="/2015/11/26/硬盘/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/11/30/The Law of disk preformance/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          硬盘
+          The Law of disk preformance
         
       </div>
     </a>
   
   
-    <a href="/2015/11/26/Storage System Environment/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Storage System Environment</div>
+    <a href="/2015/11/26/存储系统环境/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">存储系统环境</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -297,7 +267,7 @@ storage
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="存储系统环境" data-title="存储系统环境" data-url="http://royzhao.github.io/2015/11/26/存储系统环境/"></div>
+	<div class="ds-thread" data-thread-key="硬盘" data-title="硬盘" data-url="http://royzhao.github.io/2015/11/26/硬盘/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

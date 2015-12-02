@@ -3,49 +3,27 @@
 <head>
   <meta charset="utf-8">
   
-  <title>存储系统环境 | Long</title>
+  <title>RAID0~6 | Long</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="什么是存储系统环境（Storage System Environment）数据流从应用到存储经过的所有的不同的组建集合叫做存储系统环境三个主要有组建有：
-
-host
-connectivity
-storage
-
-这章主要讲：1) 硬件部分
-
-硬盘，disk geometry（寻址，包括磁头，柱面，扇区），管理方式  
-总线技术及协议接口（关于存储设备与host的连接）2) 逻辑部分
-主机（文件系统：">
+  <meta name="description" content="名词
+stripee：不同磁盘相同偏移的位置被称为strpee
+segement：一个strpee在同一个磁盘上占用的区域叫做segement
+stripee depth：一个segement包含的扇区数叫做stripee depthIOPS计算公式存储系统的IOPS指标当然是高的好，公式如下IOPS=IO并发系数/（一次IO服务时间）传输效率与并发IO的矛盾一次IO如果可以尽可能的使用多的磁盘获">
 <meta property="og:type" content="article">
-<meta property="og:title" content="存储系统环境">
-<meta property="og:url" content="http://royzhao.github.io/2015/11/26/存储系统环境/index.html">
+<meta property="og:title" content="RAID0~6">
+<meta property="og:url" content="http://royzhao.github.io/2015/12/01/RAID介绍/index.html">
 <meta property="og:site_name" content="Long">
-<meta property="og:description" content="什么是存储系统环境（Storage System Environment）数据流从应用到存储经过的所有的不同的组建集合叫做存储系统环境三个主要有组建有：
-
-host
-connectivity
-storage
-
-这章主要讲：1) 硬件部分
-
-硬盘，disk geometry（寻址，包括磁头，柱面，扇区），管理方式  
-总线技术及协议接口（关于存储设备与host的连接）2) 逻辑部分
-主机（文件系统：">
-<meta property="og:image" content="http://royzhao.github.io/assets/physical-connectivity.png">
-<meta property="og:updated_time" content="2015-11-26T03:30:20.000Z">
+<meta property="og:description" content="名词
+stripee：不同磁盘相同偏移的位置被称为strpee
+segement：一个strpee在同一个磁盘上占用的区域叫做segement
+stripee depth：一个segement包含的扇区数叫做stripee depthIOPS计算公式存储系统的IOPS指标当然是高的好，公式如下IOPS=IO并发系数/（一次IO服务时间）传输效率与并发IO的矛盾一次IO如果可以尽可能的使用多的磁盘获">
+<meta property="og:updated_time" content="2015-12-02T14:31:29.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="存储系统环境">
-<meta name="twitter:description" content="什么是存储系统环境（Storage System Environment）数据流从应用到存储经过的所有的不同的组建集合叫做存储系统环境三个主要有组建有：
-
-host
-connectivity
-storage
-
-这章主要讲：1) 硬件部分
-
-硬盘，disk geometry（寻址，包括磁头，柱面，扇区），管理方式  
-总线技术及协议接口（关于存储设备与host的连接）2) 逻辑部分
-主机（文件系统：">
+<meta name="twitter:title" content="RAID0~6">
+<meta name="twitter:description" content="名词
+stripee：不同磁盘相同偏移的位置被称为strpee
+segement：一个strpee在同一个磁盘上占用的区域叫做segement
+stripee depth：一个segement包含的扇区数叫做stripee depthIOPS计算公式存储系统的IOPS指标当然是高的好，公式如下IOPS=IO并发系数/（一次IO服务时间）传输效率与并发IO的矛盾一次IO如果可以尽可能的使用多的磁盘获">
   
     <link rel="alternative" href="/atom.xml" title="Long" type="application/atom+xml">
   
@@ -193,11 +171,11 @@ storage
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-存储系统环境" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-RAID介绍" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/11/26/存储系统环境/" class="article-date">
-  	<time datetime="2015-11-26T03:26:25.000Z" itemprop="datePublished">2015-11-26</time>
+      <a href="/2015/12/01/RAID介绍/" class="article-date">
+  	<time datetime="2015-12-01T03:26:25.000Z" itemprop="datePublished">2015-12-01</time>
 </a>
     </div>
   
@@ -210,7 +188,7 @@ storage
         
   
     <h1 class="article-title" itemprop="name">
-      存储系统环境
+      RAID0~6
     </h1>
   
 
@@ -230,23 +208,24 @@ storage
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="什么是存储系统环境（Storage_System_Environment）">什么是存储系统环境（Storage System Environment）</h3><p>数据流从应用到存储经过的所有的不同的组建集合叫做存储系统环境<br>三个主要有组建有：</p>
-<ul>
-<li>host</li>
-<li>connectivity</li>
-<li>storage</li>
+        <h3 id="名词">名词</h3><ul>
+<li>stripee：不同磁盘相同偏移的位置被称为strpee</li>
+<li>segement：一个strpee在同一个磁盘上占用的区域叫做segement</li>
+<li>stripee depth：一个segement包含的扇区数叫做stripee depth<h3 id="IOPS计算公式">IOPS计算公式</h3>存储系统的IOPS指标当然是高的好，公式如下<br>IOPS=IO并发系数/（一次IO服务时间）<h3 id="传输效率与并发IO的矛盾">传输效率与并发IO的矛盾</h3>一次IO如果可以尽可能的使用多的磁盘获取数据，那么这次的IO必然节省数据的传输时间，让数据均匀分布到各个磁盘，那就只有将stripee depth变小<br>如果需要传输效率高，那么一次IO会占用多个磁盘，那么后面来的IO请求只有在队列中等待，要想提高并发IO，那么只能让一次IO尽可能的少占用磁盘，最好一个IO占用一个。<h3 id="RAID0">RAID0</h3></li>
+<li><p>优点：能够整合多块磁盘，提高单词IO的效率</p>
+</li>
+<li><p>缺点：<br>1)没有安全措施，一旦其中某个磁盘坏掉，整个阵列都将不可用  </p>
+</li>
 </ul>
-<p>这章主要讲：<br>1) 硬件部分</p>
-<ul>
-<li>硬盘，disk geometry（寻址，包括磁头，柱面，扇区），管理方式  </li>
-<li>总线技术及协议接口（关于存储设备与host的连接）<br>2) 逻辑部分</li>
-<li>主机（文件系统：file system，卷管理volume managers，操作系统：operating systems以及他们在存储系统环境中所处的位置）</li>
-</ul>
-<h3 id="Host">Host</h3><p>负责运行用户处理数据的应用程序的机器叫做Host<br>Host范围很广，可以从笔记本电脑到复杂的服务集群。<br>Host可以简单分为物理组件和逻辑组件</p>
-<h4 id="物理组件">物理组件</h4><ul>
-<li>CPU</li>
-<li>Storage（硬盘或者内存）</li>
-<li>I/O设备<br>物理组件一般总共总线（BUS）通信。<br>下面记录一下I/O设备类型<br>1) 主机/用户通信，比如键盘，鼠标，显示器等<br>2) 主机/主机通信，比如网卡，modem<br>3) 主机/存储设备通信，主要是使用Host Bus Adaptor（HBA），HBA是一个电路板，他主要是解决CPU和存储设备的IO速率不匹配的问题   <h3 id="Connectivity（host和storage的连接）">Connectivity（host和storage的连接）</h3>在存储系统环境中的host和storage连接也可以分为物理和逻辑，物理就是具体连接host到storage的硬件，逻辑就是host到storage的通信协议。<h4 id="硬件组成">硬件组成</h4>Bus，Port，Cable<br><img src="/assets/physical-connectivity.png" alt=""><br>其中bus主要可以分为：<br>1)系统总线<br>  主要是cpu与内存的交互<br>2)Local or I/O总线<br>  主要是处理器和外部设备的交互<h4 id="逻辑组成">逻辑组成</h4>local bus上最流行的协议就是PCI（peripheral component interconnect）<br>和硬盘连接的一般是IDE（Intgrated Device Electronics）/ATA(Advanced Technology Attachment)以及SCSI（Small Computer System Interface）。  </li>
+<h3 id="RAID1">RAID1</h3><ul>
+<li>优点：使用备份技术，损坏一个磁盘，备份磁盘可以顶上，同时因为备份盘和数据盘一样，所以可以实现并发IO，可以提升读效率  </li>
+<li>缺点：写时需要同时写备份盘，写效率降低  <h3 id="RAID2">RAID2</h3></li>
+<li>优点：独立使用校验盘，使用汉明码对数据进行校验，不用担心损坏一块盘导致阵列报废；由于RAID2是以bit为粒度存储，所以对于单个IO，可以把传输效率提升N倍（N为数据盘个数）</li>
+<li>缺点：校验盘较多，因为使用汉明码，所以随着数据盘的增加，相应也要增加校验盘。由于每次IO都要占用所有的磁盘，所以他不能实现并发IO。<h3 id="RAID3">RAID3</h3></li>
+<li>优点：使用XOR方式来进行校验数据，所以无论有多少个数据盘只需要一个校验盘就行。对于单个IO，可以把传输效率提升N倍。</li>
+<li>缺点：依然要使用独立的校验盘，不能够实现并发IO<h3 id="RAID4">RAID4</h3>只要让单次IO有空闲磁盘，那么就有可能实现并发IO，所以只要保证一次IO少于stripe size那么就可以让一次IO少占用磁盘。但是RAID4中还是共享校验盘的，校验盘成为独享资源，所以RAID4都快没有了。<h3 id="RAID5">RAID5</h3>RAID5解决了RAID4中竞争校验盘的问题，RAID5取消了校验盘，把校验数据分散到了各个数据盘中。</li>
+<li>优点：解决了校验盘竞争的问题，实现了并发IO</li>
+<li>缺点：只要损坏了两个及以上的数据盘，那么阵列就跪了<h3 id="RAID6">RAID6</h3>RAID6根据多元一次方程的原理实现了防止多块数据盘损坏导致系统不可用的情况。</li>
 </ul>
 
       
@@ -257,18 +236,9 @@ storage
     
 <nav id="article-nav">
   
-    <a href="/2015/11/26/硬盘/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          硬盘
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/11/26/Storage System Environment/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Storage System Environment</div>
+    <a href="/2015/11/30/The Law of disk preformance/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">The Law of disk preformance</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -297,7 +267,7 @@ storage
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="存储系统环境" data-title="存储系统环境" data-url="http://royzhao.github.io/2015/11/26/存储系统环境/"></div>
+	<div class="ds-thread" data-thread-key="RAID介绍" data-title="RAID0~6" data-url="http://royzhao.github.io/2015/12/01/RAID介绍/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

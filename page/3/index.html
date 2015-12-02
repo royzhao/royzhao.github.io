@@ -163,6 +163,690 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-linux-e6-9f-a5-e6-89-be-e5-b9-b6-e6-9b-bf-e6-8d-a2-e6-96-87-e4-bb-b6-e4-b8-ad-e7-9a-84-e6-8c-87-e5-ae-9a-e5-86-85-e5-ae-b9" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/01/20/linux-e6-9f-a5-e6-89-be-e5-b9-b6-e6-9b-bf-e6-8d-a2-e6-96-87-e4-bb-b6-e4-b8-ad-e7-9a-84-e6-8c-87-e5-ae-9a-e5-86-85-e5-ae-b9/" class="article-date">
+  	<time datetime="2014-01-20T08:35:57.000Z" itemprop="datePublished">2014-01-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/01/20/linux-e6-9f-a5-e6-89-be-e5-b9-b6-e6-9b-bf-e6-8d-a2-e6-96-87-e4-bb-b6-e4-b8-ad-e7-9a-84-e6-8c-87-e5-ae-9a-e5-86-85-e5-ae-b9/">linux 查找并替换文件中的指定内容</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="起因">起因</h3><p>在我刚刚把nginx搬到QTCreator的时候，由于nginx源码都是使用#include &lt;xx.h&gt;的形式，原先我并没有把nginx的头文件放在系统库头文件的变量中，于是乎，我脑抽般的想起，我把&lt;&gt;替换成“”的形式，这样就可以方便的运行了，当然，这个我想的太理想了，略2，但是还是让我学习到了如何查找并替换文件中的特定内容。</p>
+<h3 id="相关命令">相关命令</h3><p>我使用了这样的命令</p>
+<p>&lt;pre  lang=”shell”&gt;</p>
+<p>find -name “<em>.c” | xargs sed -i ‘s/&lt;([a-z|A-Z|_|0-9]</em>.h)&gt;/“\1”/g’</p>
+<p>&lt;/pre&gt;</p>
+<p>现在来详细解释一下，find命令是用来查找文件的</p>
+<p>详细可参见<a href="http://www.cnblogs.com/wanqieddy/archive/2011/06/09/2076785.html" target="_blank" rel="external">find 用法实例</a></p>
+<p>xargs这个是给命令传递参数的一个过滤器，是传递内容的，</p>
+<p>详细可参见<a href="http://www.cnblogs.com/wdpp/archive/2012/02/28/2386683.html" target="_blank" rel="external">xargs命令</a></p>
+<p>sed这个命令可以参见<a href="http://www.iteye.com/topic/587673" target="_blank" rel="external">sed命令</a></p>
+<p>我解释一下我的用法，因为我是要替换“#include &lt;xx.h&gt;”中的&lt;&gt;成为””，所以使用</p>
+<p>&lt;pre lang=”shell”&gt;</p>
+<p>sed -i ‘s/&lt;([a-z|A-Z|_|0-9]*.h)&gt;/“\1”/g’</p>
+<p>&lt;/pre&gt;</p>
+<p>-i的意思是把改变了的内容要回写进文件</p>
+<p>至于后面一句是sed用来匹配替换文本，</p>
+<p>s表示替换的意思</p>
+<p>&lt;([a-z|A-Z|<em>|0-9]*.h)&gt;是我们的&lt;xx.h&gt;因为xx.h是变化的，所以我们使用正则表达式([a-z|A-Z|</em>|0-9]*.h)来准确的获取，但是我们要对（）进行转义</p>
+<p>“\1”:这里\1的意思就是正则表达式([a-z|A-Z|_|0-9]*.h)匹配上的第一个的字符串的值，同理\2就是匹配上的第二个字符串的值，它是一个变量。这样子我们就实现了这种替换。</p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/杂七杂八/">杂七杂八</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-e4-bd-bf-e7-94-a8qt-creator-e6-9f-a5-e7-9c-8b-e5-b9-b6-e8-b0-83-e8-af-95nginx-e6-ba-90-e7-a0-81" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/01/20/e4-bd-bf-e7-94-a8qt-creator-e6-9f-a5-e7-9c-8b-e5-b9-b6-e8-b0-83-e8-af-95nginx-e6-ba-90-e7-a0-81/" class="article-date">
+  	<time datetime="2014-01-20T07:33:43.000Z" itemprop="datePublished">2014-01-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/01/20/e4-bd-bf-e7-94-a8qt-creator-e6-9f-a5-e7-9c-8b-e5-b9-b6-e8-b0-83-e8-af-95nginx-e6-ba-90-e7-a0-81/">使用QT Creator查看并调试nginx源码</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-前言">1.前言</h2><p>由于原先以前被vs2008以及eclipse宠坏了，vi使用又不熟悉，本来想好好学习nginx源码的我很是拙计，我亟需一个IDE来阅读以及调试源代码，于是我看上了QtCreator，，于是本博文就是介绍如何把nginx源码搞成qt creator工程。</p>
+<h2 id="2-建立-pro文件">2.建立.pro文件</h2><p></p><p>我们要先学习一下QT Creator的工程文件.pro，因为QTCreator的qmake按照.pro文件生成Makefile的。</p>
+<p>现在我们先来看看我们需要用到的.pro配置项</p>
+<p>配置项的格式是：key = value</p>
+<p>我们需要的key如下</p>
+<p>我把我的.pro文件贴出来</p>
+<pre lang="xml">
+TARGET = nginx
+DESTDIR = ./objs
+LIBS = -lpthread -lcrypt -lpcre -lcrypto -lcrypto -lz
+INCLUDEPATH += \
+        src/core \
+        src/event \
+        src/event/modules \
+        src/os/unix \
+        src/http/modules \
+        src/http \
+        objs
+HEADERS = src/core/nginx.h \
+        src/core/ngx_config.h \
+        src/core/ngx_core.h \
+        src/core/ngx_log.h \
+        src/core/ngx_palloc.h \
+        src/core/ngx_array.h \
+        src/core/ngx_list.h \
+        src/core/ngx_hash.h \
+        src/core/ngx_buf.h \
+        src/core/ngx_queue.h \
+        src/core/ngx_string.h \
+        src/core/ngx_parse.h \
+        src/core/ngx_inet.h \
+        src/core/ngx_file.h \
+        src/core/ngx_crc.h \
+        src/core/ngx_crc32.h \
+        src/core/ngx_murmurhash.h \
+        src/core/ngx_md5.h \
+        src/core/ngx_sha1.h \
+        src/core/ngx_rbtree.h \
+        src/core/ngx_radix_tree.h \
+        src/core/ngx_slab.h \
+        src/core/ngx_times.h \
+        src/core/ngx_shmtx.h \
+        src/core/ngx_connection.h \
+        src/core/ngx_cycle.h \
+        src/core/ngx_conf_file.h \
+        src/core/ngx_resolver.h \
+        src/core/ngx_open_file_cache.h \
+        src/core/ngx_crypt.h \
+        src/event/ngx_event.h \
+        src/event/ngx_event_timer.h \
+        src/event/ngx_event_posted.h \
+        src/event/ngx_event_busy_lock.h \
+        src/event/ngx_event_connect.h \
+        src/event/ngx_event_pipe.h \
+        src/os/unix/ngx_time.h \
+        src/os/unix/ngx_errno.h \
+        src/os/unix/ngx_alloc.h \
+        src/os/unix/ngx_files.h \
+        src/os/unix/ngx_channel.h \
+        src/os/unix/ngx_shmem.h \
+        src/os/unix/ngx_process.h \
+        src/os/unix/ngx_setaffinity.h \
+        src/os/unix/ngx_setproctitle.h \
+        src/os/unix/ngx_atomic.h \
+        src/os/unix/ngx_gcc_atomic_x86.h \
+        src/os/unix/ngx_thread.h \
+        src/os/unix/ngx_socket.h \
+        src/os/unix/ngx_os.h \
+        src/os/unix/ngx_user.h \
+        src/os/unix/ngx_process_cycle.h \
+        src/os/unix/ngx_linux_config.h \
+        src/os/unix/ngx_linux.h \
+        src/core/ngx_regex.h \
+        objs/ngx_auto_config.h \
+        src/http/ngx_http.h \
+        src/http/ngx_http_request.h \
+        src/http/ngx_http_config.h \
+        src/http/ngx_http_core_module.h \
+        src/http/ngx_http_cache.h \
+        src/http/ngx_http_variables.h \
+        src/http/ngx_http_script.h \
+        src/http/ngx_http_upstream.h \
+        src/http/ngx_http_upstream_round_robin.h \
+        src/http/ngx_http_busy_lock.h \
+        src/http/modules/ngx_http_ssi_filter_module.h
+SOURCES = src/core/nginx.c \
+        src/core/ngx_log.c \
+        src/core/ngx_palloc.c \
+        src/core/ngx_array.c \
+        src/core/ngx_list.c \
+        src/core/ngx_hash.c \
+        src/core/ngx_buf.c \
+        src/core/ngx_queue.c \
+        src/core/ngx_output_chain.c \
+        src/core/ngx_string.c \
+        src/core/ngx_parse.c \
+        src/core/ngx_inet.c \
+        src/core/ngx_file.c \
+        src/core/ngx_crc32.c \
+        src/core/ngx_murmurhash.c \
+        src/core/ngx_md5.c \
+        src/core/ngx_rbtree.c \
+        src/core/ngx_radix_tree.c \
+        src/core/ngx_slab.c \
+        src/core/ngx_times.c \
+        src/core/ngx_shmtx.c \
+        src/core/ngx_connection.c \
+        src/core/ngx_cycle.c \
+        src/core/ngx_spinlock.c \
+        src/core/ngx_cpuinfo.c \
+        src/core/ngx_conf_file.c \
+        src/core/ngx_resolver.c \
+        src/core/ngx_open_file_cache.c \
+        src/core/ngx_crypt.c \
+        src/event/ngx_event.c \
+        src/event/ngx_event_timer.c \
+        src/event/ngx_event_posted.c \
+        src/event/ngx_event_busy_lock.c \
+        src/event/ngx_event_accept.c \
+        src/event/ngx_event_connect.c \
+        src/event/ngx_event_pipe.c \
+        src/os/unix/ngx_time.c \
+        src/os/unix/ngx_errno.c \
+        src/os/unix/ngx_alloc.c \
+        src/os/unix/ngx_files.c \
+        src/os/unix/ngx_socket.c \
+        src/os/unix/ngx_recv.c \
+        src/os/unix/ngx_readv_chain.c \
+        src/os/unix/ngx_udp_recv.c \
+        src/os/unix/ngx_send.c \
+        src/os/unix/ngx_writev_chain.c \
+        src/os/unix/ngx_channel.c \
+        src/os/unix/ngx_shmem.c \
+        src/os/unix/ngx_process.c \
+        src/os/unix/ngx_daemon.c \
+        src/os/unix/ngx_setaffinity.c \
+        src/os/unix/ngx_setproctitle.c \
+        src/os/unix/ngx_posix_init.c \
+        src/os/unix/ngx_user.c \
+        src/os/unix/ngx_process_cycle.c \
+        src/os/unix/ngx_linux_init.c \
+        src/event/modules/ngx_epoll_module.c \
+        src/os/unix/ngx_linux_sendfile_chain.c \
+        src/core/ngx_regex.c \
+        src/http/ngx_http.c \
+        src/http/ngx_http_core_module.c \
+        src/http/ngx_http_special_response.c \
+        src/http/ngx_http_request.c \
+        src/http/ngx_http_parse.c \
+        src/http/ngx_http_header_filter_module.c \
+        src/http/ngx_http_write_filter_module.c \
+        src/http/ngx_http_copy_filter_module.c \
+        src/http/modules/ngx_http_log_module.c \
+        src/http/ngx_http_request_body.c \
+        src/http/ngx_http_variables.c \
+        src/http/ngx_http_script.c \
+        src/http/ngx_http_upstream.c \
+        src/http/ngx_http_upstream_round_robin.c \
+        src/http/ngx_http_parse_time.c \
+        src/http/modules/ngx_http_static_module.c \
+        src/http/modules/ngx_http_index_module.c \
+        src/http/modules/ngx_http_chunked_filter_module.c \
+        src/http/modules/ngx_http_range_filter_module.c \
+        src/http/modules/ngx_http_headers_filter_module.c \
+        src/http/modules/ngx_http_not_modified_filter_module.c \
+        src/http/ngx_http_busy_lock.c \
+        src/http/ngx_http_file_cache.c \
+        src/http/modules/ngx_http_gzip_filter_module.c \
+        src/http/ngx_http_postpone_filter_module.c \
+        src/http/modules/ngx_http_ssi_filter_module.c \
+        src/http/modules/ngx_http_charset_filter_module.c \
+        src/http/modules/ngx_http_userid_filter_module.c \
+        src/http/modules/ngx_http_autoindex_module.c \
+        src/http/modules/ngx_http_auth_basic_module.c \
+        src/http/modules/ngx_http_access_module.c \
+        src/http/modules/ngx_http_limit_conn_module.c \
+        src/http/modules/ngx_http_limit_req_module.c \
+        src/http/modules/ngx_http_geo_module.c \
+        src/http/modules/ngx_http_map_module.c \
+        src/http/modules/ngx_http_split_clients_module.c \
+        src/http/modules/ngx_http_referer_module.c \
+        src/http/modules/ngx_http_rewrite_module.c \
+        src/http/modules/ngx_http_proxy_module.c \
+        src/http/modules/ngx_http_fastcgi_module.c \
+        src/http/modules/ngx_http_uwsgi_module.c \
+        src/http/modules/ngx_http_scgi_module.c \
+        src/http/modules/ngx_http_memcached_module.c \
+        src/http/modules/ngx_http_empty_gif_module.c \
+        src/http/modules/ngx_http_browser_module.c \
+        src/http/modules/ngx_http_upstream_ip_hash_module.c \
+        src/http/modules/ngx_http_upstream_least_conn_module.c \
+        src/http/modules/ngx_http_upstream_keepalive_module.c \
+        objs/ngx_modules.c
+</pre>
+
+<h2 id="3-nginx的编译配置生成">3.nginx的编译配置生成</h2><p></p><p>由于nginx有很多的模块，在编译的过程中，nginx会根据系统环境的设置，生成ngx_modules.c、ngx_auto_config.h、ngx_auto_headers.h、Makefile等，然后，源代码中根据这些配置头文件，使用宏定义进行差异化编译。所以我们最重要的一步就是根据系统环境生成ngx_modules.c、ngx_auto_config.h、ngx_auto_headers.h、Makefile这几个文件。</p>
+<p>步骤就是非常简单的，使用./configure就好了，以上文件都生成在nginx目录下的objs文件夹内。</p>
+<h2 id="生成QTCreator版本的nginx">生成QTCreator版本的nginx</h2><p>打开QTCreator创建一个空的QTCreator项目,如下</p>
+<p><a href="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/creat.jpg" target="_blank" rel="external"><img src="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/creat.jpg" alt="" title="creat"></a></p>
+<p><a href="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/create2.jpg" target="_blank" rel="external"><img src="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/create2.jpg" alt="" title="create2"></a></p>
+<p><a href="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/create3.jpg" target="_blank" rel="external"><img src="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/create3.jpg" alt="" title="create3"></a></p>
+<p><a href="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/create4.jpg" target="_blank" rel="external"><img src="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/create4.jpg" alt="" title="create4"></a></p>
+<p>现在把nginx文件夹下的src、objs文件夹拷贝到nginx目录下</p>
+<p><a href="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/pro.jpg" target="_blank" rel="external"><img src="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/pro.jpg" alt="" title="pro"></a></p>
+<p>修改.pro文件</p>
+<pre lang="xml">
+TARGET = nginx
+DESTDIR = ./objs
+LIBS = -lpthread -lcrypt -lpcre -lcrypto -lcrypto -lz
+INCLUDEPATH += \
+        src/core \
+        src/event \
+        src/event/modules \
+        src/os/unix \
+        src/http/modules \
+        src/http \
+        objs
+HEADERS = src/core/nginx.h \
+        src/core/ngx_config.h \
+        src/core/ngx_core.h \
+        src/core/ngx_log.h \
+        src/core/ngx_palloc.h \
+        src/core/ngx_array.h \
+        src/core/ngx_list.h \
+        src/core/ngx_hash.h \
+        src/core/ngx_buf.h \
+        src/core/ngx_queue.h \
+        src/core/ngx_string.h \
+        src/core/ngx_parse.h \
+        src/core/ngx_inet.h \
+        src/core/ngx_file.h \
+        src/core/ngx_crc.h \
+        src/core/ngx_crc32.h \
+        src/core/ngx_murmurhash.h \
+        src/core/ngx_md5.h \
+        src/core/ngx_sha1.h \
+        src/core/ngx_rbtree.h \
+        src/core/ngx_radix_tree.h \
+        src/core/ngx_slab.h \
+        src/core/ngx_times.h \
+        src/core/ngx_shmtx.h \
+        src/core/ngx_connection.h \
+        src/core/ngx_cycle.h \
+        src/core/ngx_conf_file.h \
+        src/core/ngx_resolver.h \
+        src/core/ngx_open_file_cache.h \
+        src/core/ngx_crypt.h \
+        src/event/ngx_event.h \
+        src/event/ngx_event_timer.h \
+        src/event/ngx_event_posted.h \
+        src/event/ngx_event_busy_lock.h \
+        src/event/ngx_event_connect.h \
+        src/event/ngx_event_pipe.h \
+        src/os/unix/ngx_time.h \
+        src/os/unix/ngx_errno.h \
+        src/os/unix/ngx_alloc.h \
+        src/os/unix/ngx_files.h \
+        src/os/unix/ngx_channel.h \
+        src/os/unix/ngx_shmem.h \
+        src/os/unix/ngx_process.h \
+        src/os/unix/ngx_setaffinity.h \
+        src/os/unix/ngx_setproctitle.h \
+        src/os/unix/ngx_atomic.h \
+        src/os/unix/ngx_gcc_atomic_x86.h \
+        src/os/unix/ngx_thread.h \
+        src/os/unix/ngx_socket.h \
+        src/os/unix/ngx_os.h \
+        src/os/unix/ngx_user.h \
+        src/os/unix/ngx_process_cycle.h \
+        src/os/unix/ngx_linux_config.h \
+        src/os/unix/ngx_linux.h \
+        src/core/ngx_regex.h \
+        objs/ngx_auto_config.h \
+        src/http/ngx_http.h \
+        src/http/ngx_http_request.h \
+        src/http/ngx_http_config.h \
+        src/http/ngx_http_core_module.h \
+        src/http/ngx_http_cache.h \
+        src/http/ngx_http_variables.h \
+        src/http/ngx_http_script.h \
+        src/http/ngx_http_upstream.h \
+        src/http/ngx_http_upstream_round_robin.h \
+        src/http/ngx_http_busy_lock.h \
+        src/http/modules/ngx_http_ssi_filter_module.h
+SOURCES = src/core/nginx.c \
+        src/core/ngx_log.c \
+        src/core/ngx_palloc.c \
+        src/core/ngx_array.c \
+        src/core/ngx_list.c \
+        src/core/ngx_hash.c \
+        src/core/ngx_buf.c \
+        src/core/ngx_queue.c \
+        src/core/ngx_output_chain.c \
+        src/core/ngx_string.c \
+        src/core/ngx_parse.c \
+        src/core/ngx_inet.c \
+        src/core/ngx_file.c \
+        src/core/ngx_crc32.c \
+        src/core/ngx_murmurhash.c \
+        src/core/ngx_md5.c \
+        src/core/ngx_rbtree.c \
+        src/core/ngx_radix_tree.c \
+        src/core/ngx_slab.c \
+        src/core/ngx_times.c \
+        src/core/ngx_shmtx.c \
+        src/core/ngx_connection.c \
+        src/core/ngx_cycle.c \
+        src/core/ngx_spinlock.c \
+        src/core/ngx_cpuinfo.c \
+        src/core/ngx_conf_file.c \
+        src/core/ngx_resolver.c \
+        src/core/ngx_open_file_cache.c \
+        src/core/ngx_crypt.c \
+        src/event/ngx_event.c \
+        src/event/ngx_event_timer.c \
+        src/event/ngx_event_posted.c \
+        src/event/ngx_event_busy_lock.c \
+        src/event/ngx_event_accept.c \
+        src/event/ngx_event_connect.c \
+        src/event/ngx_event_pipe.c \
+        src/os/unix/ngx_time.c \
+        src/os/unix/ngx_errno.c \
+        src/os/unix/ngx_alloc.c \
+        src/os/unix/ngx_files.c \
+        src/os/unix/ngx_socket.c \
+        src/os/unix/ngx_recv.c \
+        src/os/unix/ngx_readv_chain.c \
+        src/os/unix/ngx_udp_recv.c \
+        src/os/unix/ngx_send.c \
+        src/os/unix/ngx_writev_chain.c \
+        src/os/unix/ngx_channel.c \
+        src/os/unix/ngx_shmem.c \
+        src/os/unix/ngx_process.c \
+        src/os/unix/ngx_daemon.c \
+        src/os/unix/ngx_setaffinity.c \
+        src/os/unix/ngx_setproctitle.c \
+        src/os/unix/ngx_posix_init.c \
+        src/os/unix/ngx_user.c \
+        src/os/unix/ngx_process_cycle.c \
+        src/os/unix/ngx_linux_init.c \
+        src/event/modules/ngx_epoll_module.c \
+        src/os/unix/ngx_linux_sendfile_chain.c \
+        src/core/ngx_regex.c \
+        src/http/ngx_http.c \
+        src/http/ngx_http_core_module.c \
+        src/http/ngx_http_special_response.c \
+        src/http/ngx_http_request.c \
+        src/http/ngx_http_parse.c \
+        src/http/ngx_http_header_filter_module.c \
+        src/http/ngx_http_write_filter_module.c \
+        src/http/ngx_http_copy_filter_module.c \
+        src/http/modules/ngx_http_log_module.c \
+        src/http/ngx_http_request_body.c \
+        src/http/ngx_http_variables.c \
+        src/http/ngx_http_script.c \
+        src/http/ngx_http_upstream.c \
+        src/http/ngx_http_upstream_round_robin.c \
+        src/http/ngx_http_parse_time.c \
+        src/http/modules/ngx_http_static_module.c \
+        src/http/modules/ngx_http_index_module.c \
+        src/http/modules/ngx_http_chunked_filter_module.c \
+        src/http/modules/ngx_http_range_filter_module.c \
+        src/http/modules/ngx_http_headers_filter_module.c \
+        src/http/modules/ngx_http_not_modified_filter_module.c \
+        src/http/ngx_http_busy_lock.c \
+        src/http/ngx_http_file_cache.c \
+        src/http/modules/ngx_http_gzip_filter_module.c \
+        src/http/ngx_http_postpone_filter_module.c \
+        src/http/modules/ngx_http_ssi_filter_module.c \
+        src/http/modules/ngx_http_charset_filter_module.c \
+        src/http/modules/ngx_http_userid_filter_module.c \
+        src/http/modules/ngx_http_autoindex_module.c \
+        src/http/modules/ngx_http_auth_basic_module.c \
+        src/http/modules/ngx_http_access_module.c \
+        src/http/modules/ngx_http_limit_conn_module.c \
+        src/http/modules/ngx_http_limit_req_module.c \
+        src/http/modules/ngx_http_geo_module.c \
+        src/http/modules/ngx_http_map_module.c \
+        src/http/modules/ngx_http_split_clients_module.c \
+        src/http/modules/ngx_http_referer_module.c \
+        src/http/modules/ngx_http_rewrite_module.c \
+        src/http/modules/ngx_http_proxy_module.c \
+        src/http/modules/ngx_http_fastcgi_module.c \
+        src/http/modules/ngx_http_uwsgi_module.c \
+        src/http/modules/ngx_http_scgi_module.c \
+        src/http/modules/ngx_http_memcached_module.c \
+        src/http/modules/ngx_http_empty_gif_module.c \
+        src/http/modules/ngx_http_browser_module.c \
+        src/http/modules/ngx_http_upstream_ip_hash_module.c \
+        src/http/modules/ngx_http_upstream_least_conn_module.c \
+        src/http/modules/ngx_http_upstream_keepalive_module.c \
+        objs/ngx_modules.c
+</pre>
+
+<p>现在来解释一下为什么这么用</p>
+<p>主要解释一下INCLUDEPATH、LIBS，因为我在这上面吃过亏</p>
+<p>好了，现在就可以编译了</p>
+<p><a href="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/result.jpg" target="_blank" rel="external"><img src="http://zt2peilong-wordpress.stor.sinaapp.com/uploads/2014/01/result.jpg" alt="" title="result"></a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/nginx/">nginx</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-nginx-e5-a6-82-e4-bd-95-e5-a4-84-e7-90-86-e4-b8-80-e4-b8-aa-e8-af-b7-e6-b1-82" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/01/10/nginx-e5-a6-82-e4-bd-95-e5-a4-84-e7-90-86-e4-b8-80-e4-b8-aa-e8-af-b7-e6-b1-82/" class="article-date">
+  	<time datetime="2014-01-10T02:58:52.000Z" itemprop="datePublished">2014-01-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/01/10/nginx-e5-a6-82-e4-bd-95-e5-a4-84-e7-90-86-e4-b8-80-e4-b8-aa-e8-af-b7-e6-b1-82/">Nginx如何处理一个请求</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>author: Igor Sysoev</strong><br><strong>翻译：赵培龙</strong><br><a href="http://nginx.org/en/docs/http/request_processing.html" target="_blank" rel="external"><strong>原文地址</strong></a></p>
+<h1 id="1-基于名字的虚拟服务器">1.基于名字的虚拟服务器</h1><p>nginx第一步就是要决定让哪一个服务器来处理相应的请求。我们使用一个简单的例子来说明：<br>   我们现在配置3个虚拟服务器，都监听80端口，配置文件如下</p>
+<pre lang="xml">
+server {
+    listen      80;
+    server_name example.org www.example.org;
+    ...
+}
+
+server {
+    listen      80;
+    server_name example.net www.example.net;
+    ...
+}
+
+server {
+    listen      80;
+    server_name example.com www.example.com;
+    ...
+}
+</pre>
+
+<p>在这个配置下的nginx，nginx会主动去检查http请求中的host字段，根据host字段的值来判断该把这个请求交给哪一个虚拟服务器来处理。如果没有找到匹配的虚拟服务器名，那么nginx会把这个请求交给默认的虚拟服务器，在上面的配置中，默认的服务器是第一个。当然我们也可以显示的指出(使用default_server)哪一个服务器是默认服务器，</p>
+<pre lang="xml">
+server {
+    listen      80 default_server;
+    server_name example.net www.example.net;
+    ...
+}
+</pre>
+
+<div style="backgournd-color:#e7e7e7"><br>在0.8.21的版本之后使用<strong>default_server</strong>,之前的版本都是使用的<strong>defalut</strong><br></div>
+
+<h1 id="2-如何处理一个没有带host值的http请求">2.如何处理一个没有带host值的http请求</h1><p>如果请求头里没有host的值，那么我们在配置中可以这样子定义：</p>
+<pre lang="xml">
+server {
+    listen      80;
+    server_name "";
+    return      444;
+}
+</pre>
+直接返回444
+
+<div style="backgournd-color:#e7e7e7">
+在0.8.48的版本之后，配置中默认的有这种处理方式,但之前的版本都是匹配上的默认服务器
+</div>
+
+# 基于IP和主机名的混合虚拟服务器
+
+配置如下
+<pre lang="xml">
+server {
+    listen      192.168.1.1:80;
+    server_name example.org www.example.org;
+    ...
+}
+
+server {
+    listen      192.168.1.1:80;
+    server_name example.net www.example.net;
+    ...
+}
+
+server {
+    listen      192.168.1.2:80;
+    server_name example.com www.example.com;
+    ...
+}
+</pre>
+
+<p>在这种配置下，nginx首先是匹配请求里面的ip和端口，然后才是匹配头里面的host字段，都没有匹配到的情况下就会送给默认的服务器。</p>
+<h1 id="配置一个简单的php站点">配置一个简单的php站点</h1><p>配置如下：</p>
+<pre lang="xml">
+server {
+    listen      80;
+    server_name example.org www.example.org;
+    root        /data/www;
+
+    location / {
+        index   index.html index.php;
+    }
+
+    location ~* \.(gif|jpg|png)$ {
+        expires 30d;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass  localhost:9000;
+        fastcgi_param SCRIPT_FILENAME
+                      $document_root$fastcgi_script_name;
+        include       fastcgi_params;
+    }
+}
+</pre>
+
+<p>location后面的那些字符串是一个正则表达式，用来匹配URI的，比如location后面的”/“就是来匹配任何请求的，nginx是最长匹配原则来匹配的。</p>
+<p>注意到所有的location都没有包含URI的参数，这个是由于URI的参数的写法太多了，举个例子</p>
+<pre lang="xml">
+/index.php?user=john&page=1
+/index.php?page=1&user=john
+</pre>
+
+<p>现在我们来看看具体的例子</p>
+<p><ol><br>    <li>一个带有”/logo.gif”首先被 location “/“匹配，然后被”.(gif|jpg|png)$”匹配，但是这个是被后面的那个处理，由于root的值是/data/www所以访问的文件的地址是/data/www/logo.gif,nginx会把这个文件发给客户端<br>    </li><li>一个带有”/index.php”依然首先被”/“匹配到，然后被”.(php)$”匹配，这个还是被后面那个location处理。这个请求会传递给fastCGI服务器localhost:9000，fastcgi_param这个配置项是设置FastCGI参数”SCRPT_FILENAME”为”data/www/index.php”,FastCGI服务器会执行这个php脚本，变量$document_root就是root配置项的值，变量$fastcgi_script_name的值就等于请求的URI，这里是”/index.php”<br>   </li><li>一个带有”/about.html”依然会最先被”/“匹配，但是由于没有其他的匹配他，所以就直接被”/“处理了，由于root的值是/data/www，所以nginx会找到/data/www/about.html发给客户端。<br>   </li><li>处理一个请求”/“更加复杂，这个请求首先被location “/“匹配上，然后又被其处理<br>，这个location里面有一个配置项叫做index，这个配置项测试在/data/www（root配置项的值）文件夹下是否有inde.html文件，如果有，则发给客户端，如果没有，若是存在/data/www/index.phph,则重定向到”/index.php”,这个请求又会重新被定向到处理php的location中进行处理，流程和普通的带有”/*.php”一样。</li></ol></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/nginx/">nginx</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-nginx-e6-ba-90-e7-a0-81-e5-88-86-e6-9e-90-ef-bc-881-ef-bc-89" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1298,123 +1982,9 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 
   
-    <article id="post-maven-e5-88-9b-e5-bb-ba-e5-a4-9a-e6-a8-a1-e5-9d-97-e7-9a-84java-e9-a1-b9-e7-9b-ae" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2013/10/17/maven-e5-88-9b-e5-bb-ba-e5-a4-9a-e6-a8-a1-e5-9d-97-e7-9a-84java-e9-a1-b9-e7-9b-ae/" class="article-date">
-  	<time datetime="2013-10-17T13:21:24.000Z" itemprop="datePublished">2013-10-17</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/10/17/maven-e5-88-9b-e5-bb-ba-e5-a4-9a-e6-a8-a1-e5-9d-97-e7-9a-84java-e9-a1-b9-e7-9b-ae/">maven创建多模块的java项目</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天是做网站的第一天，要想做网站 必须要有架构，先要确定用什么工具，我决定使用spring，但是大的工程一般都会分为多个模块，所以我就专门查了查maven如何多模块操作。</p>
-<p>java开发肯定要用eclipse，我们首先要在机器上装有m2e的eclipse插件</p>
-<p>我们新建一个maven工程，这个工程作为父工程，就是我们的大项目，在使用向导的时候你必须选择该项目的打包类型，这里很重要，打包类型要用pom，这样直接点完成。这样我们的总工程就完成了。</p>
-<p>下面我们来进行子模块的创建，在刚刚建立的工程上右击看到maven的那一项，可以看见创建子模块，这样就像平时那样用就好了。</p>
-<p>这样我们的多模块工程就完成了。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/java技术/">java技术</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-hello-world-1" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2013/10/14/hello-world-1/" class="article-date">
-  	<time datetime="2013-10-14T04:58:15.000Z" itemprop="datePublished">2013-10-14</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/10/14/hello-world-1/">本年目标</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>实现不了了下次再说</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/未分类/">未分类</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 </div>
