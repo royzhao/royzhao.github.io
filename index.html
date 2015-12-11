@@ -103,7 +103,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/storage/" style="font-size: 20px;">-storage</a> <a href="/tags/HA/" style="font-size: 10px;">HA</a>
+						<a href="/tags/storage/" style="font-size: 10px;">-storage</a>
 					</div>
 				</section>
 				
@@ -162,101 +162,6 @@
 	</div>
 </nav>
       <div class="body-wrap">
-  
-    <article id="post-高可用理念" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/12/11/高可用理念/" class="article-date">
-  	<time datetime="2015-12-11T00:05:42.000Z" itemprop="datePublished">2015-12-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/11/高可用理念/">高可用理念</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>  来自高可用架构群分享—by Coding CTO孙宇聪</p>
-</blockquote>
-<h2 id="1-怎样才算高可用">1.怎样才算高可用</h2><p><strong>前提：所有东西都有不可用的时候，所以得依靠一个指标来量化SLA。</strong><br>虽然大家一般都谈的是年SLA，但是年SLA除了对付客户之外，对工程上一般没有什么重要意义，google内部更加看重的是季度SLA，甚至到周，这样带来的挑战就更加大了。<br>可用级别如下图<br><img src="/assets/SLA.jpg" alt="SLA"><br>一般一个服务至少要做到3个9才能被成为基本可用，否则这个服务别人会很难使用。<br>从3个9到4个9是一个非常大的进步，一般来说到3个9是可以靠堆人搞定，但是从3个9向上靠人基本就是不行的了，这时候考验的就是业务的自愈能力，架构的容灾，容错设计，灾备系统的完备等等。  </p>
-<h2 id="2-哪些方面才能影响SLA">2.哪些方面才能影响SLA</h2><p>引入两个指标<br><strong>MTBF:Mean time between Failures,表示一个服务多长时间坏一次</strong><br><strong>MTTR：Mean time to recover，表示一个服务一旦坏了，需要多长时间恢复</strong><br>有了这两个概念，我们就可以得到一个公式  </p>
-<blockquote>
-<p>  Availability =f(MTBF,MTTR) //MTBF与Availability正相关，MTTR与其负相关  </p>
-</blockquote>
-<p>根据这个公式，要提升一个服务的可用性，要么提升MTBF，要么降低MTTR。<br>如果一个服务MTBF非常高，比如一年只出一次问题，那么要达到4个9的要求就很好满足了只要你在52.6分钟之内恢复服务,那么你还是4个9的可用性。蛤蛤。<br>但是如果你的MTBF很低，比如一周坏一次，这种情况就只能从MTTR上下工夫了。  </p>
-<blockquote>
-<p>  孙宇聪：对于正常人来说，从受到突发警报然后到找到修复完成都是需要一定时间的，对于我2分钟能看清报警，就算是已知问题，有对应预备方案，能敲对命令，完全成功，也是要花15-20分钟，如果服务想要达到4个9,那么按照我这个标准，一年只能坏一次，再多就超标了，所以实现高可用基本靠运气(笑。  </p>
-</blockquote>
-<p><strong>所以MTTR都是有极限时间的。</strong><br>所以要提高高可用还是需要从MTBF下手。<br><strong>影响MTBF的因素</strong></p>
-<ul>
-<li>发布。  </li>
-<li>发布。  </li>
-<li>还是发布。<br>术语上这个叫做Age Mortality Risk，更新越频繁，那么出问题的可能性越大。<br>凡是software都有bug，修复bug的更新也可能会引入bug，所以MTBF最大的敌人就是发布心版本。<h2 id="3-如何落地提高高可用性">3.如何落地提高高可用性</h2>方案：<br>1) 提高冗余度，多实例运行。用资源换可用性。  </li>
-</ul>
-<p>虽然道理很简单，但是实现起来并不简单，有很多细节需要考虑。  </p>
-<p>细节1: N+2应该是标配。N+2的意思是如果一个服务需要一个实例正常提供服务，那么生产环境上应该部署1+2=3个节点。可能大家囧的N+1比较合理，能够提供热备容灾，但是我们在发布的时候备份节点就成为了单点了，这个时候出了问题，那么我们的服务就不可用了，所以这个才是N+2的意义所在。 <strong>而且，发布成功的机率不高</strong>,从另一个角度讲N+2可以在丢失最大的实例的同时依然可以保证服务的运行，有点像两地三中心的概念。<br>细节2: 实例之间要对等，独立，不要搞一大一小，相互依赖，否则你的N+2就不是真正的N+2，如果两地三中心的一个中心需要24小时才能迁移过去，那他就不是一个高可用部署，还是叫做异地灾备系统吧。<br>细节3: 流量控制能力非常重要。要想做到高可用就必须有一套非常可靠的流量控制系统。为什么呢？原因是高可用系统必须要支持以下几种场景：  </p>
-<ul>
-<li>Isolation<br>不同用户发来的请求同时处理可能会有冲突，他们之间所以需要隔离，隔离就需要识别这些流量。  </li>
-<li>Quarantine<br>一些用户发来的请求可能资源消耗超标，必须将这些请求钉死在某几个节点上以便顾全大局，所以需要识别这样的流量  </li>
-<li>Query of death<br>上线之后一个用户发来请求直接搞挂服务，要是连续来几次可能整个集群都挂了，这样就不能实现高可用了，针对这种情况，所以需要对这种流量进行识别自动屏蔽。  </li>
-</ul>
-<p>综上所述，流量控制系统对HA是必不可少的，而且最好按照业务维度来划分，比如按照API，用户类型，用户来源来调度。  </p>
-<p>2) 变更管理<br>发布质量不提高，一切都是空谈。<br>第一点：线下测试（offline test）  </p>
-<p>线下测试永远比线上测调试容易一百倍，也安全一百倍。</p>
-<blockquote>
-<p> 孙宇聪：如果各位的团队还没有完整的线下测试环境，那么我的意见是先不要接新业务了，花点时间把这个搞定。</p>
-</blockquote>
-<p>其中包括代码测试，数据兼容测试，压力测试等等，可用性的阶段性提升，不是靠运维团队，而是靠产品团队。   </p>
-<p>第二点： 灰度发布  </p>
-<p>这个灰度发布具体实施起来也是很有讲究的，他是速度与安全的妥协，他是发布众多保险的最后一道，而不是唯一的一道。如果只是为了灰度而灰度，故意认为的拖慢进度，反而造成线上多个版本长期共存，可能会引入心的问题。  </p>
-<p>做灰度发布如果是匀速的，说明没有理解灰度发布的意义，一般来说阶段选择上从1%-&gt;10%-&gt;100%的指数型增长，这个阶段是根据具体业务不同按唯独去细分的。这里的重点在于1%并不全是按随机选择的，而是根据业务特点，数据特点选择的具有代表性的实例，去做灰度发布的小白鼠，甚至每次发布的第一阶段的用户（Canary）都是根据每次发布的特点不同，人为挑选的，比如发布一个只给亚洲用户使用的功能，那么用美国或者欧洲的集群来做发布实验是没有什么意义的。灰度发布真的不只是按机器划分这么简单。  </p>
-<p>本质上灰度发布就是上线的最后一道安全防护机制，首先不能过慢，让产品团队过度依赖，也不能过于随机失去了他的意义，总之灰度发布，全部都在细节里。  </p>
-<p>第三点： 服务必须对回滚提供支持  </p>
-<p>不能回滚的理由各种各样，下面分享三条秘籍，保证药到病除。<br>理由1:我这个数据改动之后格式和以前不兼容了，回退也不能回复到正常。<br>秘籍1:设计开发的时候就要考虑好兼容性问题！！比如数据库改字段的事儿就不要做，改成另加一个字段就好。数据存储格式就最好采用protobuf这种支持数据版本，支持前后兼容性的方案，最差最差也要在变更实施“之前”想清楚数据兼容性的问题，没有回滚脚本，不给更新，做到有备而战。  </p>
-<p>理由2:我变更删除东西了，滚回去也没有用了。<br>秘籍2:把变更打回去，分成凉拌，第一半禁止访问这个数据，等到发布之后没有问题了，再来发布第二半，这个时候真正删掉数据，这样子实施第一半之后，需要回滚还可以滚回去。  </p>
-<p>理由3:我的变更发布之后，以来这个系统的人都拿到了错误的数据，回退也没有用了，他们不接受老数据了。<br>秘籍3:这种问题常常出现在配置管理，缓存等系统中，对于这种问题，最重要的就是开发出一种和版本无关的刷新机制，出发刷新的机制应该独立于发布过程，有一个强制刷新数据的手段。   </p>
-<h2 id="可用性级别">可用性级别</h2><p>第一级：crash with data corruption destruction<br>  内存数据库就是这样，出个意外，数据都没有了。写硬盘到一般，挂了之后，不光是进程内数据没了，老数据都掉完了。<br>第二级：Crash with new data loss<br>  一般来说正常的服务都应做到这一点，挂了之后最多丢个几秒的数据。<br>第三级：Crash without data loss<br>  好一点的服务应该都做到这一级别了，要达到这一级别需要一定的技术投入，起码搞清楚如何绕过os的各种cache，绕过硬件的各种坑，有一定难度。<br>第四级：No Crash,but with no or limited service, low service quality of service.<br>  做的好一点的系统，不要动不动就崩溃了，一个程序如果能够正常处理异常输入，异常数据等，那么就给刚刚提到的流量控制系统创造了条件，可以把其他用户的流量导入过来，把问题流量发到一边去，不会造成太大的容量损失。<br>第六级：Failover with significant user visible delay, near full quality of service<br>  到了这一级别才摸到高可用的门，也就是有容灾措施，但是可能自动化程度不高，或者一些关键问题没有解决，所以业务能恢复，但是就是比较慢。<br>第七级：Failover with minimal to none user visible delay, near full qulity of service.<br>  南翔一铲子下去，你的服务依然没有影响，高可用就是这个样子的。  </p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HA/">HA</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
   
     <article id="post-RAID介绍" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -824,6 +729,217 @@
       
       
       
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-180" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/03/30/180/" class="article-date">
+  	<time datetime="2015-03-30T07:32:15.000Z" itemprop="datePublished">2015-03-30</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/30/180/">docker-browser-server</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>该项目主要使用了普通的http和websocket，下面从http以及websocket两个方面来说一下遇到的坑。</p>
+<h2 id=""> </h2><pre><code>先<span class="keyword">http</span>
+</code></pre><p>我们的需求主要有如下<br>1)如何对http请求加过滤器（比如在处理用户权限问题上）</p>
+<h2 id="-1"> </h2><pre><code>然后websocket
+</code></pre><p>websocket的需求主要有如下<br>1)<span>docker服务器</span>如何与浏览器进行通信<br>2)对docker服务器进行操作</p>
+<h2 id="-2"> </h2><pre><code>下面我分别诉说一下如何做到这几点
+</code></pre><h3 id="-3"> </h3><pre><code><span class="number">1</span>)<span class="keyword">http</span>过滤器
+</code></pre><p>在index.js文件之中过滤器相当于找到如下代码<br>&nbsp;</p>
+<pre class="brush:javascript">server.all('uri1',function(req, res, next) {
+    //做你想做的内容
+    console.log('1')
+    next()//表示进入到下一个处理
+})
+
+server.all('uri1',function(req, res, next) {
+    //做你想做的内容
+    console.log('2')
+    next()//表示进入到下一个处理
+})</pre>
+&nbsp;
+这里面解释如下：
+&nbsp;
+1\. all方法表示处理所有的url为uri1的http请求（包含get，post等方法），如果你只想处理get方法，那么你可以使用
+&nbsp;
+<pre class="brush:javascript">server.get('uri1',function(req, res, next) {
+    //做你想做的内容
+    next()//表示进入到下一个处理
+})</pre>
+&nbsp;
+2.处理的顺序是和申明的顺序一致的
+&nbsp;
+
+### 
+    2)websocket
+
+#### 
+    2.1服务器端与浏览器通信
+
+通过websocket进行通信，服务端代码为
+&nbsp;
+<pre class="brush:javascript">  var wss = new WebSocketServer({server:server})
+  var containers = {}
+
+  wss.on('connection', function(connection) {
+    var req = connection.upgradeReq
+  })</pre>
+&nbsp;
+wss就是一个声明好了的websocket服务器，
+&nbsp;
+<pre class="brush:javascript">wss.on('connection',function(connection){
+
+})</pre>
+&nbsp;
+这段代码表示ws服务器一旦监听到有客户端连接的事件发生，那么就会执行后面那个函数，入参connection是一个websocket的连接实例，每一个客户端都和服务器有这么一个连接，如果服务器想向客户端发送消息只需要connection.send(.....)就好了。
+&nbsp;
+然后服务端与浏览器具体怎通信呢？
+由于我们是web terminal，主要的目的就是如下
+把容器里的标准输出流定位到浏览器里，把浏览器上的标准输入流定位到容器中
+作者有一个开源项目叫做pump，来实现这个功能
+用法很简单，如下
+&nbsp;
+<pre class="brush:javascript">var pump = require('pump');
+var fs = require('fs');
+
+var source = fs.createReadStream('/dev/random');
+var dest = fs.createWriteStream('/dev/null');
+
+pump(source, dest, function(err) {
+    console.log('pipe finished', err);
+});</pre>
+&nbsp;
+这上面的代码就是重定向流的代码，把/dev/random里的东西读入，然后放入到/dev/null中，pump的优势在于如果有一方断开了，那么这个管道就自动删除掉了。
+&nbsp;
+pump更加赞的还有管道连接
+&nbsp;
+<pre class="brush:javascript">pump(source, transform, anotherTransform, dest, function(err) {
+    console.log('pipe finished', err);
+});</pre>
+&nbsp;
+这段代码的意思是把source输入到transform中，然后把transform流输入到anotherTransform里面，
+&nbsp;
+查看index.js的代码有这么一段
+&nbsp;
+<pre class="brush:javascript">                    pump(stream, docker(image, dopts), stream, function(err) {
+                        console.log('error in create docker');
+                        console.log(err);
+                        if (proxy) proxy.close()
+                        server.emit('kill', container)
+                        delete containers[id]
+                    })</pre>
+&nbsp;
+&nbsp;
+stream就是服务器端和浏览器建立的连接的管道，
+docker(image.dopts)创建了个服务器与docker服务器之间的管道
+这里的意思就是stream的输出定位到服务器与的docker服务器建立的管道中，然后又把这个管道里面的流定位到stream的输入里来，这样就完成了浏览器与docker容器的交互
+
+#### 
+    2.2对docker服务器进行操作
+
+    目前只有create镜像，attach镜像，pull镜像三个功能，都在docker_run这个模块中实现。
+
+    现在我以pull镜像为例子，在docker-run里面代码如下
+
+<pre class="brush:javascript">  var pull = function(cb){
+      console.log('pull image')
+
+      debug('pulling to stdio for %s', image)
+      request.post('/images/create?fromImage='+image, {
+      }, function(err, response) {
+           //处理docker服务器返回的数据
+      })
+  }</pre>
+
+<pre><code>&amp;nbsp<span class="comment">;使用方法如下</span>
+</code></pre><pre class="brush:javascript">pull(function(xx){
+     //处理回调
+})</pre>
+
+<pre><code>&amp;nbsp<span class="comment">;那么在哪儿调用呢？</span>
+
+比如我有一个api是只pull镜像的
+</code></pre><pre class="brush:bash">/image/{userid}/pull/{imagename}</pre>
+
+<pre><code>&amp;nbsp;那么我就要在docker-browser-<span class="keyword">server</span>里面增加一个url处理的函数来处理这个api
+</code></pre><pre class="brush:javascript">  server.get('/image{userid}/pull/{imagename}',function(req,res){
+        var id = req.params.userid
+        var image = req.params.imagename
+        var container = containers.hasOwnProperty(id) &amp;&amp; containers[id]
+        if (container){
+             //只让正在使用终端的用户进行pull代码
+            container.docker_run.pull(image)
+        }
+    })</pre>
+
+<pre><code>&amp;nbsp;pull的代码该怎么写呢？在docker-<span class="command">run</span>的index.js中如下
+</code></pre><pre class="brush:javascript">that.pull = function(image){
+// pull image
+}</pre>
+
+<pre><code>好了，我们的代码将完了
+
+docker-browser-<span class="keyword">server</span>的代码这么执行&amp;nbsp;
+</code></pre><pre class="brush:javascript">git clone https://github.com/royzhao/docker-browser-server.git
+cd docker-browser-server
+npm install
+cd node_modules
+rm -rf docker-browser-console
+git clone https://github.com/royzhao/docker-browser-console.git
+cd docker-browser-console
+npm install
+cd node_modules
+rm -rf docker-run
+git clone https://github.com/royzhao/docker-run.git
+cd docker-run
+npm install</pre>
+
+<pre><code>&amp;nbsp<span class="comment">;</span>
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/杂七杂八/">杂七杂八</a>
+	</div>
+
 
       
       <div class="clearfix"></div>
