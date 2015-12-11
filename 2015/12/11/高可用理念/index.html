@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>高可用理念 | Long</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="来自高可用架构群分享—by Coding CTO孙宇聪
+
+1.怎样才算高可用前提：所有东西都有不可用的时候，所以得依靠一个指标来量化SLA。虽然大家一般都谈的是年SLA，但是年SLA除了对付客户之外，对工程上一般没有什么重要意义，google内部更加看重的是季度SLA，甚至到周，这样带来的挑战就更加大了。可用级别如下图一般一个服务至少要做到3个9才能被成为基本可用，否则这个服务别人会很难使用。从3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高可用理念">
+<meta property="og:url" content="http://royzhao.github.io/2015/12/11/高可用理念/index.html">
+<meta property="og:site_name" content="Long">
+<meta property="og:description" content="来自高可用架构群分享—by Coding CTO孙宇聪
+
+1.怎样才算高可用前提：所有东西都有不可用的时候，所以得依靠一个指标来量化SLA。虽然大家一般都谈的是年SLA，但是年SLA除了对付客户之外，对工程上一般没有什么重要意义，google内部更加看重的是季度SLA，甚至到周，这样带来的挑战就更加大了。可用级别如下图一般一个服务至少要做到3个9才能被成为基本可用，否则这个服务别人会很难使用。从3">
+<meta property="og:image" content="http://royzhao.github.io/assets/SLA.jpg">
+<meta property="og:updated_time" content="2015-12-11T02:55:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="高可用理念">
+<meta name="twitter:description" content="来自高可用架构群分享—by Coding CTO孙宇聪
+
+1.怎样才算高可用前提：所有东西都有不可用的时候，所以得依靠一个指标来量化SLA。虽然大家一般都谈的是年SLA，但是年SLA除了对付客户之外，对工程上一般没有什么重要意义，google内部更加看重的是季度SLA，甚至到周，这样带来的挑战就更加大了。可用级别如下图一般一个服务至少要做到3个9才能被成为基本可用，否则这个服务别人会很难使用。从3">
+  
+    <link rel="alternative" href="/atom.xml" title="Long" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="null" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">培龙</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="http://github.com/royzhao" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/1837263552/" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/zhao-pei-long-66" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/storage/" style="font-size: 20px;">-storage</a> <a href="/tags/HA/" style="font-size: 10px;">HA</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">骚年，你好</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">培龙</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="null" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">培龙</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="http://github.com/royzhao" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/1837263552/" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/zhao-pei-long-66" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-高可用理念" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/12/11/高可用理念/" class="article-date">
+  	<time datetime="2015-12-11T00:05:42.000Z" itemprop="datePublished">2015-12-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      高可用理念
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HA/">HA</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>  来自高可用架构群分享—by Coding CTO孙宇聪</p>
+</blockquote>
+<h2 id="1-怎样才算高可用">1.怎样才算高可用</h2><p><strong>前提：所有东西都有不可用的时候，所以得依靠一个指标来量化SLA。</strong><br>虽然大家一般都谈的是年SLA，但是年SLA除了对付客户之外，对工程上一般没有什么重要意义，google内部更加看重的是季度SLA，甚至到周，这样带来的挑战就更加大了。<br>可用级别如下图<br><img src="/assets/SLA.jpg" alt="SLA"><br>一般一个服务至少要做到3个9才能被成为基本可用，否则这个服务别人会很难使用。<br>从3个9到4个9是一个非常大的进步，一般来说到3个9是可以靠堆人搞定，但是从3个9向上靠人基本就是不行的了，这时候考验的就是业务的自愈能力，架构的容灾，容错设计，灾备系统的完备等等。  </p>
+<h2 id="2-哪些方面才能影响SLA">2.哪些方面才能影响SLA</h2><p>引入两个指标<br><strong>MTBF:Mean time between Failures,表示一个服务多长时间坏一次</strong><br><strong>MTTR：Mean time to recover，表示一个服务一旦坏了，需要多长时间恢复</strong><br>有了这两个概念，我们就可以得到一个公式  </p>
+<blockquote>
+<p>  Availability =f(MTBF,MTTR) //MTBF与Availability正相关，MTTR与其负相关  </p>
+</blockquote>
+<p>根据这个公式，要提升一个服务的可用性，要么提升MTBF，要么降低MTTR。<br>如果一个服务MTBF非常高，比如一年只出一次问题，那么要达到4个9的要求就很好满足了只要你在52.6分钟之内恢复服务,那么你还是4个9的可用性。蛤蛤。<br>但是如果你的MTBF很低，比如一周坏一次，这种情况就只能从MTTR上下工夫了。  </p>
+<blockquote>
+<p>  孙宇聪：对于正常人来说，从受到突发警报然后到找到修复完成都是需要一定时间的，对于我2分钟能看清报警，就算是已知问题，有对应预备方案，能敲对命令，完全成功，也是要花15-20分钟，如果服务想要达到4个9,那么按照我这个标准，一年只能坏一次，再多就超标了，所以实现高可用基本靠运气(笑。  </p>
+</blockquote>
+<p><strong>所以MTTR都是有极限时间的。</strong><br>所以要提高高可用还是需要从MTBF下手。<br><strong>影响MTBF的因素</strong></p>
+<ul>
+<li>发布。  </li>
+<li>发布。  </li>
+<li>还是发布。<br>术语上这个叫做Age Mortality Risk，更新越频繁，那么出问题的可能性越大。<br>凡是software都有bug，修复bug的更新也可能会引入bug，所以MTBF最大的敌人就是发布心版本。<h2 id="3-如何落地提高高可用性">3.如何落地提高高可用性</h2>方案：<br>1) 提高冗余度，多实例运行。用资源换可用性。  </li>
+</ul>
+<p>虽然道理很简单，但是实现起来并不简单，有很多细节需要考虑。  </p>
+<p>细节1: N+2应该是标配。N+2的意思是如果一个服务需要一个实例正常提供服务，那么生产环境上应该部署1+2=3个节点。可能大家囧的N+1比较合理，能够提供热备容灾，但是我们在发布的时候备份节点就成为了单点了，这个时候出了问题，那么我们的服务就不可用了，所以这个才是N+2的意义所在。 <strong>而且，发布成功的机率不高</strong>,从另一个角度讲N+2可以在丢失最大的实例的同时依然可以保证服务的运行，有点像两地三中心的概念。<br>细节2: 实例之间要对等，独立，不要搞一大一小，相互依赖，否则你的N+2就不是真正的N+2，如果两地三中心的一个中心需要24小时才能迁移过去，那他就不是一个高可用部署，还是叫做异地灾备系统吧。<br>细节3: 流量控制能力非常重要。要想做到高可用就必须有一套非常可靠的流量控制系统。为什么呢？原因是高可用系统必须要支持以下几种场景：  </p>
+<ul>
+<li>Isolation<br>不同用户发来的请求同时处理可能会有冲突，他们之间所以需要隔离，隔离就需要识别这些流量。  </li>
+<li>Quarantine<br>一些用户发来的请求可能资源消耗超标，必须将这些请求钉死在某几个节点上以便顾全大局，所以需要识别这样的流量  </li>
+<li>Query of death<br>上线之后一个用户发来请求直接搞挂服务，要是连续来几次可能整个集群都挂了，这样就不能实现高可用了，针对这种情况，所以需要对这种流量进行识别自动屏蔽。  </li>
+</ul>
+<p>综上所述，流量控制系统对HA是必不可少的，而且最好按照业务维度来划分，比如按照API，用户类型，用户来源来调度。  </p>
+<p>2) 变更管理<br>发布质量不提高，一切都是空谈。<br>第一点：线下测试（offline test）  </p>
+<p>线下测试永远比线上测调试容易一百倍，也安全一百倍。</p>
+<blockquote>
+<p> 孙宇聪：如果各位的团队还没有完整的线下测试环境，那么我的意见是先不要接新业务了，花点时间把这个搞定。</p>
+</blockquote>
+<p>其中包括代码测试，数据兼容测试，压力测试等等，可用性的阶段性提升，不是靠运维团队，而是靠产品团队。   </p>
+<p>第二点： 灰度发布  </p>
+<p>这个灰度发布具体实施起来也是很有讲究的，他是速度与安全的妥协，他是发布众多保险的最后一道，而不是唯一的一道。如果只是为了灰度而灰度，故意认为的拖慢进度，反而造成线上多个版本长期共存，可能会引入心的问题。  </p>
+<p>做灰度发布如果是匀速的，说明没有理解灰度发布的意义，一般来说阶段选择上从1%-&gt;10%-&gt;100%的指数型增长，这个阶段是根据具体业务不同按唯独去细分的。这里的重点在于1%并不全是按随机选择的，而是根据业务特点，数据特点选择的具有代表性的实例，去做灰度发布的小白鼠，甚至每次发布的第一阶段的用户（Canary）都是根据每次发布的特点不同，人为挑选的，比如发布一个只给亚洲用户使用的功能，那么用美国或者欧洲的集群来做发布实验是没有什么意义的。灰度发布真的不只是按机器划分这么简单。  </p>
+<p>本质上灰度发布就是上线的最后一道安全防护机制，首先不能过慢，让产品团队过度依赖，也不能过于随机失去了他的意义，总之灰度发布，全部都在细节里。  </p>
+<p>第三点： 服务必须对回滚提供支持  </p>
+<p>不能回滚的理由各种各样，下面分享三条秘籍，保证药到病除。<br>理由1:我这个数据改动之后格式和以前不兼容了，回退也不能回复到正常。<br>秘籍1:设计开发的时候就要考虑好兼容性问题！！比如数据库改字段的事儿就不要做，改成另加一个字段就好。数据存储格式就最好采用protobuf这种支持数据版本，支持前后兼容性的方案，最差最差也要在变更实施“之前”想清楚数据兼容性的问题，没有回滚脚本，不给更新，做到有备而战。  </p>
+<p>理由2:我变更删除东西了，滚回去也没有用了。<br>秘籍2:把变更打回去，分成凉拌，第一半禁止访问这个数据，等到发布之后没有问题了，再来发布第二半，这个时候真正删掉数据，这样子实施第一半之后，需要回滚还可以滚回去。  </p>
+<p>理由3:我的变更发布之后，以来这个系统的人都拿到了错误的数据，回退也没有用了，他们不接受老数据了。<br>秘籍3:这种问题常常出现在配置管理，缓存等系统中，对于这种问题，最重要的就是开发出一种和版本无关的刷新机制，出发刷新的机制应该独立于发布过程，有一个强制刷新数据的手段。   </p>
+<h2 id="可用性级别">可用性级别</h2><p>第一级：crash with data corruption destruction<br>  内存数据库就是这样，出个意外，数据都没有了。写硬盘到一般，挂了之后，不光是进程内数据没了，老数据都掉完了。<br>第二级：Crash with new data loss<br>  一般来说正常的服务都应做到这一点，挂了之后最多丢个几秒的数据。<br>第三级：Crash without data loss<br>  好一点的服务应该都做到这一级别了，要达到这一级别需要一定的技术投入，起码搞清楚如何绕过os的各种cache，绕过硬件的各种坑，有一定难度。<br>第四级：No Crash,but with no or limited service, low service quality of service.<br>  做的好一点的系统，不要动不动就崩溃了，一个程序如果能够正常处理异常输入，异常数据等，那么就给刚刚提到的流量控制系统创造了条件，可以把其他用户的流量导入过来，把问题流量发到一边去，不会造成太大的容量损失。<br>第六级：Failover with significant user visible delay, near full quality of service<br>  到了这一级别才摸到高可用的门，也就是有容灾措施，但是可能自动化程度不高，或者一些关键问题没有解决，所以业务能恢复，但是就是比较慢。<br>第七级：Failover with minimal to none user visible delay, near full qulity of service.<br>  南翔一铲子下去，你的服务依然没有影响，高可用就是这个样子的。  </p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/12/01/RAID介绍/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">RAID0~6</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="高可用理念" data-title="高可用理念" data-url="http://royzhao.github.io/2015/12/11/高可用理念/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 培龙
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
